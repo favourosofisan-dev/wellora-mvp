@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wellora Completion</title>
+  <style>
+    :root {
+      --bg: #fbf7f2;
+      --surface: rgba(255, 255, 255, 0.95);
+      --text: #261f1b;
+      --muted: #8c7a6f;
+      --accent: #874826;
+      --accent-soft: #e8d7cc;
+      --border: rgba(230, 219, 210, 0.92);
+      --shadow: 0 18px 40px rgba(127, 97, 74, 0.1);
+      --button-shadow: 0 16px 28px rgba(127, 66, 34, 0.24);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      font-family: Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at 12% 8%, rgba(255, 255, 255, 0.98), transparent 20%),
+        radial-gradient(circle at 100% 0, rgba(238, 213, 193, 0.28), transparent 18%),
+        linear-gradient(180deg, #fdfaf6 0%, var(--bg) 100%);
+      color: var(--text);
+    }
+
+    body {
+      min-height: 100vh;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      padding: calc(env(safe-area-inset-top, 0px) + 10px) 8px 8px;
+    }
+
+    .screen {
+      width: min(100%, 390px);
+      min-height: 100vh;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(180deg, #fdfaf7 0%, #fbf6f0 100%);
+      border-left: 1px solid rgba(228, 215, 205, 0.95);
+      border-right: 1px solid rgba(228, 215, 205, 0.95);
+      box-shadow: 0 18px 42px rgba(116, 89, 71, 0.12);
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 22px 24px 18px;
+      color: var(--accent);
+      background: rgba(253, 249, 244, 0.76);
+      backdrop-filter: blur(4px);
+      position: relative;
+      z-index: 2;
+    }
+
+    .header-spacer,
+    .close-button {
+      width: 34px;
+      height: 34px;
+      flex-shrink: 0;
+    }
+
+    .close-button,
+    .primary-button,
+    .secondary-button,
+    .nav-button {
+      border: 0;
+      cursor: pointer;
+      font: inherit;
+    }
+
+    .close-button,
+    .nav-button {
+      background: transparent;
+      color: inherit;
+      display: grid;
+      place-items: center;
+      padding: 0;
+    }
+
+    .close-button svg,
+    .nav-button svg {
+      width: 22px;
+      height: 22px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .header-title {
+      margin: 0;
+      font-size: 1rem;
+      line-height: 1.2;
+      font-weight: 800;
+      color: var(--accent-strong, #6f381b);
+      letter-spacing: -0.03em;
+      text-align: center;
+      flex: 1;
+    }
+
+    .content {
+      padding: 0 24px 140px;
+      position: relative;
+    }
+
+    .celebration {
+      position: absolute;
+      inset: 0 0 auto;
+      height: 260px;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .confetti {
+      position: absolute;
+      background: var(--accent-soft);
+      border-radius: 999px;
+      opacity: 0.9;
+    }
+
+    .confetti.one {
+      width: 8px;
+      height: 8px;
+      top: 10px;
+      left: 110px;
+    }
+
+    .confetti.two {
+      width: 12px;
+      height: 12px;
+      top: 112px;
+      right: 40px;
+    }
+
+    .confetti.three {
+      width: 8px;
+      height: 18px;
+      top: 144px;
+      left: 88px;
+      border-radius: 2px;
+      transform: rotate(-12deg);
+    }
+
+    .confetti.four {
+      width: 10px;
+      height: 10px;
+      top: 34px;
+      right: 108px;
+    }
+
+    .hero {
+      position: relative;
+      padding-top: 18px;
+      text-align: center;
+    }
+
+    .hero-title {
+      margin: 0;
+      font-size: 3rem;
+      line-height: 0.96;
+      letter-spacing: -0.085em;
+      font-weight: 800;
+    }
+
+    .hero-subtitle {
+      margin: 12px 0 0;
+      color: #6d5d54;
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+
+    .stats {
+      margin-top: 34px;
+      display: grid;
+      gap: 18px;
+    }
+
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      padding: 22px 20px;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+
+    .stat-value {
+      margin: 0;
+      color: var(--accent);
+      font-size: 1.12rem;
+      line-height: 1.15;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+    }
+
+    .stat-label {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 0.72rem;
+      line-height: 1.3;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .message {
+      margin: 38px auto 0;
+      max-width: 280px;
+      text-align: center;
+      color: #3d342f;
+      font-size: 0.98rem;
+      line-height: 1.8;
+    }
+
+    .actions {
+      margin-top: 28px;
+      display: grid;
+      gap: 16px;
+    }
+
+    .primary-button,
+    .secondary-button {
+      width: 100%;
+      min-height: 62px;
+      border-radius: 18px;
+      font-size: 1rem;
+      font-weight: 800;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .primary-button {
+      background: linear-gradient(180deg, #8a4b28 0%, #7a3d1d 100%);
+      color: #fffaf5;
+      box-shadow: var(--button-shadow);
+    }
+
+    .secondary-button {
+      background: transparent;
+      color: var(--accent);
+      border: 2px solid rgba(138, 75, 40, 0.82);
+    }
+
+    .primary-button:hover,
+    .primary-button:focus-visible,
+    .secondary-button:hover,
+    .secondary-button:focus-visible,
+    .close-button:hover,
+    .close-button:focus-visible,
+    .nav-button:hover,
+    .nav-button:focus-visible {
+      transform: translateY(-1px);
+    }
+
+    .feature-image {
+      margin-top: 30px;
+      height: 192px;
+      border-radius: 24px;
+      overflow: hidden;
+      position: relative;
+      background:
+        linear-gradient(90deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.12)),
+        linear-gradient(135deg, #1f1f22 0%, #2e2d31 48%, #474349 100%);
+      box-shadow: var(--shadow);
+    }
+
+    .feature-image::before {
+      content: "";
+      position: absolute;
+      width: 126px;
+      height: 180px;
+      left: 50%;
+      top: 10px;
+      transform: translateX(-28%);
+      background:
+        radial-gradient(circle at 68% 14%, rgba(246, 241, 239, 0.34) 0 12px, transparent 12px),
+        linear-gradient(180deg, rgba(60, 60, 66, 0.2) 0 12%, rgba(30, 30, 34, 0.82) 12% 100%);
+      border-radius: 56px 56px 44px 44px;
+      clip-path: polygon(34% 0, 56% 0, 72% 8%, 84% 18%, 76% 26%, 62% 32%, 54% 48%, 66% 100%, 38% 100%, 26% 60%, 18% 42%, 8% 28%, 0 22%, 14% 14%, 20% 8%);
+      filter: drop-shadow(0 18px 16px rgba(0, 0, 0, 0.26));
+      opacity: 0.92;
+    }
+
+    .feature-image::after {
+      content: "";
+      position: absolute;
+      width: 18px;
+      height: 100%;
+      right: 16px;
+      top: 0;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.02));
+      border-radius: 999px;
+      opacity: 0.38;
+    }
+
+    .bottom-nav {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(255, 252, 248, 0.98);
+      border-top: 1px solid rgba(228, 215, 205, 0.92);
+      padding: 12px 18px 16px;
+      box-shadow: 0 -10px 24px rgba(106, 84, 67, 0.08);
+    }
+
+    .nav-list {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .nav-button {
+      color: #ab9b90;
+      display: grid;
+      justify-items: center;
+      gap: 6px;
+    }
+
+    .nav-button span {
+      font-size: 0.8rem;
+      line-height: 1.2;
+    }
+
+    .nav-pill {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+    }
+
+    .nav-button.is-active {
+      color: var(--accent);
+    }
+
+    .nav-button.is-active .nav-pill {
+      background: var(--accent);
+      color: #fffaf5;
+    }
+
+    @media (max-width: 360px) {
+      .header,
+      .content {
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+
+      .hero-title {
+        font-size: 2.6rem;
+      }
+    }
+
+    @media (min-width: 768px) {
+      .page {
+        padding: 18px;
+      }
+
+      .screen {
+        width: 414px;
+        border: 1px solid rgba(228, 215, 205, 0.95);
+        border-radius: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="screen" aria-label="Exercise completion screen">
+      <header class="header">
+        <button class="close-button" type="button" id="closeButton" aria-label="Close">
+          <svg viewBox="0 0 24 24">
+            <path d="M6 6l12 12"></path>
+            <path d="M18 6 6 18"></path>
+          </svg>
+        </button>
+        <h1 class="header-title">Well Done</h1>
+        <span class="header-spacer" aria-hidden="true"></span>
+      </header>
+
+      <div class="content">
+        <div class="celebration" aria-hidden="true">
+          <span class="confetti one"></span>
+          <span class="confetti two"></span>
+          <span class="confetti three"></span>
+          <span class="confetti four"></span>
+        </div>
+
+        <section class="hero" aria-labelledby="heroTitle">
+          <h2 class="hero-title" id="heroTitle">Great job!</h2>
+          <p class="hero-subtitle"><span id="completedExerciseName">Heel-to-toe walk</span> completed</p>
+        </section>
+
+        <section class="stats" aria-label="Progress summary">
+          <article class="stat-card">
+            <p class="stat-value"><span id="streakValue">7</span> days</p>
+            <p class="stat-label">Streak</p>
+          </article>
+
+          <article class="stat-card">
+            <p class="stat-value"><span id="totalExercisesValue">24</span> total</p>
+            <p class="stat-label">Exercises</p>
+          </article>
+
+          <article class="stat-card">
+            <p class="stat-value"><span id="minutesTodayValue">12</span> minutes</p>
+            <p class="stat-label">Today</p>
+          </article>
+        </section>
+
+        <p class="message">Every small step builds strength. You're doing amazing.</p>
+
+        <div class="actions">
+          <button class="primary-button" type="button" id="nextExerciseButton">Next exercise</button>
+          <button class="secondary-button" type="button" id="backHomeButton">Back to home</button>
+        </div>
+
+        <div class="feature-image" aria-hidden="true"></div>
+      </div>
+
+      <nav class="bottom-nav" aria-label="Primary navigation">
+        <div class="nav-list">
+          <button class="nav-button" type="button" id="homeButton" aria-label="Home">
+            <span class="nav-pill">
+              <svg viewBox="0 0 24 24">
+                <path d="M4 11.5 12 5l8 6.5"></path>
+                <path d="M7 10.5V19h10v-8.5"></path>
+              </svg>
+            </span>
+            <span>Home</span>
+          </button>
+
+          <button class="nav-button is-active" type="button" id="progressButton" aria-label="Progress">
+            <span class="nav-pill">
+              <svg viewBox="0 0 24 24">
+                <path d="M7 17V9"></path>
+                <path d="M12 17V6"></path>
+                <path d="M17 17v-4"></path>
+                <path d="M5 19h14"></path>
+              </svg>
+            </span>
+            <span>Progress</span>
+          </button>
+
+          <button class="nav-button" type="button" id="profileButton" aria-label="Profile">
+            <span class="nav-pill">
+              <svg viewBox="0 0 24 24">
+                <path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"></path>
+                <path d="M4 20a8 8 0 0 1 16 0"></path>
+              </svg>
+            </span>
+            <span>Profile</span>
+          </button>
+        </div>
+      </nav>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script src="wellora-flow.js"></script>
+  <script>
+    const supabaseClient = window.createWelloraSupabaseClient();
+    const params = new URLSearchParams(window.location.search);
+    const exerciseId = params.get("id") || "";
+    const exerciseName = params.get("exercise_name") || params.get("name") || "Exercise";
+    const exerciseCategory = params.get("category") || "";
+    const minutes = Number(params.get("minutes")) || 12;
+    const nextExerciseId = params.get("next_id") || "";
+
+    const completedExerciseName = document.getElementById("completedExerciseName");
+    const streakValue = document.getElementById("streakValue");
+    const totalExercisesValue = document.getElementById("totalExercisesValue");
+    const minutesTodayValue = document.getElementById("minutesTodayValue");
+    const closeButton = document.getElementById("closeButton");
+    const nextExerciseButton = document.getElementById("nextExerciseButton");
+    const backHomeButton = document.getElementById("backHomeButton");
+    const homeButton = document.getElementById("homeButton");
+    const progressButton = document.getElementById("progressButton");
+    const profileButton = document.getElementById("profileButton");
+
+    completedExerciseName.textContent = exerciseName;
+
+    async function requireUser() {
+      const { data, error } = await supabaseClient.auth.getUser();
+
+      if (error || !data || !data.user) {
+        window.location.href = "login.html";
+        return null;
+      }
+
+      return data.user;
+    }
+
+    function dayKeyFromIso(value) {
+      const date = new Date(value);
+
+      if (Number.isNaN(date.getTime())) {
+        return "";
+      }
+
+      return [
+        date.getFullYear(),
+        String(date.getMonth() + 1).padStart(2, "0"),
+        String(date.getDate()).padStart(2, "0")
+      ].join("-");
+    }
+
+    function calculateStreak(rows) {
+      const uniqueDays = Array.from(new Set(rows.map(function (row) {
+        return dayKeyFromIso(row.created_at);
+      }).filter(Boolean))).sort().reverse();
+
+      if (!uniqueDays.length) {
+        return 0;
+      }
+
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      const yesterday = new Date(today);
+      yesterday.setDate(yesterday.getDate() - 1);
+
+      const mostRecent = new Date(uniqueDays[0] + "T00:00:00");
+
+      if (mostRecent.getTime() !== today.getTime() && mostRecent.getTime() !== yesterday.getTime()) {
+        return 0;
+      }
+
+      let streak = 0;
+      let cursor = new Date(mostRecent);
+
+      for (let index = 0; index < uniqueDays.length; index += 1) {
+        const expected = [
+          cursor.getFullYear(),
+          String(cursor.getMonth() + 1).padStart(2, "0"),
+          String(cursor.getDate()).padStart(2, "0")
+        ].join("-");
+
+        if (uniqueDays[index] !== expected) {
+          break;
+        }
+
+        streak += 1;
+        cursor.setDate(cursor.getDate() - 1);
+      }
+
+      return streak;
+    }
+
+    async function loadCompletionSummary() {
+      const user = await requireUser();
+
+      if (!user) {
+        return;
+      }
+
+      const { data, error } = await supabaseClient
+        .from("user_progress")
+        .select("created_at, count, exercise_id")
+        .eq("user_id", user.id)
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        streakValue.textContent = "0";
+        totalExercisesValue.textContent = "1";
+        minutesTodayValue.textContent = String(minutes);
+        return;
+      }
+
+      const progressRows = data || [];
+      const exerciseIds = Array.from(new Set(progressRows.map(function (row) {
+        return row.exercise_id;
+      }).filter(function (value) {
+        return value !== null && value !== undefined;
+      })));
+
+      let durationMap = new Map();
+
+      if (exerciseIds.length) {
+        const exerciseResult = await supabaseClient
+          .from("EXERCISES")
+          .select("id, duration_seconds")
+          .in("id", exerciseIds);
+
+        if (!exerciseResult.error && exerciseResult.data) {
+          durationMap = new Map(exerciseResult.data.map(function (item) {
+            return [item.id, Number(item.duration_seconds) || 0];
+          }));
+        }
+      }
+
+      const totalCompleted = progressRows.reduce(function (sum, row) {
+        const rowCount = Number(row.count);
+        return sum + (Number.isFinite(rowCount) && rowCount > 0 ? rowCount : 1);
+      }, 0);
+
+      const todayKey = dayKeyFromIso(new Date().toISOString());
+      const minutesToday = progressRows.reduce(function (sum, row) {
+        if (dayKeyFromIso(row.created_at) !== todayKey) {
+          return sum;
+        }
+
+        const count = Number(row.count);
+        const safeCount = Number.isFinite(count) && count > 0 ? count : 1;
+        return sum + ((durationMap.get(row.exercise_id) || 0) * safeCount);
+      }, 0) / 60;
+
+      streakValue.textContent = String(calculateStreak(progressRows));
+      totalExercisesValue.textContent = String(totalCompleted || 1);
+      minutesTodayValue.textContent = String(Math.max(1, Math.round(minutesToday || minutes)));
+    }
+
+    loadCompletionSummary();
+
+    closeButton.addEventListener("click", function () {
+      window.location.href = "home.html";
+    });
+
+    nextExerciseButton.addEventListener("click", function () {
+      if (!nextExerciseId) {
+        window.location.href = "home.html";
+        return;
+      }
+
+      window.location.href = "exercise.html?id=" + encodeURIComponent(nextExerciseId);
+    });
+
+    backHomeButton.addEventListener("click", function () {
+      window.location.href = "home.html";
+    });
+
+    homeButton.addEventListener("click", function () {
+      window.location.href = "home.html";
+    });
+
+    progressButton.addEventListener("click", function () {
+      window.location.href = "progress.html";
+    });
+
+    profileButton.addEventListener("click", function () {
+      window.location.href = "profile.html";
+    });
+  </script>
+</body>
+</html>

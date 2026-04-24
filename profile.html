@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wellora Profile</title>
+  <style>
+    :root {
+      --bg: #fbf7f2;
+      --surface: rgba(255, 255, 255, 0.95);
+      --surface-soft: #f3ede8;
+      --text: #26201c;
+      --muted: #7d6c62;
+      --accent: #864624;
+      --accent-dark: #6f381b;
+      --border: rgba(232, 221, 213, 0.95);
+      --shadow: 0 18px 40px rgba(125, 94, 72, 0.1);
+      --nav-shadow: 0 -10px 24px rgba(106, 84, 67, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      font-family: Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at 12% 8%, rgba(255, 255, 255, 0.98), transparent 20%),
+        radial-gradient(circle at 100% 0, rgba(238, 213, 193, 0.28), transparent 18%),
+        linear-gradient(180deg, #fdfaf6 0%, var(--bg) 100%);
+      color: var(--text);
+    }
+
+    body {
+      min-height: 100vh;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      padding: calc(env(safe-area-inset-top, 0px) + 10px) 8px 8px;
+    }
+
+    .screen {
+      width: min(100%, 390px);
+      min-height: 100vh;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(180deg, #fdfaf7 0%, #fbf6f0 100%);
+      border-left: 1px solid rgba(228, 215, 205, 0.95);
+      border-right: 1px solid rgba(228, 215, 205, 0.95);
+      box-shadow: 0 18px 42px rgba(116, 89, 71, 0.12);
+    }
+
+    .content {
+      padding: 24px 24px 116px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      color: var(--accent-dark);
+    }
+
+    .topbar-side {
+      width: 34px;
+      display: flex;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .icon-button,
+    .nav-button,
+    .edit-chip,
+    .logout-button {
+      border: 0;
+      background: transparent;
+      color: inherit;
+      font: inherit;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .icon-button,
+    .nav-button {
+      display: grid;
+      place-items: center;
+    }
+
+    .icon-button {
+      width: 34px;
+      height: 34px;
+    }
+
+    .icon-button svg,
+    .avatar-edit svg,
+    .detail-arrow svg,
+    .pref-icon svg,
+    .nav-button svg {
+      width: 21px;
+      height: 21px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .topbar-title {
+      margin: 0;
+      font-size: 1rem;
+      line-height: 1.2;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      text-align: center;
+      flex: 1;
+    }
+
+    .hero {
+      padding-top: 20px;
+      text-align: center;
+    }
+
+    .avatar-wrap {
+      position: relative;
+      width: 128px;
+      margin: 0 auto;
+    }
+
+    .avatar-shell {
+      width: 128px;
+      height: 128px;
+      border-radius: 50%;
+      background: linear-gradient(180deg, #e3ddd7 0%, #ddd7d1 100%);
+      border: 4px solid rgba(255, 255, 255, 0.9);
+      display: grid;
+      place-items: center;
+      box-shadow: var(--shadow);
+      color: var(--accent-dark);
+    }
+
+    .avatar-initials {
+      margin: 0;
+      font-size: 2.35rem;
+      line-height: 1;
+      font-weight: 800;
+      letter-spacing: -0.06em;
+    }
+
+    .avatar-edit {
+      position: absolute;
+      right: 2px;
+      bottom: 4px;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #fffaf5;
+      display: grid;
+      place-items: center;
+      border: 3px solid rgba(255, 255, 255, 0.96);
+      box-shadow: 0 10px 20px rgba(134, 70, 36, 0.24);
+      cursor: pointer;
+    }
+
+    .profile-name {
+      margin: 18px 0 0;
+      font-size: 2.05rem;
+      line-height: 1.05;
+      letter-spacing: -0.07em;
+      font-weight: 800;
+    }
+
+    .profile-email {
+      margin: 10px 0 0;
+      color: #63544c;
+      font-size: 0.98rem;
+      line-height: 1.5;
+    }
+
+    .section {
+      margin-top: 42px;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-size: 1.12rem;
+      line-height: 1.2;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+    }
+
+    .edit-chip {
+      color: var(--accent);
+      font-size: 0.96rem;
+      font-weight: 700;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .details-card {
+      padding: 6px 0;
+    }
+
+    .detail-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 16px;
+      align-items: center;
+      padding: 18px 22px;
+      text-align: left;
+      width: 100%;
+    }
+
+    .detail-row + .detail-row {
+      border-top: 1px solid rgba(238, 229, 222, 0.85);
+    }
+
+    .detail-label {
+      margin: 0;
+      color: #97857a;
+      font-size: 0.72rem;
+      line-height: 1.2;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .detail-value {
+      margin: 8px 0 0;
+      font-size: 0.98rem;
+      line-height: 1.4;
+      font-weight: 700;
+      color: #302824;
+    }
+
+    .detail-main {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+      width: 100%;
+    }
+
+    .detail-content {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .goal-icon {
+      width: 22px;
+      height: 22px;
+      object-fit: contain;
+      flex-shrink: 0;
+    }
+
+    .detail-arrow {
+      color: #d4b8a8;
+    }
+
+    .preferences-card {
+      padding: 8px 0;
+    }
+
+    .pref-row {
+      display: grid;
+      grid-template-columns: 52px 1fr auto;
+      gap: 16px;
+      align-items: center;
+      padding: 16px 22px;
+    }
+
+    .pref-row + .pref-row {
+      border-top: 1px solid rgba(238, 229, 222, 0.85);
+    }
+
+    .pref-icon {
+      width: 52px;
+      height: 48px;
+      border-radius: 16px;
+      background: #eee8e3;
+      color: var(--accent);
+      display: grid;
+      place-items: center;
+    }
+
+    .pref-label {
+      font-size: 0.98rem;
+      line-height: 1.35;
+      font-weight: 700;
+    }
+
+    .switch {
+      position: relative;
+      width: 56px;
+      height: 32px;
+      display: inline-block;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+      position: absolute;
+    }
+
+    .slider {
+      position: absolute;
+      inset: 0;
+      border-radius: 999px;
+      background: #e2ddd8;
+      transition: background 0.2s ease;
+    }
+
+    .slider::before {
+      content: "";
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      left: 4px;
+      top: 4px;
+      border-radius: 50%;
+      background: #ffffff;
+      box-shadow: 0 4px 10px rgba(67, 45, 31, 0.12);
+      transition: transform 0.2s ease;
+    }
+
+    .switch input:checked + .slider {
+      background: var(--accent);
+    }
+
+    .switch input:checked + .slider::before {
+      transform: translateX(24px);
+    }
+
+    .account-block {
+      margin-top: 42px;
+    }
+
+    .logout-button {
+      width: 100%;
+      min-height: 56px;
+      border-radius: 20px;
+      border: 2px solid rgba(134, 70, 36, 0.9);
+      color: var(--accent);
+      font-size: 1rem;
+      font-weight: 800;
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    .version {
+      margin: 18px 0 0;
+      text-align: center;
+      color: #a18d81;
+      font-size: 0.9rem;
+      line-height: 1.4;
+    }
+
+    .bottom-nav {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(255, 252, 248, 0.98);
+      border-top: 1px solid rgba(228, 215, 205, 0.92);
+      box-shadow: var(--nav-shadow);
+      padding: 12px 18px 16px;
+    }
+
+    .nav-list {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .nav-button {
+      color: #ab9b90;
+      justify-items: center;
+      gap: 6px;
+      width: 100%;
+    }
+
+    .nav-pill {
+      width: 100%;
+      min-height: 44px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+    }
+
+    .nav-button span {
+      font-size: 0.8rem;
+      line-height: 1.2;
+    }
+
+    .nav-button.is-active {
+      color: var(--accent);
+    }
+
+    .nav-button.is-active .nav-pill {
+      background: #ede6df;
+    }
+
+    .large-text {
+      font-size: 18px;
+    }
+
+    .large-text .profile-name {
+      font-size: 2.35rem;
+    }
+
+    .large-text .section-head h2,
+    .large-text .pref-label,
+    .large-text .detail-value,
+    .large-text .logout-button {
+      font-size: 1.06rem;
+    }
+
+    @media (max-width: 360px) {
+      .content {
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+
+      .profile-name {
+        font-size: 1.85rem;
+      }
+    }
+
+    @media (min-width: 768px) {
+      .page {
+        padding: 18px;
+      }
+
+      .screen {
+        width: 414px;
+        border: 1px solid rgba(228, 215, 205, 0.95);
+        border-radius: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="screen" aria-label="Profile screen">
+      <div class="content">
+        <header class="topbar">
+          <div class="topbar-side">
+            <button class="icon-button" type="button" id="backButton" aria-label="Go back">
+              <svg viewBox="0 0 24 24">
+                <path d="M15 18 9 12l6-6"></path>
+              </svg>
+            </button>
+          </div>
+
+          <h1 class="topbar-title">Profile</h1>
+
+          <div class="topbar-side">
+            <button class="icon-button" type="button" id="settingsButton" aria-label="Settings">
+              <svg viewBox="0 0 24 24">
+                <path d="M12 8.5A3.5 3.5 0 1 1 8.5 12 3.5 3.5 0 0 1 12 8.5Z"></path>
+                <path d="M19.4 15a1 1 0 0 0 .2 1.1l.1.1a1.3 1.3 0 0 1 0 1.9l-1.6 1.6a1.3 1.3 0 0 1-1.9 0l-.1-.1a1 1 0 0 0-1.1-.2 1 1 0 0 0-.6.9V20a1.3 1.3 0 0 1-1.3 1.3h-2.2A1.3 1.3 0 0 1 9.6 20v-.2a1 1 0 0 0-.6-.9 1 1 0 0 0-1.1.2l-.1.1a1.3 1.3 0 0 1-1.9 0l-1.6-1.6a1.3 1.3 0 0 1 0-1.9l.1-.1a1 1 0 0 0 .2-1.1 1 1 0 0 0-.9-.6H4a1.3 1.3 0 0 1-1.3-1.3v-2.2A1.3 1.3 0 0 1 4 9.6h.2a1 1 0 0 0 .9-.6 1 1 0 0 0-.2-1.1l-.1-.1a1.3 1.3 0 0 1 0-1.9l1.6-1.6a1.3 1.3 0 0 1 1.9 0l.1.1a1 1 0 0 0 1.1.2 1 1 0 0 0 .6-.9V4A1.3 1.3 0 0 1 10.9 2.7h2.2A1.3 1.3 0 0 1 14.4 4v.2a1 1 0 0 0 .6.9 1 1 0 0 0 1.1-.2l.1-.1a1.3 1.3 0 0 1 1.9 0l1.6 1.6a1.3 1.3 0 0 1 0 1.9l-.1.1a1 1 0 0 0-.2 1.1 1 1 0 0 0 .9.6h.2A1.3 1.3 0 0 1 21.3 11v2.2a1.3 1.3 0 0 1-1.3 1.3h-.2a1 1 0 0 0-.4.5Z"></path>
+              </svg>
+            </button>
+          </div>
+        </header>
+
+        <section class="hero">
+          <div class="avatar-wrap">
+            <div class="avatar-shell" aria-hidden="true">
+              <p class="avatar-initials" id="avatarInitials">MT</p>
+            </div>
+            <button class="avatar-edit" type="button" id="avatarEditButton" aria-label="Edit profile">
+              <svg viewBox="0 0 24 24">
+                <path d="m4 20 4.5-1 9-9a2.1 2.1 0 0 0-3-3l-9 9L4 20Z"></path>
+                <path d="m13.5 7.5 3 3"></path>
+              </svg>
+            </button>
+          </div>
+
+          <h2 class="profile-name" id="profileName">Margaret Thompson</h2>
+          <p class="profile-email" id="profileEmail">margaret@example.com</p>
+        </section>
+
+        <section class="section" aria-labelledby="detailsTitle">
+          <div class="section-head">
+            <h2 id="detailsTitle">Your Details</h2>
+            <button class="edit-chip" type="button" id="editDetailsButton">Edit</button>
+          </div>
+
+          <div class="card details-card">
+            <button class="detail-row" type="button" id="birthYearButton">
+              <div class="detail-content">
+                <p class="detail-label">Birth Year</p>
+                <p class="detail-value" id="birthYearValue">1955</p>
+              </div>
+              <span class="detail-arrow" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="m9 6 6 6-6 6"></path>
+                </svg>
+              </span>
+            </button>
+
+            <button class="detail-row" type="button" id="fitnessLevelButton">
+              <div class="detail-content">
+                <p class="detail-label">Fitness Level</p>
+                <p class="detail-value" id="fitnessLevelValue">Beginner</p>
+              </div>
+              <span class="detail-arrow" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="m9 6 6 6-6 6"></path>
+                </svg>
+                </span>
+            </button>
+
+            <button class="detail-row" type="button" id="goalButton">
+              <div class="detail-main">
+                <img class="goal-icon" id="goalIcon" src="image/balance and stability icon.png" alt="" aria-hidden="true">
+                <div class="detail-content">
+                  <p class="detail-label">Main Goal</p>
+                  <p class="detail-value" id="goalValue">Balance &amp; Stability</p>
+                </div>
+              </div>
+              <span class="detail-arrow" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="m9 6 6 6-6 6"></path>
+                </svg>
+              </span>
+            </button>
+          </div>
+        </section>
+
+        <section class="section" aria-labelledby="preferencesTitle">
+          <div class="section-head">
+            <h2 id="preferencesTitle">Preferences</h2>
+          </div>
+
+          <div class="card preferences-card">
+            <div class="pref-row">
+              <div class="pref-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M4 6h16v12H4z"></path>
+                  <path d="m4 7 8 6 8-6"></path>
+                </svg>
+              </div>
+              <div class="pref-label">Email reminders</div>
+              <label class="switch" aria-label="Email reminders">
+                <input type="checkbox" id="emailToggle">
+                <span class="slider"></span>
+              </label>
+            </div>
+
+            <div class="pref-row">
+              <div class="pref-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M5 8h6"></path>
+                  <path d="M8 8v8"></path>
+                  <path d="M13 8h6"></path>
+                  <path d="M16 8v8"></path>
+                </svg>
+              </div>
+              <div class="pref-label">Larger text mode</div>
+              <label class="switch" aria-label="Larger text mode">
+                <input type="checkbox" id="textToggle">
+                <span class="slider"></span>
+              </label>
+            </div>
+          </div>
+        </section>
+
+        <section class="account-block" aria-labelledby="accountTitle">
+          <div class="section-head">
+            <h2 id="accountTitle">Account</h2>
+          </div>
+
+          <button class="logout-button" type="button" id="logoutButton">Log Out</button>
+          <p class="version">Version 2.4.1 (Stable)</p>
+        </section>
+      </div>
+
+      <nav class="bottom-nav" aria-label="Primary navigation">
+        <div class="nav-list">
+          <button class="nav-button" type="button" id="homeButton" aria-label="Home">
+            <span class="nav-pill">
+              <svg viewBox="0 0 24 24">
+                <path d="M4 11.5 12 5l8 6.5"></path>
+                <path d="M7 10.5V19h10v-8.5"></path>
+              </svg>
+            </span>
+            <span>Home</span>
+          </button>
+
+          <button class="nav-button" type="button" id="progressButton" aria-label="Progress">
+            <span class="nav-pill">
+              <svg viewBox="0 0 24 24">
+                <path d="M7 17V9"></path>
+                <path d="M12 17V6"></path>
+                <path d="M17 17v-4"></path>
+                <path d="M5 19h14"></path>
+              </svg>
+            </span>
+            <span>Progress</span>
+          </button>
+
+          <button class="nav-button is-active" type="button" id="profileNavButton" aria-label="Profile">
+            <span class="nav-pill">
+              <svg viewBox="0 0 24 24">
+                <path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"></path>
+                <path d="M4 20a8 8 0 0 1 16 0"></path>
+              </svg>
+            </span>
+            <span>Profile</span>
+          </button>
+        </div>
+      </nav>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script src="wellora-flow.js"></script>
+  <script>
+    const supabaseClient = window.createWelloraSupabaseClient();
+    const profileKey = "welloraProfile";
+    const defaultProfile = {
+      name: "Margaret Thompson",
+      email: "margaret@example.com",
+      birthYear: "1955",
+      fitnessLevel: "Beginner",
+      mainGoal: "Balance & Stability",
+      emailReminders: true,
+      largeText: false
+    };
+
+    function readProfile() {
+      try {
+        const stored = JSON.parse(localStorage.getItem(profileKey) || "null");
+        return stored ? { ...defaultProfile, ...stored } : { ...defaultProfile };
+      } catch (error) {
+        return { ...defaultProfile };
+      }
+    }
+
+    function saveProfile(profile) {
+      localStorage.setItem(profileKey, JSON.stringify(profile));
+    }
+
+    function getInitials(name) {
+      return name
+        .split(" ")
+        .filter(Boolean)
+        .slice(0, 2)
+        .map(function (part) {
+          return part.charAt(0).toUpperCase();
+        })
+        .join("") || "WL";
+    }
+
+    const profile = readProfile();
+
+    const profileName = document.getElementById("profileName");
+    const profileEmail = document.getElementById("profileEmail");
+    const avatarInitials = document.getElementById("avatarInitials");
+    const birthYearValue = document.getElementById("birthYearValue");
+    const fitnessLevelValue = document.getElementById("fitnessLevelValue");
+    const goalValue = document.getElementById("goalValue");
+    const goalIcon = document.getElementById("goalIcon");
+    const emailToggle = document.getElementById("emailToggle");
+    const textToggle = document.getElementById("textToggle");
+    const backButton = document.getElementById("backButton");
+    const settingsButton = document.getElementById("settingsButton");
+    const avatarEditButton = document.getElementById("avatarEditButton");
+    const editDetailsButton = document.getElementById("editDetailsButton");
+    const birthYearButton = document.getElementById("birthYearButton");
+    const fitnessLevelButton = document.getElementById("fitnessLevelButton");
+    const goalButton = document.getElementById("goalButton");
+    const goalIcons = {
+      "Balance & Stability": "image/balance and stability icon.png",
+      "Balance and Stability": "image/balance and stability icon.png",
+      "Flexibility": "image/flexibility.png",
+      "Weight Control and Metabolism": "image/weight and control metabolism.png",
+      "Boosting Metabolism": "image/bosting metabolism.png",
+      "Sexual Health": "image/sexual health.png",
+      "Mobility and Flexibility": "image/mobility and flexibility.png",
+      "Sleep and Mental Wellbeing": "image/sleep and mental wellbeing.png",
+      "Energy Levels": "image/energy levels.png",
+      "Cognitive Function": "image/cognitive function.png"
+    };
+    const logoutButton = document.getElementById("logoutButton");
+    const homeButton = document.getElementById("homeButton");
+    const progressButton = document.getElementById("progressButton");
+    const profileNavButton = document.getElementById("profileNavButton");
+
+    function renderProfile() {
+      profileName.textContent = profile.name;
+      profileEmail.textContent = profile.email;
+      avatarInitials.textContent = getInitials(profile.name);
+      birthYearValue.textContent = profile.birthYear;
+      fitnessLevelValue.textContent = profile.fitnessLevel;
+      goalValue.textContent = profile.mainGoal;
+      goalIcon.src = goalIcons[profile.mainGoal] || "image/wellora logo.png";
+      emailToggle.checked = Boolean(profile.emailReminders);
+      textToggle.checked = Boolean(profile.largeText);
+      document.body.classList.toggle("large-text", Boolean(profile.largeText));
+    }
+
+    async function requireUser() {
+      const { data, error } = await supabaseClient.auth.getUser();
+
+      if (error || !data || !data.user) {
+        window.location.href = "login.html";
+        return null;
+      }
+
+      const syncedProfile = window.WelloraFlow.syncProfileFromUser(data.user);
+      Object.assign(profile, syncedProfile);
+
+      const goalFromStorage = localStorage.getItem("welloraMainGoal");
+
+      if (goalFromStorage) {
+        profile.mainGoal = goalFromStorage;
+      }
+
+      saveProfile(profile);
+      renderProfile();
+      return data.user;
+    }
+
+    function editField(field, label, options) {
+      const currentValue = profile[field];
+      const message = options && options.length
+        ? label + " (" + options.join(", ") + ")"
+        : label;
+      const nextValue = window.prompt(message, currentValue);
+
+      if (!nextValue) {
+        return;
+      }
+
+      profile[field] = nextValue.trim();
+      saveProfile(profile);
+      renderProfile();
+    }
+
+    renderProfile();
+
+    backButton.addEventListener("click", function () {
+      window.history.length > 1 ? window.history.back() : window.location.href = "home.html";
+    });
+
+    settingsButton.addEventListener("click", function () {
+      window.alert("Settings panel coming soon.");
+    });
+
+    avatarEditButton.addEventListener("click", function () {
+      editField("name", "Update your name");
+      const nextEmail = window.prompt("Update your email", profile.email);
+
+      if (nextEmail) {
+        profile.email = nextEmail.trim();
+        saveProfile(profile);
+        renderProfile();
+      }
+    });
+
+    editDetailsButton.addEventListener("click", function () {
+      editField("birthYear", "Birth year");
+      editField("fitnessLevel", "Fitness level", ["Beginner", "Intermediate", "Advanced"]);
+      editField("mainGoal", "Main goal");
+    });
+
+    birthYearButton.addEventListener("click", function () {
+      editField("birthYear", "Birth year");
+    });
+
+    fitnessLevelButton.addEventListener("click", function () {
+      editField("fitnessLevel", "Fitness level", ["Beginner", "Intermediate", "Advanced"]);
+    });
+
+    goalButton.addEventListener("click", function () {
+      editField("mainGoal", "Main goal");
+    });
+
+    emailToggle.addEventListener("change", function () {
+      profile.emailReminders = emailToggle.checked;
+      saveProfile(profile);
+    });
+
+    textToggle.addEventListener("change", function () {
+      profile.largeText = textToggle.checked;
+      saveProfile(profile);
+      renderProfile();
+    });
+
+    logoutButton.addEventListener("click", async function () {
+      try {
+        await supabaseClient.auth.signOut();
+      } catch (error) {
+      }
+
+      window.WelloraFlow.clearAuthIntent();
+      window.location.href = "login.html";
+    });
+
+    homeButton.addEventListener("click", function () {
+      window.location.href = "home.html";
+    });
+
+    progressButton.addEventListener("click", function () {
+      window.location.href = "progress.html";
+    });
+
+    profileNavButton.addEventListener("click", function () {
+      window.location.href = "profile.html";
+    });
+
+    requireUser();
+  </script>
+</body>
+</html>

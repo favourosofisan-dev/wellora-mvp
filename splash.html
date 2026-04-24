@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wellora Splash</title>
+  <style>
+    :root {
+      --bg: #f8f4ee;
+      --panel: rgba(255, 255, 255, 0.45);
+      --text: #1d1d1d;
+      --muted: #8e8179;
+      --accent: #8a4c2b;
+      --accent-soft: #ddc8bc;
+      --accent-fade: #eadfd7;
+      --shadow: 0 18px 40px rgba(143, 108, 84, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      font-family: Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(255, 255, 255, 0.95), transparent 42%),
+        radial-gradient(circle at bottom right, rgba(236, 220, 206, 0.35), transparent 34%),
+        linear-gradient(180deg, #fbf8f4 0%, var(--bg) 100%);
+      color: var(--text);
+    }
+
+    body {
+      min-height: 100vh;
+    }
+
+    .splash-screen {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 24px 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .splash-screen::before,
+    .splash-screen::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: -1;
+      filter: blur(8px);
+    }
+
+    .splash-screen::before {
+      width: 240px;
+      height: 240px;
+      background: rgba(255, 255, 255, 0.55);
+      top: -72px;
+      left: -96px;
+    }
+
+    .splash-screen::after {
+      width: 260px;
+      height: 260px;
+      background: rgba(235, 223, 213, 0.4);
+      right: -90px;
+      bottom: -78px;
+    }
+
+    .brand-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 22px;
+    }
+
+    .logo-shell {
+      width: 112px;
+      height: 112px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: rgba(255, 255, 255, 0.35);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(3px);
+    }
+
+    .logo {
+      width: 54px;
+      height: 54px;
+      object-fit: contain;
+    }
+
+    .brand-text h1 {
+      margin: 0;
+      font-size: 3.2rem;
+      line-height: 0.95;
+      font-weight: 800;
+      letter-spacing: -0.06em;
+    }
+
+    .brand-text p {
+      margin: 12px 0 0;
+      max-width: 240px;
+      font-size: 1.45rem;
+      line-height: 1.45;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .loading-block {
+      position: absolute;
+      bottom: 70px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .dots {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--accent-fade);
+      animation: pulse 1.4s infinite ease-in-out;
+    }
+
+    .dot:nth-child(2) {
+      background: var(--accent);
+      animation-delay: 0.2s;
+    }
+
+    .dot:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+
+    .loading-label {
+      margin: 0;
+      font-size: 0.78rem;
+      letter-spacing: 0.28em;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    @keyframes pulse {
+      0%,
+      100% {
+        transform: scale(0.9);
+        opacity: 0.45;
+      }
+
+      50% {
+        transform: scale(1.18);
+        opacity: 1;
+      }
+    }
+
+    @media (min-width: 480px) {
+      .logo-shell {
+        width: 128px;
+        height: 128px;
+      }
+
+      .logo {
+        width: 62px;
+        height: 62px;
+      }
+
+      .brand-text h1 {
+        font-size: 4rem;
+      }
+
+      .brand-text p {
+        font-size: 1.55rem;
+      }
+    }
+
+    @media (min-width: 768px) {
+      .splash-screen {
+        padding: 40px 32px 52px;
+      }
+
+      .brand-block {
+        gap: 26px;
+      }
+
+      .logo-shell {
+        width: 142px;
+        height: 142px;
+      }
+
+      .brand-text h1 {
+        font-size: 4.5rem;
+      }
+
+      .brand-text p {
+        max-width: 320px;
+        font-size: 1.7rem;
+      }
+
+      .loading-block {
+        bottom: 80px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="splash-screen">
+    <section class="brand-block" aria-label="Wellora splash screen">
+      <div class="logo-shell" aria-hidden="true">
+        <img class="logo" src="image/wellora logo.png" alt="Wellora logo">
+      </div>
+
+      <div class="brand-text">
+        <h1>Wellora</h1>
+        <p>Gentle movement. Real results.</p>
+      </div>
+    </section>
+
+    <section class="loading-block" aria-live="polite">
+      <div class="dots" aria-hidden="true">
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+      </div>
+      <p class="loading-label">LOADING...</p>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script src="wellora-flow.js"></script>
+  <script>
+    const supabaseClient = window.createWelloraSupabaseClient();
+
+    async function routeFromSplash() {
+      try {
+        const { data } = await supabaseClient.auth.getSession();
+        let destination = "signup.html";
+
+        if (data && data.session && data.session.user) {
+          const user = data.session.user;
+          const authIntent = window.WelloraFlow.consumeAuthIntent();
+
+          window.WelloraFlow.syncProfileFromUser(user);
+
+          if (authIntent === "signup") {
+            window.WelloraFlow.markOnboardingPending(user);
+            destination = "onboarding.html";
+          } else if (authIntent === "login") {
+            window.WelloraFlow.saveUserState(user, {
+              lastAuthIntent: "login",
+              lastLoginAt: new Date().toISOString()
+            });
+            destination = window.WelloraFlow.resolveAuthenticatedDestination(user, "home.html");
+          } else {
+            destination = window.WelloraFlow.resolveAuthenticatedDestination(user, "home.html");
+          }
+        }
+
+        setTimeout(function () {
+          window.location.href = destination;
+        }, 1200);
+      } catch (error) {
+        setTimeout(function () {
+          window.location.href = "signup.html";
+        }, 1200);
+      }
+    }
+
+    window.addEventListener("load", routeFromSplash);
+  </script>
+</body>
+</html>

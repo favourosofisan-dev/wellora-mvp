@@ -1,0 +1,1477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wellora Exercise</title>
+  <style>
+    :root {
+      --bg: #f8f4ee;
+      --panel: rgba(255, 255, 255, 0.82);
+      --surface: rgba(255, 250, 245, 0.95);
+      --surface-strong: #fffaf5;
+      --text: #1d1d1d;
+      --muted: #8e8179;
+      --accent: #8a4c2b;
+      --accent-strong: #733d20;
+      --accent-soft: #ddc8bc;
+      --accent-fade: #eadfd7;
+      --border: rgba(221, 204, 193, 0.95);
+      --shadow: 0 18px 40px rgba(143, 108, 84, 0.12);
+      --button-shadow: 0 14px 28px rgba(138, 76, 43, 0.22);
+      --success: #4f7d53;
+      --danger: #b04836;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      font-family: Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(255, 255, 255, 0.96), transparent 38%),
+        radial-gradient(circle at bottom right, rgba(236, 220, 206, 0.35), transparent 30%),
+        linear-gradient(180deg, #fbf8f4 0%, var(--bg) 100%);
+      color: var(--text);
+    }
+
+    body {
+      min-height: 100vh;
+    }
+
+    img,
+    video {
+      max-width: 100%;
+      display: block;
+    }
+
+    button,
+    a,
+    input,
+    textarea,
+    select {
+      font: inherit;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      padding: calc(env(safe-area-inset-top, 0px) + 12px) 12px calc(env(safe-area-inset-bottom, 0px) + 18px);
+    }
+
+    .shell {
+      width: min(100%, 760px);
+      min-height: calc(100vh - 24px);
+      background: linear-gradient(180deg, rgba(255, 252, 248, 0.96), rgba(249, 243, 236, 0.98));
+      border: 1px solid rgba(234, 222, 212, 0.92);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .shell::before,
+    .shell::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 0;
+      filter: blur(12px);
+    }
+
+    .shell::before {
+      width: 240px;
+      height: 240px;
+      background: rgba(255, 255, 255, 0.52);
+      top: -86px;
+      left: -86px;
+    }
+
+    .shell::after {
+      width: 260px;
+      height: 260px;
+      background: rgba(234, 223, 215, 0.46);
+      right: -96px;
+      bottom: -90px;
+    }
+
+    .content {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 18px 18px 8px;
+    }
+
+    .header-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .icon-button {
+      width: 52px;
+      min-width: 52px;
+      height: 52px;
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.74);
+      color: var(--accent);
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(143, 108, 84, 0.08);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+
+    .icon-button:hover,
+    .icon-button:focus-visible,
+    .complete-button:hover,
+    .complete-button:focus-visible,
+    .video-link:hover,
+    .video-link:focus-visible {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 24px rgba(143, 108, 84, 0.14);
+    }
+
+    .icon-button svg,
+    .meta-item svg,
+    .video-placeholder svg,
+    .complete-button svg {
+      width: 24px;
+      height: 24px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .header-copy {
+      min-width: 0;
+    }
+
+    .eyebrow {
+      margin: 0;
+      font-size: 0.95rem;
+      line-height: 1.4;
+      color: var(--muted);
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .header-title {
+      margin: 4px 0 0;
+      font-size: 1.35rem;
+      line-height: 1.2;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--text);
+    }
+
+    .main {
+      flex: 1;
+      padding: 12px 18px 24px;
+      display: grid;
+      gap: 20px;
+    }
+
+    .hero-card,
+    .section-card,
+    .status-card {
+      background: var(--panel);
+      border: 1px solid rgba(234, 222, 212, 0.92);
+      border-radius: 24px;
+      box-shadow: 0 12px 26px rgba(143, 108, 84, 0.08);
+      backdrop-filter: blur(4px);
+    }
+
+    .hero-card {
+      padding: 22px 18px;
+      display: grid;
+      gap: 16px;
+    }
+
+    .exercise-name {
+      margin: 0;
+      font-size: clamp(2rem, 7vw, 3.35rem);
+      line-height: 0.98;
+      letter-spacing: -0.07em;
+      font-weight: 800;
+      max-width: 12ch;
+    }
+
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .meta-pill,
+    .difficulty-pill {
+      min-height: 48px;
+      padding: 10px 16px;
+      border-radius: 18px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      line-height: 1.3;
+      font-weight: 800;
+    }
+
+    .meta-pill {
+      background: linear-gradient(180deg, #8d4e2c 0%, #774022 100%);
+      color: #fff8f4;
+      box-shadow: 0 10px 22px rgba(138, 76, 43, 0.18);
+    }
+
+    .difficulty-pill {
+      background: rgba(255, 255, 255, 0.78);
+      color: var(--accent-strong);
+      border: 1px solid var(--border);
+    }
+
+    .meta-grid {
+      display: grid;
+      gap: 12px;
+    }
+
+    .meta-item {
+      min-height: 56px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      padding: 14px 16px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .meta-item-copy {
+      display: grid;
+      gap: 2px;
+    }
+
+    .meta-label {
+      font-size: 0.95rem;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .meta-value {
+      font-size: 1.05rem;
+      color: var(--text);
+      font-weight: 800;
+      line-height: 1.35;
+    }
+
+    .section-card {
+      padding: 18px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .timer-card {
+      gap: 18px;
+    }
+
+    .timer-display {
+      display: grid;
+      gap: 8px;
+      justify-items: center;
+      padding: 22px 18px;
+      border-radius: 22px;
+      background: linear-gradient(180deg, #fff8f2 0%, #f5ebe2 100%);
+      border: 1px solid var(--border);
+      text-align: center;
+    }
+
+    .timer-visual {
+      position: relative;
+      width: min(100%, 216px);
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+    }
+
+    .timer-ring {
+      width: 100%;
+      height: 100%;
+      transform: rotate(-90deg);
+    }
+
+    .timer-ring-track,
+    .timer-ring-progress {
+      fill: none;
+      stroke-width: 10;
+    }
+
+    .timer-ring-track {
+      stroke: rgba(221, 200, 188, 0.55);
+    }
+
+    .timer-ring-progress {
+      stroke: var(--accent);
+      stroke-linecap: round;
+      transition: stroke-dashoffset 0.35s ease;
+      filter: drop-shadow(0 8px 18px rgba(138, 76, 43, 0.18));
+    }
+
+    .timer-readout {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      align-content: center;
+      justify-items: center;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .timer-label {
+      margin: 0;
+      font-size: 0.88rem;
+      line-height: 1.3;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .timer-value {
+      margin: 0;
+      font-size: clamp(2.6rem, 10vw, 4.3rem);
+      line-height: 0.95;
+      letter-spacing: -0.07em;
+      color: var(--accent-strong);
+      font-weight: 800;
+    }
+
+    .timer-help {
+      margin: 0;
+      font-size: 0.96rem;
+      line-height: 1.5;
+      color: #6c5b51;
+    }
+
+    .timer-progress-bar {
+      width: 100%;
+      height: 10px;
+      border-radius: 999px;
+      overflow: hidden;
+      background: rgba(221, 200, 188, 0.45);
+    }
+
+    .timer-progress-fill {
+      width: 0;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #8f4e2b 0%, #bd7b57 100%);
+      transition: width 0.35s ease;
+    }
+
+    .timer-mode-switch {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .timer-mode-button {
+      min-height: 48px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.72);
+      color: var(--accent);
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+      box-shadow: 0 8px 18px rgba(143, 108, 84, 0.08);
+    }
+
+    .timer-mode-button:hover,
+    .timer-mode-button:focus-visible {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 24px rgba(143, 108, 84, 0.14);
+    }
+
+    .timer-mode-button.is-active {
+      background: linear-gradient(180deg, #8f4e2b 0%, #793f21 100%);
+      color: #fffaf5;
+      border-color: transparent;
+    }
+
+    .timer-controls {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .timer-button {
+      min-height: 52px;
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.9);
+      color: var(--accent);
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+      box-shadow: 0 8px 18px rgba(143, 108, 84, 0.08);
+    }
+
+    .timer-button:hover,
+    .timer-button:focus-visible {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 24px rgba(143, 108, 84, 0.14);
+    }
+
+    .timer-button.primary {
+      background: linear-gradient(180deg, #8f4e2b 0%, #793f21 100%);
+      color: #fffaf5;
+      border: 0;
+    }
+
+    .timer-button:disabled {
+      cursor: not-allowed;
+      opacity: 0.55;
+      transform: none;
+      box-shadow: 0 8px 18px rgba(143, 108, 84, 0.08);
+    }
+
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .section-title {
+      margin: 0;
+      font-size: 1.2rem;
+      line-height: 1.3;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+
+    .video-frame {
+      overflow: hidden;
+      border-radius: 22px;
+      background: linear-gradient(135deg, #d7d7d7 0%, #bfbfbf 100%);
+      border: 1px solid rgba(136, 136, 136, 0.18);
+      min-height: 220px;
+      display: grid;
+      place-items: center;
+      position: relative;
+    }
+
+    .video-frame iframe,
+    .video-frame video {
+      width: 100%;
+      height: 100%;
+      min-height: 220px;
+      border: 0;
+    }
+
+    .video-placeholder {
+      width: 100%;
+      min-height: 220px;
+      padding: 24px;
+      display: grid;
+      justify-items: center;
+      align-content: center;
+      gap: 16px;
+      color: rgba(255, 255, 255, 0.95);
+      text-align: center;
+      background:
+        linear-gradient(180deg, rgba(76, 76, 76, 0.14), rgba(76, 76, 76, 0.28)),
+        linear-gradient(135deg, #c9c9c9 0%, #9e9e9e 100%);
+    }
+
+    .play-badge {
+      width: 84px;
+      height: 84px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.24);
+      display: grid;
+      place-items: center;
+      backdrop-filter: blur(4px);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.18);
+    }
+
+    .video-placeholder svg {
+      width: 34px;
+      height: 34px;
+      fill: currentColor;
+      stroke: none;
+      margin-left: 4px;
+    }
+
+    .video-copy {
+      display: grid;
+      gap: 6px;
+      max-width: 320px;
+    }
+
+    .video-title,
+    .video-text {
+      margin: 0;
+    }
+
+    .video-title {
+      font-size: 1.12rem;
+      line-height: 1.35;
+      font-weight: 800;
+    }
+
+    .video-text {
+      font-size: 1rem;
+      line-height: 1.6;
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    .video-link {
+      min-height: 48px;
+      padding: 12px 16px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.92);
+      color: var(--accent);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      font-weight: 800;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 10px 22px rgba(74, 74, 74, 0.14);
+    }
+
+    .description {
+      margin: 0;
+      font-size: 1.05rem;
+      line-height: 1.75;
+      color: #4f443d;
+    }
+
+    .steps {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 14px;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 52px 1fr;
+      gap: 14px;
+      align-items: start;
+    }
+
+    .step-number {
+      width: 52px;
+      height: 52px;
+      border-radius: 18px;
+      background: linear-gradient(180deg, #faf5f0 0%, #f2e8df 100%);
+      color: var(--accent-strong);
+      border: 1px solid var(--border);
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      font-size: 1rem;
+      box-shadow: 0 8px 18px rgba(143, 108, 84, 0.08);
+    }
+
+    .step-text {
+      margin: 8px 0 0;
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: #4f443d;
+    }
+
+    .status-card {
+      display: none;
+      padding: 16px 18px;
+      font-size: 1rem;
+      line-height: 1.6;
+      font-weight: 700;
+    }
+
+    .status-card.show {
+      display: block;
+    }
+
+    .status-card.error {
+      color: var(--danger);
+      background: rgba(255, 247, 245, 0.94);
+      border: 1px solid rgba(176, 72, 54, 0.16);
+    }
+
+    .status-card.success {
+      color: var(--success);
+      background: rgba(245, 251, 245, 0.94);
+      border: 1px solid rgba(79, 125, 83, 0.16);
+    }
+
+    .footer {
+      padding: 0 18px 20px;
+    }
+
+    .complete-button {
+      width: 100%;
+      min-height: 64px;
+      border: 0;
+      border-radius: 22px;
+      background: linear-gradient(180deg, #8f4e2b 0%, #793f21 100%);
+      color: #fffaf5;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      font-size: 1.1rem;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: var(--button-shadow);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+    }
+
+    .complete-button:disabled {
+      opacity: 0.6;
+      cursor: wait;
+      transform: none;
+      box-shadow: var(--button-shadow);
+    }
+
+    .loading-screen {
+      min-height: calc(100vh - 24px);
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .loading-card {
+      width: min(100%, 420px);
+      padding: 28px 22px;
+      border-radius: 28px;
+      background: rgba(255, 252, 248, 0.96);
+      border: 1px solid rgba(234, 222, 212, 0.92);
+      box-shadow: var(--shadow);
+      display: grid;
+      gap: 14px;
+    }
+
+    .spinner {
+      width: 52px;
+      height: 52px;
+      margin: 0 auto;
+      border-radius: 50%;
+      border: 4px solid rgba(138, 76, 43, 0.16);
+      border-top-color: var(--accent);
+      animation: spin 0.9s linear infinite;
+    }
+
+    .loading-title,
+    .loading-text {
+      margin: 0;
+    }
+
+    .loading-title {
+      font-size: 1.45rem;
+      line-height: 1.25;
+      font-weight: 800;
+    }
+
+    .loading-text {
+      font-size: 1rem;
+      line-height: 1.6;
+      color: var(--muted);
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @media (min-width: 640px) {
+      .header {
+        padding: 24px 24px 10px;
+      }
+
+      .main {
+        padding: 14px 24px 28px;
+      }
+
+      .footer {
+        padding: 0 24px 24px;
+      }
+
+      .meta-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .hero-card,
+      .section-card {
+        padding: 22px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="shell">
+      <div class="content hidden" id="appContent">
+        <header class="header">
+          <div class="header-group">
+            <button class="icon-button" type="button" id="backButton" aria-label="Go back">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M15 18 9 12l6-6"></path>
+              </svg>
+            </button>
+            <div class="header-copy">
+              <p class="eyebrow">Exercise</p>
+              <h1 class="header-title">Wellora Movement Guide</h1>
+            </div>
+          </div>
+
+          <button class="icon-button" type="button" id="profileButton" aria-label="Open profile">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"></path>
+              <path d="M4 20a8 8 0 0 1 16 0"></path>
+            </svg>
+          </button>
+        </header>
+
+        <section class="main">
+          <article class="hero-card">
+            <h2 class="exercise-name" id="exerciseName">Loading exercise...</h2>
+
+            <div class="meta-row">
+              <span class="meta-pill" id="categoryPill">Category</span>
+              <span class="difficulty-pill" id="difficultyPill">Difficulty</span>
+            </div>
+
+            <div class="meta-grid">
+              <div class="meta-item">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <circle cx="12" cy="12" r="8"></circle>
+                  <path d="M12 8v4l2.5 2.5"></path>
+                </svg>
+                <div class="meta-item-copy">
+                  <span class="meta-label">Duration</span>
+                  <span class="meta-value" id="durationValue">0 seconds</span>
+                </div>
+              </div>
+
+              <div class="meta-item">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M4 12h16"></path>
+                  <path d="M12 4v16"></path>
+                </svg>
+                <div class="meta-item-copy">
+                  <span class="meta-label">Exercise ID</span>
+                  <span class="meta-value" id="exerciseIdValue">-</span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="section-card">
+            <div class="section-head">
+              <h3 class="section-title">Video Demo</h3>
+            </div>
+
+            <div class="video-frame" id="videoContainer"></div>
+          </article>
+
+          <article class="section-card timer-card" aria-labelledby="timerHeading">
+            <div class="section-head">
+              <h3 class="section-title" id="timerHeading">Exercise Timer</h3>
+            </div>
+
+            <div class="timer-display">
+              <div class="timer-visual" aria-hidden="true">
+                <svg class="timer-ring" viewBox="0 0 120 120">
+                  <circle class="timer-ring-track" cx="60" cy="60" r="48"></circle>
+                  <circle class="timer-ring-progress" id="timerRingProgress" cx="60" cy="60" r="48"></circle>
+                </svg>
+                <div class="timer-readout">
+                  <p class="timer-label" id="timerLabel">Time Remaining</p>
+                  <p class="timer-value" id="timerValue">00:00</p>
+                </div>
+              </div>
+              <div class="timer-progress-bar" aria-hidden="true">
+                <div class="timer-progress-fill" id="timerProgressFill"></div>
+              </div>
+              <p class="timer-help" id="timerHelp">Load an exercise to start the countdown.</p>
+            </div>
+
+            <div class="timer-mode-switch" aria-label="Timer mode">
+              <button class="timer-mode-button is-active" type="button" id="countdownModeButton" aria-pressed="true">Countdown</button>
+              <button class="timer-mode-button" type="button" id="stopwatchModeButton" aria-pressed="false">Stopwatch</button>
+            </div>
+
+            <div class="timer-controls">
+              <button class="timer-button primary" type="button" id="timerStartButton">Start</button>
+              <button class="timer-button" type="button" id="timerPauseButton" disabled>Pause</button>
+              <button class="timer-button" type="button" id="timerResetButton" disabled>Reset</button>
+            </div>
+          </article>
+
+          <article class="section-card">
+            <div class="section-head">
+              <h3 class="section-title">Step-by-Step Instructions</h3>
+            </div>
+
+            <p class="description" id="descriptionText"></p>
+            <ol class="steps" id="stepsList"></ol>
+          </article>
+
+          <div class="status-card" id="statusMessage" aria-live="polite"></div>
+        </section>
+
+        <footer class="footer">
+          <button class="complete-button" type="button" id="completeButton">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="12" r="9"></circle>
+              <path d="m8.5 12.5 2.4 2.4 4.8-5.3"></path>
+            </svg>
+            <span id="completeButtonLabel">Complete</span>
+          </button>
+        </footer>
+      </div>
+
+      <section class="loading-screen" id="loadingScreen" aria-live="polite">
+        <div class="loading-card">
+          <div class="spinner" aria-hidden="true"></div>
+          <h2 class="loading-title">Preparing your exercise</h2>
+          <p class="loading-text">We’re loading the movement details and checking your sign-in.</p>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script src="wellora-flow.js"></script>
+  <script>
+    const supabaseClient = window.createWelloraSupabaseClient();
+
+    const params = new URLSearchParams(window.location.search);
+    const rawExerciseId = params.get("id");
+    const exerciseId = rawExerciseId && !Number.isNaN(Number(rawExerciseId))
+      ? Number(rawExerciseId)
+      : rawExerciseId;
+
+    const appContent = document.getElementById("appContent");
+    const loadingScreen = document.getElementById("loadingScreen");
+    const backButton = document.getElementById("backButton");
+    const profileButton = document.getElementById("profileButton");
+    const exerciseName = document.getElementById("exerciseName");
+    const categoryPill = document.getElementById("categoryPill");
+    const difficultyPill = document.getElementById("difficultyPill");
+    const durationValue = document.getElementById("durationValue");
+    const exerciseIdValue = document.getElementById("exerciseIdValue");
+    const descriptionText = document.getElementById("descriptionText");
+    const stepsList = document.getElementById("stepsList");
+    const videoContainer = document.getElementById("videoContainer");
+    const completeButton = document.getElementById("completeButton");
+    const completeButtonLabel = document.getElementById("completeButtonLabel");
+    const statusMessage = document.getElementById("statusMessage");
+    const timerLabel = document.getElementById("timerLabel");
+    const timerValue = document.getElementById("timerValue");
+    const timerHelp = document.getElementById("timerHelp");
+    const timerRingProgress = document.getElementById("timerRingProgress");
+    const timerProgressFill = document.getElementById("timerProgressFill");
+    const countdownModeButton = document.getElementById("countdownModeButton");
+    const stopwatchModeButton = document.getElementById("stopwatchModeButton");
+    const timerStartButton = document.getElementById("timerStartButton");
+    const timerPauseButton = document.getElementById("timerPauseButton");
+    const timerResetButton = document.getElementById("timerResetButton");
+
+    let currentUser = null;
+    let currentExercise = null;
+    let timerTotalSeconds = 0;
+    let timerCurrentSeconds = 0;
+    let timerIntervalId = null;
+    let timerRunning = false;
+    let timerMode = "countdown";
+    let isCompletingExercise = false;
+    const timerRingCircumference = 2 * Math.PI * 48;
+
+    timerRingProgress.style.strokeDasharray = String(timerRingCircumference);
+    timerRingProgress.style.strokeDashoffset = String(timerRingCircumference);
+
+    function redirectToLogin() {
+      window.location.href = "login.html";
+    }
+
+    async function getNextExerciseId() {
+      if (!currentExercise || !currentExercise.category) {
+        return "";
+      }
+
+      const { data, error } = await supabaseClient
+        .from("EXERCISES")
+        .select("id")
+        .eq("category", currentExercise.category)
+        .order("exercise_name", { ascending: true });
+
+      if (error || !data || !data.length) {
+        return "";
+      }
+
+      const currentIndex = data.findIndex(function (item) {
+        return String(item.id) === String(currentExercise.id);
+      });
+
+      if (currentIndex === -1) {
+        return String(data[0].id);
+      }
+
+      const nextExercise = data[(currentIndex + 1) % data.length];
+      return nextExercise ? String(nextExercise.id) : "";
+    }
+
+    function showLoading() {
+      loadingScreen.classList.remove("hidden");
+      appContent.classList.add("hidden");
+    }
+
+    function showApp() {
+      loadingScreen.classList.add("hidden");
+      appContent.classList.remove("hidden");
+    }
+
+    function setStatus(message, type) {
+      statusMessage.textContent = message;
+      statusMessage.className = "status-card show " + type;
+    }
+
+    function clearStatus() {
+      statusMessage.textContent = "";
+      statusMessage.className = "status-card";
+    }
+
+    function formatClock(totalSeconds) {
+      const safeSeconds = Math.max(0, Number(totalSeconds) || 0);
+      const minutes = Math.floor(safeSeconds / 60);
+      const seconds = safeSeconds % 60;
+
+      return String(minutes).padStart(2, "0") + ":" + String(seconds).padStart(2, "0");
+    }
+
+    function stopTimerInterval() {
+      if (timerIntervalId) {
+        clearInterval(timerIntervalId);
+        timerIntervalId = null;
+      }
+    }
+
+    function updateTimerControls() {
+      const hasDuration = timerTotalSeconds > 0;
+
+      if (timerMode === "countdown") {
+        timerStartButton.disabled = !hasDuration || timerRunning || timerCurrentSeconds <= 0;
+        timerPauseButton.disabled = !hasDuration || !timerRunning;
+        timerResetButton.disabled = !hasDuration || (timerCurrentSeconds === timerTotalSeconds && !timerRunning);
+      } else {
+        timerStartButton.disabled = timerRunning;
+        timerPauseButton.disabled = !timerRunning;
+        timerResetButton.disabled = !hasDuration ? timerCurrentSeconds === 0 && !timerRunning : timerCurrentSeconds === 0 && !timerRunning;
+      }
+    }
+
+    function getTimerProgressRatio() {
+      if (!timerTotalSeconds) {
+        return 0;
+      }
+
+      if (timerMode === "countdown") {
+        return Math.max(0, Math.min(1, (timerTotalSeconds - timerCurrentSeconds) / timerTotalSeconds));
+      }
+
+      return Math.max(0, Math.min(1, timerCurrentSeconds / timerTotalSeconds));
+    }
+
+    function renderTimerModeButtons() {
+      const countdownActive = timerMode === "countdown";
+      countdownModeButton.classList.toggle("is-active", countdownActive);
+      countdownModeButton.setAttribute("aria-pressed", countdownActive ? "true" : "false");
+      stopwatchModeButton.classList.toggle("is-active", !countdownActive);
+      stopwatchModeButton.setAttribute("aria-pressed", countdownActive ? "false" : "true");
+    }
+
+    function renderTimerState() {
+      const progressRatio = getTimerProgressRatio();
+
+      timerLabel.textContent = timerMode === "countdown" ? "Time Remaining" : "Elapsed Time";
+      timerValue.textContent = formatClock(timerCurrentSeconds);
+      timerRingProgress.style.strokeDashoffset = String(timerRingCircumference * (1 - progressRatio));
+      timerProgressFill.style.width = String(progressRatio * 100) + "%";
+
+      if (!timerTotalSeconds && timerMode === "countdown") {
+        timerHelp.textContent = "This exercise does not have a duration yet.";
+      } else if (!timerTotalSeconds && timerMode === "stopwatch" && timerRunning) {
+        timerHelp.textContent = "Stopwatch is running without a suggested duration.";
+      } else if (!timerTotalSeconds && timerMode === "stopwatch") {
+        timerHelp.textContent = "No suggested duration yet. You can still use the stopwatch.";
+      } else if (timerRunning) {
+        timerHelp.textContent = timerMode === "countdown"
+          ? "Timer is running. Move at a steady pace."
+          : "Stopwatch is running. Complete the movement when you feel ready.";
+      } else if (timerMode === "countdown" && timerCurrentSeconds === 0) {
+        timerHelp.textContent = "Time is up. Saving your completion now.";
+      } else if (timerMode === "countdown" && timerCurrentSeconds === timerTotalSeconds) {
+        timerHelp.textContent = "Ready when you are. Press Start to begin the countdown.";
+      } else if (timerMode === "stopwatch" && timerCurrentSeconds === 0) {
+        timerHelp.textContent = "Press Start to begin tracking your elapsed time.";
+      } else if (timerMode === "stopwatch" && timerTotalSeconds && timerCurrentSeconds >= timerTotalSeconds) {
+        timerHelp.textContent = "You have reached the suggested duration. Keep going or complete the exercise.";
+      } else {
+        timerHelp.textContent = "Timer paused. Press Start to continue or Reset to begin again.";
+      }
+
+      renderTimerModeButtons();
+      updateTimerControls();
+    }
+
+    function resetTimer(totalSeconds) {
+      stopTimerInterval();
+      timerRunning = false;
+      timerTotalSeconds = Math.max(0, Number(totalSeconds) || 0);
+      timerCurrentSeconds = timerMode === "countdown" ? timerTotalSeconds : 0;
+      renderTimerState();
+    }
+
+    function pauseTimer() {
+      timerRunning = false;
+      stopTimerInterval();
+      renderTimerState();
+    }
+
+    function startTimer() {
+      if (timerRunning) {
+        renderTimerState();
+        return;
+      }
+
+      if (timerMode === "countdown" && (!timerTotalSeconds || timerCurrentSeconds <= 0)) {
+        renderTimerState();
+        return;
+      }
+
+      timerRunning = true;
+      renderTimerState();
+      timerIntervalId = window.setInterval(function () {
+        if (timerMode === "countdown") {
+          timerCurrentSeconds = Math.max(0, timerCurrentSeconds - 1);
+
+          if (timerCurrentSeconds === 0) {
+            timerRunning = false;
+            stopTimerInterval();
+            renderTimerState();
+
+            if (!isCompletingExercise) {
+              completeExercise(true);
+            }
+
+            return;
+          }
+        } else {
+          timerCurrentSeconds += 1;
+        }
+
+        renderTimerState();
+      }, 1000);
+    }
+
+    function setTimerMode(mode) {
+      if (mode !== "countdown" && mode !== "stopwatch") {
+        return;
+      }
+
+      timerMode = mode;
+      resetTimer(timerTotalSeconds);
+    }
+
+    function formatDuration(seconds) {
+      const totalSeconds = Number(seconds);
+
+      if (!Number.isFinite(totalSeconds) || totalSeconds <= 0) {
+        return "Not provided";
+      }
+
+      if (totalSeconds < 60) {
+        return totalSeconds + " second" + (totalSeconds === 1 ? "" : "s");
+      }
+
+      const minutes = Math.floor(totalSeconds / 60);
+      const remainingSeconds = totalSeconds % 60;
+
+      if (!remainingSeconds) {
+        return minutes + " minute" + (minutes === 1 ? "" : "s");
+      }
+
+      return minutes + " min " + remainingSeconds + " sec";
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+    function extractVideoEmbedUrl(url) {
+      if (!url) {
+        return "";
+      }
+
+      try {
+        const parsedUrl = new URL(url);
+        const host = parsedUrl.hostname.replace(/^www\./, "");
+
+        if (host === "youtube.com" || host === "m.youtube.com") {
+          const videoId = parsedUrl.searchParams.get("v");
+          return videoId ? "https://www.youtube.com/embed/" + encodeURIComponent(videoId) : "";
+        }
+
+        if (host === "youtu.be") {
+          const videoId = parsedUrl.pathname.replace("/", "");
+          return videoId ? "https://www.youtube.com/embed/" + encodeURIComponent(videoId) : "";
+        }
+
+        if (host === "vimeo.com") {
+          const videoId = parsedUrl.pathname.split("/").filter(Boolean)[0];
+          return videoId ? "https://player.vimeo.com/video/" + encodeURIComponent(videoId) : "";
+        }
+      } catch (error) {
+        return "";
+      }
+
+      return "";
+    }
+
+    function parseSteps(description) {
+      if (!description) {
+        return [];
+      }
+
+      const normalized = String(description)
+        .replace(/\r/g, "\n")
+        .replace(/\n{2,}/g, "\n")
+        .trim();
+
+      if (!normalized) {
+        return [];
+      }
+
+      const numberedMatches = normalized.match(/\d+[\).\-\:]\s*[^]+?(?=(?:\n?\d+[\).\-\:]\s)|$)/g);
+
+      if (numberedMatches && numberedMatches.length > 1) {
+        return numberedMatches.map(function (step) {
+          return step.replace(/^\d+[\).\-\:]\s*/, "").trim();
+        }).filter(Boolean);
+      }
+
+      const lineSteps = normalized.split("\n").map(function (line) {
+        return line.replace(/^[\-\u2022]\s*/, "").trim();
+      }).filter(Boolean);
+
+      if (lineSteps.length > 1) {
+        return lineSteps;
+      }
+
+      const sentenceSteps = normalized
+        .replace(/([.!?])\s+/g, "$1\n")
+        .split("\n")
+        .map(function (part) {
+          return part.trim();
+        })
+        .filter(Boolean);
+
+      if (sentenceSteps.length > 1) {
+        return sentenceSteps;
+      }
+
+      return [normalized];
+    }
+
+    function renderVideo(url, exerciseTitle) {
+      const safeTitle = escapeHtml(exerciseTitle || "exercise");
+      const embedUrl = extractVideoEmbedUrl(url);
+
+      if (embedUrl) {
+        videoContainer.innerHTML =
+          '<iframe src="' + embedUrl + '" title="' + safeTitle + ' video demonstration" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>';
+        return;
+      }
+
+      if (url) {
+        const safeUrl = escapeHtml(url);
+        videoContainer.innerHTML =
+          '<div class="video-placeholder">' +
+            '<div class="play-badge" aria-hidden="true">' +
+              '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7Z"></path></svg>' +
+            "</div>" +
+            '<div class="video-copy">' +
+              '<p class="video-title">Open video demonstration</p>' +
+              '<p class="video-text">A guided movement video is available for this exercise.</p>' +
+            "</div>" +
+            '<a class="video-link" href="' + safeUrl + '" target="_blank" rel="noopener noreferrer">Play Video</a>' +
+          "</div>";
+        return;
+      }
+
+      videoContainer.innerHTML =
+        '<div class="video-placeholder">' +
+          '<div class="play-badge" aria-hidden="true">' +
+            '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7Z"></path></svg>' +
+          "</div>" +
+          '<div class="video-copy">' +
+            '<p class="video-title">Video coming soon</p>' +
+            '<p class="video-text">This exercise does not have a video yet, but you can follow the instructions below.</p>' +
+          "</div>" +
+        "</div>";
+    }
+
+    function renderExercise(exercise) {
+      currentExercise = exercise;
+
+      const exerciseTitle = exercise.exercise_name || "Exercise";
+      const category = exercise.category || "General";
+      const difficulty = exercise.difficulty || "Not provided";
+      const duration = formatDuration(exercise.duration_seconds);
+      const steps = parseSteps(exercise.description);
+
+      document.title = exerciseTitle + " | Wellora";
+      exerciseName.textContent = exerciseTitle;
+      categoryPill.textContent = category;
+      difficultyPill.textContent = difficulty;
+      durationValue.textContent = duration;
+      exerciseIdValue.textContent = exercise.id;
+      descriptionText.textContent = exercise.description || "Instructions are not available yet.";
+
+      stepsList.innerHTML = steps.map(function (step, index) {
+        return (
+          '<li class="step">' +
+            '<span class="step-number">' + (index + 1) + "</span>" +
+            '<p class="step-text">' + escapeHtml(step) + "</p>" +
+          "</li>"
+        );
+      }).join("");
+
+      renderVideo(exercise.video_url, exerciseTitle);
+      resetTimer(exercise.duration_seconds);
+    }
+
+    async function loadExercise() {
+      if (exerciseId === null || exerciseId === undefined || exerciseId === "") {
+        throw new Error("Missing exercise ID in the URL.");
+      }
+
+      const { data, error } = await supabaseClient
+        .from("EXERCISES")
+        .select("id, exercise_name, category, description, duration_seconds, difficulty, video_url")
+        .eq("id", exerciseId)
+        .single();
+
+      if (error) {
+        throw error;
+      }
+
+      if (!data) {
+        throw new Error("Exercise not found.");
+      }
+
+      return data;
+    }
+
+    async function requireUser() {
+      const { data, error } = await supabaseClient.auth.getUser();
+
+      if (error || !data || !data.user) {
+        redirectToLogin();
+        return null;
+      }
+
+      currentUser = data.user;
+      return data.user;
+    }
+
+    async function completeExercise(autoTriggered) {
+      const urlExerciseId = rawExerciseId && !Number.isNaN(Number(rawExerciseId))
+        ? Number(rawExerciseId)
+        : rawExerciseId;
+
+      if (!urlExerciseId) {
+        setStatus("Missing exercise ID in the URL.", "error");
+        return;
+      }
+
+      if (isCompletingExercise) {
+        return;
+      }
+
+      isCompletingExercise = true;
+      const { data, error: userError } = await supabaseClient.auth.getUser();
+
+      if (userError || !data || !data.user) {
+        isCompletingExercise = false;
+        redirectToLogin();
+        return;
+      }
+
+      currentUser = data.user;
+
+      clearStatus();
+      pauseTimer();
+      completeButton.disabled = true;
+      completeButtonLabel.textContent = autoTriggered ? "Finishing..." : "Saving...";
+
+      const { error } = await supabaseClient
+        .from("user_progress")
+        .insert({
+          user_id: currentUser.id,
+          exercise_id: urlExerciseId,
+          count: 1
+        });
+
+      if (error) {
+        isCompletingExercise = false;
+        completeButton.disabled = false;
+        completeButtonLabel.textContent = "Complete";
+        setStatus(error.message || "We couldn't save your progress. Please try again.", "error");
+        renderTimerState();
+        return;
+      }
+
+      setStatus(autoTriggered ? "Time complete. Redirecting..." : "Exercise completed. Redirecting...", "success");
+      const nextExerciseId = await getNextExerciseId();
+      const completionParams = new URLSearchParams({
+        id: String(urlExerciseId),
+        exercise_name: currentExercise && currentExercise.exercise_name ? currentExercise.exercise_name : "Exercise",
+        category: currentExercise && currentExercise.category ? currentExercise.category : "",
+        minutes: currentExercise && currentExercise.duration_seconds
+          ? String(Math.max(1, Math.round(Number(currentExercise.duration_seconds) / 60)))
+          : "",
+        next_id: nextExerciseId
+      });
+      window.location.href = "completion.html?" + completionParams.toString();
+    }
+
+    window.completeExercise = completeExercise;
+
+    backButton.addEventListener("click", function () {
+      if (window.history.length > 1) {
+        window.history.back();
+        return;
+      }
+
+      const lastCategory = window.WelloraFlow.getLastCategory();
+      window.location.href = lastCategory
+        ? "category.html?category=" + encodeURIComponent(lastCategory)
+        : "category.html";
+    });
+
+    profileButton.addEventListener("click", function () {
+      window.location.href = "profile.html";
+    });
+
+    completeButton.addEventListener("click", function () {
+      completeExercise();
+    });
+
+    timerStartButton.addEventListener("click", function () {
+      startTimer();
+    });
+
+    timerPauseButton.addEventListener("click", function () {
+      pauseTimer();
+    });
+
+    timerResetButton.addEventListener("click", function () {
+      resetTimer(timerTotalSeconds);
+    });
+
+    countdownModeButton.addEventListener("click", function () {
+      setTimerMode("countdown");
+    });
+
+    stopwatchModeButton.addEventListener("click", function () {
+      setTimerMode("stopwatch");
+    });
+
+    supabaseClient.auth.onAuthStateChange(function (event, session) {
+      if ((event === "SIGNED_OUT" || !session) && !window.location.pathname.endsWith("login.html")) {
+        redirectToLogin();
+      }
+    });
+
+    async function init() {
+      showLoading();
+
+      const user = await requireUser();
+
+      if (!user) {
+        return;
+      }
+
+      try {
+        const exercise = await loadExercise();
+        isCompletingExercise = false;
+        renderExercise(exercise);
+        showApp();
+      } catch (error) {
+        resetTimer(0);
+        isCompletingExercise = false;
+        showApp();
+        exerciseName.textContent = "Exercise unavailable";
+        categoryPill.textContent = "Unavailable";
+        difficultyPill.textContent = "Unavailable";
+        durationValue.textContent = "Not available";
+        exerciseIdValue.textContent = rawExerciseId || "-";
+        descriptionText.textContent = "We couldn't load this exercise right now.";
+        stepsList.innerHTML = "";
+        renderVideo("", "Exercise unavailable");
+        setStatus(error.message || "We couldn't load the exercise details.", "error");
+      }
+    }
+
+    init();
+  </script>
+</body>
+</html>

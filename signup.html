@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wellora Sign Up</title>
+  <style>
+    :root {
+      --bg: #f7f2eb;
+      --surface: rgba(255, 252, 248, 0.97);
+      --surface-strong: #fffaf5;
+      --text: #26211e;
+      --muted: #8a776d;
+      --border: #eaded4;
+      --accent: #8d4825;
+      --shadow: 0 18px 40px rgba(118, 77, 48, 0.16);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      font-family: Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at 20% 15%, rgba(160, 92, 54, 0.2), transparent 18%),
+        radial-gradient(circle at 84% 88%, rgba(160, 92, 54, 0.22), transparent 18%),
+        linear-gradient(180deg, #fcf9f5 0%, var(--bg) 100%);
+      color: var(--text);
+    }
+
+    body {
+      min-height: 100vh;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .page::before,
+    .page::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: -1;
+      opacity: 0.9;
+    }
+
+    .page::before {
+      width: 250px;
+      height: 250px;
+      top: 22px;
+      left: -56px;
+      background:
+        radial-gradient(circle, rgba(160, 92, 54, 0.72) 0 36%, rgba(145, 77, 44, 0.4) 37% 50%, rgba(137, 72, 39, 0.52) 51% 58%, rgba(255, 95, 51, 0.95) 59% 61%, transparent 62%);
+    }
+
+    .page::after {
+      width: 250px;
+      height: 250px;
+      right: -62px;
+      bottom: 42px;
+      background:
+        radial-gradient(circle, rgba(160, 92, 54, 0.8) 0 36%, rgba(145, 77, 44, 0.46) 37% 50%, rgba(137, 72, 39, 0.58) 51% 58%, rgba(255, 95, 51, 0.95) 59% 61%, transparent 62%);
+    }
+
+    .auth-card {
+      width: min(100%, 420px);
+      background: var(--surface);
+      border: 1px solid rgba(234, 222, 212, 0.92);
+      box-shadow: var(--shadow);
+      padding: 28px 16px 22px;
+      display: grid;
+      gap: 22px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+    }
+
+    .brand-mark {
+      width: 28px;
+      height: 28px;
+      object-fit: contain;
+      flex-shrink: 0;
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-size: 2.2rem;
+      line-height: 1.08;
+      letter-spacing: -0.05em;
+      font-weight: 800;
+    }
+
+    .hero p {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 1.08rem;
+      line-height: 1.5;
+    }
+
+    .form {
+      display: grid;
+      gap: 14px;
+    }
+
+    .input-shell {
+      min-height: 56px;
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      background: var(--surface-strong);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 14px;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+    }
+
+    .input-shell:focus-within {
+      border-color: rgba(141, 72, 37, 0.45);
+      box-shadow: 0 0 0 4px rgba(141, 72, 37, 0.1);
+      transform: translateY(-1px);
+    }
+
+    .input-icon {
+      width: 20px;
+      height: 20px;
+      stroke: #b39f94;
+      flex-shrink: 0;
+    }
+
+    .input {
+      flex: 1;
+      border: 0;
+      outline: 0;
+      background: transparent;
+      color: var(--text);
+      font-size: 1rem;
+      font-family: inherit;
+    }
+
+    .input::placeholder {
+      color: #b0a198;
+    }
+
+    .toggle-password {
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      font-weight: 700;
+      cursor: pointer;
+      padding: 4px 0 4px 8px;
+      font-size: 0.88rem;
+    }
+
+    .toggle-password:hover,
+    .toggle-password:focus-visible {
+      color: var(--accent);
+    }
+
+    .primary-button,
+    .google-button {
+      width: 100%;
+      min-height: 58px;
+      border-radius: 18px;
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+
+    .primary-button {
+      border: 0;
+      background: linear-gradient(180deg, #914c29 0%, #7b3f20 100%);
+      color: #fff7f1;
+      box-shadow: 0 12px 24px rgba(133, 73, 39, 0.24);
+      margin-top: 2px;
+    }
+
+    .primary-button:hover,
+    .primary-button:focus-visible,
+    .google-button:hover,
+    .google-button:focus-visible {
+      transform: translateY(-1px);
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      color: #b2a197;
+      font-weight: 700;
+      font-size: 0.92rem;
+      margin: 2px 0;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: "";
+      height: 1px;
+      flex: 1;
+      background: rgba(226, 214, 204, 0.9);
+    }
+
+    .google-button {
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.76);
+      color: #413833;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      box-shadow: 0 10px 22px rgba(154, 123, 97, 0.08);
+    }
+
+    .google-button:focus-visible {
+      border-color: rgba(141, 72, 37, 0.35);
+    }
+
+    .google-icon {
+      width: 22px;
+      height: 22px;
+      flex-shrink: 0;
+    }
+
+    .footer-links {
+      margin: 0;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.98rem;
+      line-height: 1.5;
+    }
+
+    .footer-links a {
+      color: var(--accent);
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .footer-links a:hover,
+    .footer-links a:focus-visible {
+      text-decoration: underline;
+    }
+
+    @media (min-width: 480px) {
+      .auth-card {
+        padding: 34px 22px 24px;
+      }
+
+      .brand {
+        font-size: 1.65rem;
+      }
+
+      .hero h1 {
+        font-size: 2.55rem;
+      }
+
+    }
+
+    @media (min-width: 768px) {
+      .page {
+        padding: 28px;
+      }
+
+      .page::before,
+      .page::after {
+        width: 310px;
+        height: 310px;
+      }
+
+      .auth-card {
+        width: 440px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="auth-card" aria-label="Create your Wellora account">
+      <div class="brand">
+        <img class="brand-mark" src="image/wellora logo.png" alt="" aria-hidden="true">
+        <span>WELLORA</span>
+      </div>
+
+      <header class="hero">
+        <h1>Create your account</h1>
+        <p>Your journey to daily vitality starts here.</p>
+      </header>
+
+      <form class="form" id="signupForm" novalidate>
+        <div class="input-shell">
+          <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke-width="1.8" aria-hidden="true">
+            <rect x="3.5" y="5.5" width="17" height="13" rx="2"></rect>
+            <path d="M4.5 7l7.5 6 7.5-6"></path>
+          </svg>
+          <input class="input" type="email" id="email" name="email" placeholder="Email address" autocomplete="email" required>
+        </div>
+
+        <div class="input-shell">
+          <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke-width="1.8" aria-hidden="true">
+            <rect x="5.5" y="10.5" width="13" height="9" rx="2"></rect>
+            <path d="M8 10.5V8.7a4 4 0 0 1 8 0v1.8"></path>
+            <circle cx="12" cy="14.8" r="1.2"></circle>
+          </svg>
+          <input class="input" type="password" id="password" name="password" placeholder="Password" autocomplete="new-password" required>
+          <button class="toggle-password" type="button" data-target="password" aria-label="Show password">Show</button>
+        </div>
+
+        <div class="input-shell">
+          <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke-width="1.8" aria-hidden="true">
+            <path d="M12 3.5 18 6v5.2c0 4-2.4 7.4-6 8.8-3.6-1.4-6-4.8-6-8.8V6l6-2.5Z"></path>
+            <path d="M9.6 12.2 11.2 14l3.3-3.7"></path>
+          </svg>
+          <input class="input" type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" autocomplete="new-password" required>
+          <button class="toggle-password" type="button" data-target="confirmPassword" aria-label="Show confirm password">Show</button>
+        </div>
+
+        <button class="primary-button" type="submit">Sign Up</button>
+
+        <div class="divider" aria-hidden="true">OR</div>
+
+        <button class="google-button" type="button" id="googleSignupButton">
+          <svg class="google-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path fill="#4285F4" d="M23.49 12.27c0-.79-.07-1.55-.21-2.27H12.24v4.3h6.32a5.41 5.41 0 0 1-2.35 3.55v2.95h3.81c2.23-2.05 3.47-5.08 3.47-8.53Z"></path>
+            <path fill="#34A853" d="M12.24 24c3.15 0 5.8-1.04 7.73-2.82l-3.81-2.95c-1.04.7-2.37 1.12-3.92 1.12-3.02 0-5.58-2.03-6.49-4.77H1.81v3.04A11.67 11.67 0 0 0 12.24 24Z"></path>
+            <path fill="#FBBC05" d="M5.75 14.58a6.98 6.98 0 0 1 0-4.44V7.1H1.81a11.76 11.76 0 0 0 0 10.52l3.94-3.04Z"></path>
+            <path fill="#EA4335" d="M12.24 4.73c1.72 0 3.25.59 4.47 1.75l3.35-3.35C18.03 1.19 15.39 0 12.24 0 7.81 0 3.98 2.54 1.81 6.37L5.75 9.4c.91-2.75 3.47-4.67 6.49-4.67Z"></path>
+          </svg>
+          <span>Continue with Google</span>
+        </button>
+      </form>
+
+      <p class="footer-links">
+        Already have an account?
+        <a href="login.html">Log in</a>
+      </p>
+
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script src="wellora-flow.js"></script>
+  <script>
+    const supabaseClient = window.createWelloraSupabaseClient();
+
+    const signupForm = document.getElementById("signupForm");
+    const googleSignupButton = document.getElementById("googleSignupButton");
+    const emailInput = document.getElementById("email");
+    const passwordInput = document.getElementById("password");
+    const confirmPasswordInput = document.getElementById("confirmPassword");
+    const passwordToggles = document.querySelectorAll(".toggle-password");
+
+    function getBaseUrl() {
+      return window.location.origin + window.location.pathname.replace(/[^/]*$/, "");
+    }
+
+    function redirectToHome() {
+      window.location.href = "home.html";
+    }
+
+    function redirectToOnboarding() {
+      window.location.href = "onboarding.html";
+    }
+
+    function setButtonLoading(button, isLoading, idleLabel) {
+      if (!button) {
+        return;
+      }
+
+      if (!button.dataset.originalText) {
+        button.dataset.originalText = idleLabel || button.textContent.trim();
+      }
+
+      button.disabled = isLoading;
+      button.textContent = isLoading ? "Please wait..." : (idleLabel || button.dataset.originalText);
+    }
+
+    async function redirectIfAuthenticated() {
+      const { data } = await supabaseClient.auth.getSession();
+
+      if (data && data.session && data.session.user) {
+        window.WelloraFlow.syncProfileFromUser(data.session.user);
+        window.location.href = window.WelloraFlow.resolveAuthenticatedDestination(data.session.user, "home.html");
+      }
+    }
+
+    async function signUpWithEmailPassword(email, password, confirmPassword) {
+      if (password !== confirmPassword) {
+        throw new Error("Your passwords do not match yet. Please check them again.");
+      }
+
+      const { data, error } = await supabaseClient.auth.signUp({
+        email: email,
+        password: password
+      });
+
+      if (error) {
+        if ((error.message || "").toLowerCase().includes("invalid api key")) {
+          throw new Error("Supabase rejected the public API key in supabase-config.js. Replace it with your current anon key from the Supabase dashboard.");
+        }
+
+        throw error;
+      }
+
+      if (data && data.user) {
+        window.WelloraFlow.syncProfileFromUser(data.user);
+        window.WelloraFlow.markOnboardingPending(data.user);
+      }
+
+      window.WelloraFlow.clearAuthIntent();
+      redirectToOnboarding();
+    }
+
+    async function signInWithGoogle() {
+      const { error } = await supabaseClient.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+          redirectTo: getBaseUrl() + "splash.html"
+        }
+      });
+
+      if (error) {
+        if ((error.message || "").toLowerCase().includes("invalid api key")) {
+          throw new Error("Supabase rejected the public API key in supabase-config.js. Replace it with your current anon key from the Supabase dashboard.");
+        }
+
+        throw error;
+      }
+    }
+
+    passwordToggles.forEach(function (button) {
+      button.addEventListener("click", function () {
+        const input = document.getElementById(button.dataset.target);
+
+        if (!input) {
+          return;
+        }
+
+        const isVisible = input.type === "text";
+        input.type = isVisible ? "password" : "text";
+        button.textContent = isVisible ? "Show" : "Hide";
+        button.setAttribute("aria-label", isVisible ? "Show password" : "Hide password");
+      });
+    });
+
+    signupForm.addEventListener("submit", async function (event) {
+      event.preventDefault();
+
+      const submitButton = signupForm.querySelector('button[type="submit"]');
+      const email = emailInput.value.trim();
+      const password = passwordInput.value;
+      const confirmPassword = confirmPasswordInput.value;
+
+      if (!email || !password || !confirmPassword) {
+        window.alert("Please fill in all fields before signing up.");
+        return;
+      }
+
+      if (password.length < 6) {
+        window.alert("Your password should be at least 6 characters long.");
+        return;
+      }
+
+      try {
+        setButtonLoading(submitButton, true, "Sign Up");
+        window.WelloraFlow.setAuthIntent("signup");
+        await signUpWithEmailPassword(email, password, confirmPassword);
+      } catch (error) {
+        window.WelloraFlow.clearAuthIntent();
+        window.alert(error.message || "We couldn't create your account. Please try again.");
+      } finally {
+        setButtonLoading(submitButton, false, "Sign Up");
+      }
+    });
+
+    googleSignupButton.addEventListener("click", async function () {
+      try {
+        setButtonLoading(googleSignupButton, true, "Continue with Google");
+        window.WelloraFlow.setAuthIntent("signup");
+        await signInWithGoogle();
+      } catch (error) {
+        window.WelloraFlow.clearAuthIntent();
+        setButtonLoading(googleSignupButton, false, "Continue with Google");
+        window.alert(error.message || "Google sign up could not be started.");
+      }
+    });
+
+    supabaseClient.auth.onAuthStateChange(function (event, session) {
+      if ((event === "SIGNED_IN" || event === "INITIAL_SESSION") && session) {
+        window.WelloraFlow.syncProfileFromUser(session.user);
+        window.location.href = window.WelloraFlow.resolveAuthenticatedDestination(session.user, "home.html");
+      }
+    });
+
+    redirectIfAuthenticated();
+  </script>
+</body>
+</html>
