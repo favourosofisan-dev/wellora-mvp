@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Wellora Exercise</title>
+  <link rel="icon" type="image/png" href="image/wellora logo.png">
   <style>
     :root {
       --bg: #f8f4ee;
@@ -418,7 +419,7 @@
 
     .timer-controls {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 10px;
     }
 
@@ -443,6 +444,12 @@
     .timer-button.primary {
       background: linear-gradient(180deg, #8f4e2b 0%, #793f21 100%);
       color: #fffaf5;
+      border: 0;
+    }
+
+    .timer-button.alert {
+      background: linear-gradient(180deg, #c95d41 0%, #aa4025 100%);
+      color: #fff7f3;
       border: 0;
     }
 
@@ -845,6 +852,7 @@
               <button class="timer-button primary" type="button" id="timerStartButton">Start</button>
               <button class="timer-button" type="button" id="timerPauseButton" disabled>Pause</button>
               <button class="timer-button" type="button" id="timerResetButton" disabled>Reset</button>
+              <button class="timer-button alert" type="button" id="timerStopAlarmButton" disabled>Stop</button>
             </div>
           </article>
 
@@ -918,16 +926,21 @@
     const timerStartButton = document.getElementById("timerStartButton");
     const timerPauseButton = document.getElementById("timerPauseButton");
     const timerResetButton = document.getElementById("timerResetButton");
+    const timerStopAlarmButton = document.getElementById("timerStopAlarmButton");
 
     let currentUser = null;
     let currentExercise = null;
     let timerTotalSeconds = 0;
     let timerCurrentSeconds = 0;
     let timerIntervalId = null;
+    let timerAlarmIntervalId = null;
     let timerRunning = false;
     let timerMode = "countdown";
     let isCompletingExercise = false;
+    let timerAlarmActive = false;
+    let timerAlarmContext = null;
     const timerRingCircumference = 2 * Math.PI * 48;
+    const defaultExerciseDurationSeconds = 5 * 60;
 
     timerRingProgress.style.strokeDasharray = String(timerRingCircumference);
     timerRingProgress.style.strokeDashoffset = String(timerRingCircumference);
@@ -998,8 +1011,73 @@
       }
     }
 
+    function playTimerAlarmBurst() {
+      const AudioContextCtor = window.AudioContext || window.webkitAudioContext;
+
+      if (!AudioContextCtor) {
+        return;
+      }
+
+      if (!timerAlarmContext) {
+        timerAlarmContext = new AudioContextCtor();
+      }
+
+      if (timerAlarmContext.state === "suspended") {
+        timerAlarmContext.resume().catch(function () {
+          return null;
+        });
+      }
+
+      const startAt = timerAlarmContext.currentTime;
+      [0, 0.35, 0.7].forEach(function (offset, index) {
+        const oscillator = timerAlarmContext.createOscillator();
+        const gainNode = timerAlarmContext.createGain();
+
+        oscillator.type = index % 2 === 0 ? "sine" : "triangle";
+        oscillator.frequency.setValueAtTime(index % 2 === 0 ? 880 : 660, startAt + offset);
+
+        gainNode.gain.setValueAtTime(0.0001, startAt + offset);
+        gainNode.gain.exponentialRampToValueAtTime(0.16, startAt + offset + 0.02);
+        gainNode.gain.exponentialRampToValueAtTime(0.0001, startAt + offset + 0.28);
+
+        oscillator.connect(gainNode);
+        gainNode.connect(timerAlarmContext.destination);
+        oscillator.start(startAt + offset);
+        oscillator.stop(startAt + offset + 0.3);
+      });
+    }
+
+    function startTimerAlarm() {
+      if (timerAlarmActive) {
+        return;
+      }
+
+      timerAlarmActive = true;
+      playTimerAlarmBurst();
+      timerAlarmIntervalId = window.setInterval(function () {
+        playTimerAlarmBurst();
+      }, 1400);
+    }
+
+    function stopTimerAlarm() {
+      timerAlarmActive = false;
+
+      if (timerAlarmIntervalId) {
+        clearInterval(timerAlarmIntervalId);
+        timerAlarmIntervalId = null;
+      }
+    }
+
     function updateTimerControls() {
       const hasDuration = timerTotalSeconds > 0;
+
+      if (timerAlarmActive) {
+        timerStartButton.disabled = true;
+        timerPauseButton.disabled = true;
+        timerResetButton.disabled = true;
+        timerStopAlarmButton.disabled = false;
+        return;
+      }
 
       if (timerMode === "countdown") {
         timerStartButton.disabled = !hasDuration || timerRunning || timerCurrentSeconds <= 0;
@@ -1010,6 +1088,8 @@
         timerPauseButton.disabled = !timerRunning;
         timerResetButton.disabled = !hasDuration ? timerCurrentSeconds === 0 && !timerRunning : timerCurrentSeconds === 0 && !timerRunning;
       }
+
+      timerStopAlarmButton.disabled = true;
     }
 
     function getTimerProgressRatio() {
@@ -1040,12 +1120,8 @@
       timerRingProgress.style.strokeDashoffset = String(timerRingCircumference * (1 - progressRatio));
       timerProgressFill.style.width = String(progressRatio * 100) + "%";
 
-      if (!timerTotalSeconds && timerMode === "countdown") {
-        timerHelp.textContent = "This exercise does not have a duration yet.";
-      } else if (!timerTotalSeconds && timerMode === "stopwatch" && timerRunning) {
-        timerHelp.textContent = "Stopwatch is running without a suggested duration.";
-      } else if (!timerTotalSeconds && timerMode === "stopwatch") {
-        timerHelp.textContent = "No suggested duration yet. You can still use the stopwatch.";
+      if (timerAlarmActive) {
+        timerHelp.textContent = "Time is up. Press Stop to silence the alarm and save this exercise.";
       } else if (timerRunning) {
         timerHelp.textContent = timerMode === "countdown"
           ? "Timer is running. Move at a steady pace."
@@ -1064,12 +1140,15 @@
 
       renderTimerModeButtons();
       updateTimerControls();
+      completeButton.disabled = timerAlarmActive || isCompletingExercise;
+      completeButtonLabel.textContent = isCompletingExercise ? "Saving..." : "Complete";
     }
 
     function resetTimer(totalSeconds) {
       stopTimerInterval();
+      stopTimerAlarm();
       timerRunning = false;
-      timerTotalSeconds = Math.max(0, Number(totalSeconds) || 0);
+      timerTotalSeconds = Math.max(0, Number(totalSeconds) || 0) || defaultExerciseDurationSeconds;
       timerCurrentSeconds = timerMode === "countdown" ? timerTotalSeconds : 0;
       renderTimerState();
     }
@@ -1082,6 +1161,11 @@
 
     function startTimer() {
       if (timerRunning) {
+        renderTimerState();
+        return;
+      }
+
+      if (timerAlarmActive) {
         renderTimerState();
         return;
       }
@@ -1100,11 +1184,8 @@
           if (timerCurrentSeconds === 0) {
             timerRunning = false;
             stopTimerInterval();
+            startTimerAlarm();
             renderTimerState();
-
-            if (!isCompletingExercise) {
-              completeExercise(true);
-            }
 
             return;
           }
@@ -1121,6 +1202,10 @@
         return;
       }
 
+      if (timerAlarmActive) {
+        return;
+      }
+
       timerMode = mode;
       resetTimer(timerTotalSeconds);
     }
@@ -1129,7 +1214,7 @@
       const totalSeconds = Number(seconds);
 
       if (!Number.isFinite(totalSeconds) || totalSeconds <= 0) {
-        return "Not provided";
+        return "5 minutes (default)";
       }
 
       if (totalSeconds < 60) {
@@ -1425,6 +1510,16 @@
 
     timerResetButton.addEventListener("click", function () {
       resetTimer(timerTotalSeconds);
+    });
+
+    timerStopAlarmButton.addEventListener("click", function () {
+      if (!timerAlarmActive) {
+        return;
+      }
+
+      stopTimerAlarm();
+      renderTimerState();
+      completeExercise(true);
     });
 
     countdownModeButton.addEventListener("click", function () {

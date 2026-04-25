@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Wellora Sign Up</title>
+  <link rel="icon" type="image/png" href="image/wellora logo.png">
   <style>
     :root {
       --bg: #f7f2eb;
@@ -252,6 +253,37 @@
       line-height: 1.5;
     }
 
+    .notice {
+      display: none;
+      border-radius: 18px;
+      padding: 14px 16px;
+      font-size: 0.95rem;
+      line-height: 1.55;
+      border: 1px solid transparent;
+    }
+
+    .notice.show {
+      display: block;
+    }
+
+    .notice.info {
+      background: rgba(247, 239, 229, 0.95);
+      border-color: rgba(141, 72, 37, 0.18);
+      color: #5d4332;
+    }
+
+    .notice.success {
+      background: rgba(234, 245, 235, 0.98);
+      border-color: rgba(71, 141, 92, 0.22);
+      color: #285535;
+    }
+
+    .notice.error {
+      background: rgba(255, 239, 236, 0.98);
+      border-color: rgba(190, 84, 62, 0.22);
+      color: #8e3e2d;
+    }
+
     .footer-links a {
       color: var(--accent);
       font-weight: 800;
@@ -307,6 +339,10 @@
         <h1>Create your account</h1>
         <p>Your journey to daily vitality starts here.</p>
       </header>
+
+      <div class="notice info show" id="signupNotice">
+        Some signups require email confirmation before the account becomes active. If that happens, we will tell you here right away.
+      </div>
 
       <form class="form" id="signupForm" novalidate>
         <div class="input-shell">
@@ -371,6 +407,7 @@
     const passwordInput = document.getElementById("password");
     const confirmPasswordInput = document.getElementById("confirmPassword");
     const passwordToggles = document.querySelectorAll(".toggle-password");
+    const signupNotice = document.getElementById("signupNotice");
 
     function getBaseUrl() {
       return window.location.origin + window.location.pathname.replace(/[^/]*$/, "");
@@ -397,6 +434,15 @@
       button.textContent = isLoading ? "Please wait..." : (idleLabel || button.dataset.originalText);
     }
 
+    function setSignupNotice(message, type) {
+      if (!signupNotice) {
+        return;
+      }
+
+      signupNotice.textContent = message;
+      signupNotice.className = "notice show " + (type || "info");
+    }
+
     async function redirectIfAuthenticated() {
       const { data } = await supabaseClient.auth.getSession();
 
@@ -413,7 +459,10 @@
 
       const { data, error } = await supabaseClient.auth.signUp({
         email: email,
-        password: password
+        password: password,
+        options: {
+          emailRedirectTo: getBaseUrl() + "splash.html"
+        }
       });
 
       if (error) {
@@ -427,6 +476,18 @@
       if (data && data.user) {
         window.WelloraFlow.syncProfileFromUser(data.user);
         window.WelloraFlow.markOnboardingPending(data.user);
+      }
+
+      const emailNeedsConfirmation = Boolean(data && data.user && !data.session);
+
+      if (emailNeedsConfirmation) {
+        window.WelloraFlow.clearAuthIntent();
+        setSignupNotice(
+          "Your account was created, but Supabase still needs you to confirm " + email + " by email before you can log in. Please check your inbox and spam folder, then come back to sign in.",
+          "success"
+        );
+        signupForm.reset();
+        return;
       }
 
       window.WelloraFlow.clearAuthIntent();
@@ -474,22 +535,23 @@
       const confirmPassword = confirmPasswordInput.value;
 
       if (!email || !password || !confirmPassword) {
-        window.alert("Please fill in all fields before signing up.");
+        setSignupNotice("Please fill in all fields before signing up.", "error");
         return;
       }
 
       if (password.length < 6) {
-        window.alert("Your password should be at least 6 characters long.");
+        setSignupNotice("Your password should be at least 6 characters long.", "error");
         return;
       }
 
       try {
+        setSignupNotice("Creating your account now...", "info");
         setButtonLoading(submitButton, true, "Sign Up");
         window.WelloraFlow.setAuthIntent("signup");
         await signUpWithEmailPassword(email, password, confirmPassword);
       } catch (error) {
         window.WelloraFlow.clearAuthIntent();
-        window.alert(error.message || "We couldn't create your account. Please try again.");
+        setSignupNotice(error.message || "We couldn't create your account. Please try again.", "error");
       } finally {
         setButtonLoading(submitButton, false, "Sign Up");
       }

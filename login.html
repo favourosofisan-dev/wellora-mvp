@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Wellora Login</title>
+  <link rel="icon" type="image/png" href="image/wellora logo.png">
   <style>
     :root {
       --bg: #f7f2eb;
@@ -472,6 +473,10 @@
       if (error) {
         if ((error.message || "").toLowerCase().includes("invalid api key")) {
           throw new Error("Supabase rejected the public API key in supabase-config.js. Replace it with your current anon key from the Supabase dashboard.");
+        }
+
+        if ((error.message || "").toLowerCase().includes("email not confirmed")) {
+          throw new Error("Your email address is not confirmed yet. Please open the Supabase confirmation email, then log in again.");
         }
 
         throw error;
