@@ -487,11 +487,16 @@
     }
 
     .video-frame iframe,
-    .video-frame video {
+    .video-frame video,
+    .video-frame img {
       width: 100%;
       height: 100%;
       min-height: 220px;
       border: 0;
+    }
+
+    .video-frame img {
+      object-fit: cover;
     }
 
     .video-placeholder {
@@ -815,7 +820,7 @@
 
           <article class="section-card">
             <div class="section-head">
-              <h3 class="section-title">Video Demo</h3>
+              <h3 class="section-title" id="mediaTitle">Video Demo</h3>
             </div>
 
             <div class="video-frame" id="videoContainer"></div>
@@ -913,6 +918,7 @@
     const descriptionText = document.getElementById("descriptionText");
     const stepsList = document.getElementById("stepsList");
     const videoContainer = document.getElementById("videoContainer");
+    const mediaTitle = document.getElementById("mediaTitle");
     const completeButton = document.getElementById("completeButton");
     const completeButtonLabel = document.getElementById("completeButtonLabel");
     const statusMessage = document.getElementById("statusMessage");
@@ -1270,6 +1276,10 @@
       return "";
     }
 
+    function isImageUrl(url) {
+      return /\.(png|jpe?g|gif|webp|avif|svg)(?:[?#]|$)/i.test(String(url || "").trim());
+    }
+
     function parseSteps(description) {
       if (!description) {
         return [];
@@ -1315,18 +1325,22 @@
       return [normalized];
     }
 
-    function renderVideo(url, exerciseTitle) {
+    function renderMedia(videoUrl, imageUrl, exerciseTitle) {
       const safeTitle = escapeHtml(exerciseTitle || "exercise");
-      const embedUrl = extractVideoEmbedUrl(url);
+      const normalizedVideoUrl = String(videoUrl || "").trim();
+      const normalizedImageUrl = String(imageUrl || "").trim();
+      const embedUrl = extractVideoEmbedUrl(normalizedVideoUrl);
 
       if (embedUrl) {
+        mediaTitle.textContent = "Video Demo";
         videoContainer.innerHTML =
           '<iframe src="' + embedUrl + '" title="' + safeTitle + ' video demonstration" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>';
         return;
       }
 
-      if (url) {
-        const safeUrl = escapeHtml(url);
+      if (normalizedVideoUrl && !isImageUrl(normalizedVideoUrl)) {
+        mediaTitle.textContent = "Video Demo";
+        const safeUrl = escapeHtml(normalizedVideoUrl);
         videoContainer.innerHTML =
           '<div class="video-placeholder">' +
             '<div class="play-badge" aria-hidden="true">' +
@@ -1341,6 +1355,33 @@
         return;
       }
 
+      if (normalizedImageUrl || isImageUrl(normalizedVideoUrl)) {
+        mediaTitle.textContent = "Exercise Image";
+        const imageUrlToRender = normalizedImageUrl || normalizedVideoUrl;
+        const imageElement = document.createElement("img");
+
+        imageElement.src = imageUrlToRender;
+        imageElement.alt = (exerciseTitle || "exercise") + " demonstration image";
+        imageElement.loading = "lazy";
+        imageElement.addEventListener("error", function handleMediaImageError() {
+          mediaTitle.textContent = "Video Demo";
+          videoContainer.innerHTML =
+            '<div class="video-placeholder">' +
+              '<div class="play-badge" aria-hidden="true">' +
+                '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7Z"></path></svg>' +
+              "</div>" +
+              '<div class="video-copy">' +
+                '<p class="video-title">Image unavailable</p>' +
+                '<p class="video-text">This exercise image could not be loaded from Supabase, but you can still follow the instructions below.</p>' +
+              "</div>" +
+            "</div>";
+        }, { once: true });
+
+        videoContainer.replaceChildren(imageElement);
+        return;
+      }
+
+      mediaTitle.textContent = "Video Demo";
       videoContainer.innerHTML =
         '<div class="video-placeholder">' +
           '<div class="play-badge" aria-hidden="true">' +
@@ -1379,7 +1420,7 @@
         );
       }).join("");
 
-      renderVideo(exercise.video_url, exerciseTitle);
+      renderMedia(exercise.video_url, exercise.image_url, exerciseTitle);
       resetTimer(exercise.duration_seconds);
     }
 
@@ -1390,7 +1431,7 @@
 
       const { data, error } = await supabaseClient
         .from("EXERCISES")
-        .select("id, exercise_name, category, description, duration_seconds, difficulty, video_url")
+        .select("id, exercise_name, category, description, duration_seconds, difficulty, video_url, image_url")
         .eq("id", exerciseId)
         .single();
 
@@ -1561,7 +1602,7 @@
         exerciseIdValue.textContent = rawExerciseId || "-";
         descriptionText.textContent = "We couldn't load this exercise right now.";
         stepsList.innerHTML = "";
-        renderVideo("", "Exercise unavailable");
+        renderMedia("", "", "Exercise unavailable");
         setStatus(error.message || "We couldn't load the exercise details.", "error");
       }
     }

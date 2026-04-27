@@ -178,6 +178,17 @@
         linear-gradient(145deg, #9f805d 0%, #dec6ae 40%, #f4eee7 72%, #d9cab9 100%);
     }
 
+    .featured-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .featured-image.has-image::before,
+    .featured-image.has-image::after {
+      display: none;
+    }
+
     .featured-image::before {
       content: "";
       position: absolute;
@@ -290,6 +301,12 @@
       flex-shrink: 0;
       position: relative;
       background: #ddcab9;
+    }
+
+    .exercise-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
 
     .exercise-thumb::after {
@@ -516,7 +533,7 @@
         </section>
 
         <section class="featured-card" aria-labelledby="featuredTitle">
-          <div class="featured-image" aria-hidden="true"></div>
+          <div class="featured-image" id="featuredImage" aria-hidden="true"></div>
           <div class="featured-body">
             <div class="feature-head">
               <span class="eyebrow">Editor's Pick</span>
@@ -585,6 +602,7 @@
     const screenIcon = document.getElementById("screenIcon");
     const heroHeading = document.getElementById("heroHeading");
     const heroDescription = document.getElementById("heroDescription");
+    const featuredImage = document.getElementById("featuredImage");
     const featuredTitle = document.getElementById("featuredTitle");
     const featuredDescription = document.getElementById("featuredDescription");
     const exerciseList = document.getElementById("exerciseList");
@@ -664,6 +682,60 @@
       return classes[index % classes.length];
     }
 
+    function escapeHtml(value) {
+      return String(value || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+    function renderThumbImage(url, alt, fallbackClass) {
+      const safeUrl = String(url || "").trim();
+
+      if (!safeUrl) {
+        return '<div class="exercise-thumb ' + fallbackClass + '" aria-hidden="true"></div>';
+      }
+
+      return (
+        '<div class="exercise-thumb" data-fallback-class="' + escapeHtml(fallbackClass) + '" aria-hidden="true">' +
+          '<img src="' + escapeHtml(safeUrl) + '" alt="' + escapeHtml(alt) + '" loading="lazy">' +
+        "</div>"
+      );
+    }
+
+    function attachImageFallbackHandlers() {
+      const thumbImages = exerciseList.querySelectorAll(".exercise-thumb img");
+
+      thumbImages.forEach(function (image) {
+        image.addEventListener("error", function handleThumbError() {
+          const thumb = image.closest(".exercise-thumb");
+
+          if (!thumb) {
+            return;
+          }
+
+          const fallbackClass = thumb.dataset.fallbackClass;
+
+          if (fallbackClass) {
+            thumb.classList.add(fallbackClass);
+          }
+
+          image.remove();
+        }, { once: true });
+      });
+
+      const featuredPreview = featuredImage.querySelector("img");
+
+      if (featuredPreview) {
+        featuredPreview.addEventListener("error", function handleFeaturedError() {
+          featuredImage.classList.remove("has-image");
+          featuredImage.innerHTML = "";
+        }, { once: true });
+      }
+    }
+
     function renderHeader(exercises) {
       const copy = categoryCopy[category] || {
         headline: "Explore Your Exercises.",
@@ -683,13 +755,20 @@
         featuredTitle.textContent = "No exercises available";
         featuredDescription.textContent = "Add exercises for this category in Supabase to populate this screen.";
         featuredPlayButton.dataset.exerciseId = "";
+        featuredImage.classList.remove("has-image");
+        featuredImage.innerHTML = "";
         return;
       }
 
       const featuredExercise = exercises[0];
+      const featuredImageUrl = String(featuredExercise.image_url || "").trim();
       featuredTitle.textContent = featuredExercise.exercise_name || "Featured exercise";
       featuredDescription.textContent = featuredExercise.description || "Open this exercise to view the full guided routine.";
       featuredPlayButton.dataset.exerciseId = String(featuredExercise.id);
+      featuredImage.classList.toggle("has-image", Boolean(featuredImageUrl));
+      featuredImage.innerHTML = featuredImageUrl
+        ? '<img src="' + escapeHtml(featuredImageUrl) + '" alt="' + escapeHtml(featuredExercise.exercise_name || "Featured exercise") + '" loading="lazy">'
+        : "";
     }
 
     function renderExercises(exercises) {
@@ -710,7 +789,7 @@
 
         return (
           '<article class="exercise-card">' +
-            '<div class="exercise-thumb ' + getThumbClass(index) + '" aria-hidden="true"></div>' +
+            renderThumbImage(exercise.image_url, exercise.exercise_name || "Exercise", getThumbClass(index)) +
             '<div class="exercise-content">' +
               '<div class="exercise-meta">' +
                 '<span class="' + levelClass + '">' + difficulty + "</span>" +
@@ -728,6 +807,8 @@
           "</article>"
         );
       }).join("");
+
+      attachImageFallbackHandlers();
     }
 
     async function requireUser() {
@@ -744,7 +825,7 @@
     async function loadExercisesForCategory() {
       const { data, error } = await supabaseClient
         .from("EXERCISES")
-        .select("id, exercise_name, category, description, duration_seconds, difficulty")
+        .select("id, exercise_name, category, description, duration_seconds, difficulty, image_url")
         .eq("category", category)
         .order("exercise_name", { ascending: true });
 
