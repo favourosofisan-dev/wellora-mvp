@@ -1251,22 +1251,48 @@
         return "";
       }
 
-      try {
-        const parsedUrl = new URL(url);
-        const host = parsedUrl.hostname.replace(/^www\./, "");
+      const normalizedValue = String(url).trim();
 
-        if (host === "youtube.com" || host === "m.youtube.com") {
+      if (!normalizedValue) {
+        return "";
+      }
+
+      const iframeMatch = normalizedValue.match(/<iframe[^>]+src=["']([^"']+)["']/i);
+      const candidateUrl = iframeMatch && iframeMatch[1] ? iframeMatch[1] : normalizedValue;
+
+      try {
+        const parsedUrl = new URL(candidateUrl);
+        const host = parsedUrl.hostname.replace(/^www\./, "");
+        const pathSegments = parsedUrl.pathname.split("/").filter(Boolean);
+
+        if (
+          host === "youtube.com" ||
+          host === "m.youtube.com" ||
+          host === "youtube-nocookie.com"
+        ) {
+          const directEmbedMatch = parsedUrl.pathname.match(/^\/embed\/([^/?#]+)/i);
+
+          if (directEmbedMatch && directEmbedMatch[1]) {
+            return "https://www.youtube.com/embed/" + encodeURIComponent(directEmbedMatch[1]);
+          }
+
           const videoId = parsedUrl.searchParams.get("v");
-          return videoId ? "https://www.youtube.com/embed/" + encodeURIComponent(videoId) : "";
+          if (videoId) {
+            return "https://www.youtube.com/embed/" + encodeURIComponent(videoId);
+          }
+
+          if ((pathSegments[0] === "shorts" || pathSegments[0] === "live") && pathSegments[1]) {
+            return "https://www.youtube.com/embed/" + encodeURIComponent(pathSegments[1]);
+          }
         }
 
         if (host === "youtu.be") {
-          const videoId = parsedUrl.pathname.replace("/", "");
+          const videoId = pathSegments[0];
           return videoId ? "https://www.youtube.com/embed/" + encodeURIComponent(videoId) : "";
         }
 
-        if (host === "vimeo.com") {
-          const videoId = parsedUrl.pathname.split("/").filter(Boolean)[0];
+        if (host === "vimeo.com" || host === "player.vimeo.com") {
+          const videoId = pathSegments[pathSegments[0] === "video" ? 1 : 0];
           return videoId ? "https://player.vimeo.com/video/" + encodeURIComponent(videoId) : "";
         }
       } catch (error) {
