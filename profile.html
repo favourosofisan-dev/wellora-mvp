@@ -70,7 +70,7 @@
     }
 
     .topbar-side {
-      width: 34px;
+      width: 40px;
       display: flex;
       justify-content: center;
       flex-shrink: 0;
@@ -95,22 +95,31 @@
     }
 
     .icon-button {
-      width: 34px;
-      height: 34px;
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.68);
+      box-shadow: 0 8px 16px rgba(125, 94, 72, 0.08);
     }
 
     .icon-button svg,
     .avatar-edit svg,
     .detail-arrow svg,
-    .pref-icon svg,
-    .nav-button svg {
-      width: 21px;
-      height: 21px;
+    .pref-icon svg {
+      width: 24px;
+      height: 24px;
       stroke: currentColor;
       fill: none;
-      stroke-width: 2;
+      stroke-width: 2.4;
       stroke-linecap: round;
       stroke-linejoin: round;
+    }
+
+    .nav-button svg {
+      width: 24px;
+      height: 24px;
+      fill: currentColor;
+      transition: transform 0.2s ease;
     }
 
     .topbar-title {
@@ -220,7 +229,9 @@
     }
 
     .details-card {
-      padding: 6px 0;
+      padding: 12px;
+      background:
+        linear-gradient(180deg, rgba(255, 250, 245, 0.98), rgba(247, 240, 233, 0.96));
     }
 
     .detail-row {
@@ -228,31 +239,44 @@
       grid-template-columns: minmax(0, 1fr) auto;
       gap: 16px;
       align-items: center;
-      padding: 18px 22px;
+      padding: 18px 20px;
       text-align: left;
       width: 100%;
+      border-radius: 20px;
+      background: linear-gradient(180deg, #fffaf6 0%, #f7eee6 100%);
+      border: 1px solid rgba(216, 192, 177, 0.92);
+      box-shadow: 0 10px 20px rgba(125, 94, 72, 0.08);
+      color: var(--text);
     }
 
     .detail-row + .detail-row {
-      border-top: 1px solid rgba(238, 229, 222, 0.85);
+      margin-top: 12px;
+    }
+
+    .detail-row:hover,
+    .detail-row:focus-visible {
+      background: linear-gradient(180deg, #fffdf9 0%, #f6ece3 100%);
+      border-color: rgba(173, 124, 92, 0.95);
+      transform: translateY(-1px);
+      transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
     }
 
     .detail-label {
       margin: 0;
-      color: #97857a;
-      font-size: 0.72rem;
+      color: #7b5f50;
+      font-size: 0.76rem;
       line-height: 1.2;
       font-weight: 800;
-      letter-spacing: 0.14em;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
     }
 
     .detail-value {
       margin: 8px 0 0;
-      font-size: 0.98rem;
-      line-height: 1.4;
-      font-weight: 700;
-      color: #302824;
+      font-size: 1.08rem;
+      line-height: 1.45;
+      font-weight: 800;
+      color: #2d221c;
     }
 
     .detail-main {
@@ -269,14 +293,24 @@
     }
 
     .goal-icon {
-      width: 22px;
-      height: 22px;
+      width: 28px;
+      height: 28px;
       object-fit: contain;
       flex-shrink: 0;
+      padding: 4px;
+      border-radius: 10px;
+      background: rgba(141, 77, 44, 0.1);
     }
 
     .detail-arrow {
-      color: #d4b8a8;
+      color: #8f5f43;
+      background: rgba(141, 77, 44, 0.1);
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
     }
 
     .preferences-card {
@@ -386,6 +420,7 @@
       border-top: 1px solid rgba(228, 215, 205, 0.92);
       box-shadow: var(--nav-shadow);
       padding: 12px 18px 16px;
+      animation: navRise 0.45s ease-out;
     }
 
     .nav-list {
@@ -399,6 +434,7 @@
       justify-items: center;
       gap: 6px;
       width: 100%;
+      transition: transform 0.2s ease, color 0.2s ease;
     }
 
     .nav-pill {
@@ -407,6 +443,7 @@
       border-radius: 14px;
       display: grid;
       place-items: center;
+      transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
     }
 
     .nav-button span {
@@ -420,6 +457,46 @@
 
     .nav-button.is-active .nav-pill {
       background: #ede6df;
+      animation: activeNavBob 3s ease-in-out infinite;
+      box-shadow: 0 8px 16px rgba(134, 70, 36, 0.12);
+    }
+
+    .nav-button:hover,
+    .nav-button:focus-visible {
+      transform: translateY(-1px);
+    }
+
+    .nav-button:hover .nav-pill,
+    .nav-button:focus-visible .nav-pill {
+      transform: translateY(-2px);
+    }
+
+    .nav-button:hover svg,
+    .nav-button:focus-visible svg {
+      transform: scale(1.05);
+    }
+
+    @keyframes navRise {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes activeNavBob {
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-2px);
+      }
     }
 
     .large-text {
@@ -476,14 +553,7 @@
 
           <h1 class="topbar-title">Profile</h1>
 
-          <div class="topbar-side">
-            <button class="icon-button" type="button" id="settingsButton" aria-label="Settings">
-              <svg viewBox="0 0 24 24">
-                <path d="M12 8.5A3.5 3.5 0 1 1 8.5 12 3.5 3.5 0 0 1 12 8.5Z"></path>
-                <path d="M19.4 15a1 1 0 0 0 .2 1.1l.1.1a1.3 1.3 0 0 1 0 1.9l-1.6 1.6a1.3 1.3 0 0 1-1.9 0l-.1-.1a1 1 0 0 0-1.1-.2 1 1 0 0 0-.6.9V20a1.3 1.3 0 0 1-1.3 1.3h-2.2A1.3 1.3 0 0 1 9.6 20v-.2a1 1 0 0 0-.6-.9 1 1 0 0 0-1.1.2l-.1.1a1.3 1.3 0 0 1-1.9 0l-1.6-1.6a1.3 1.3 0 0 1 0-1.9l.1-.1a1 1 0 0 0 .2-1.1 1 1 0 0 0-.9-.6H4a1.3 1.3 0 0 1-1.3-1.3v-2.2A1.3 1.3 0 0 1 4 9.6h.2a1 1 0 0 0 .9-.6 1 1 0 0 0-.2-1.1l-.1-.1a1.3 1.3 0 0 1 0-1.9l1.6-1.6a1.3 1.3 0 0 1 1.9 0l.1.1a1 1 0 0 0 1.1.2 1 1 0 0 0 .6-.9V4A1.3 1.3 0 0 1 10.9 2.7h2.2A1.3 1.3 0 0 1 14.4 4v.2a1 1 0 0 0 .6.9 1 1 0 0 0 1.1-.2l.1-.1a1.3 1.3 0 0 1 1.9 0l1.6 1.6a1.3 1.3 0 0 1 0 1.9l-.1.1a1 1 0 0 0-.2 1.1 1 1 0 0 0 .9.6h.2A1.3 1.3 0 0 1 21.3 11v2.2a1.3 1.3 0 0 1-1.3 1.3h-.2a1 1 0 0 0-.4.5Z"></path>
-              </svg>
-            </button>
-          </div>
+          <div class="topbar-side" aria-hidden="true"></div>
         </header>
 
         <section class="hero">
@@ -604,8 +674,7 @@
           <button class="nav-button" type="button" id="homeButton" aria-label="Home">
             <span class="nav-pill">
               <svg viewBox="0 0 24 24">
-                <path d="M4 11.5 12 5l8 6.5"></path>
-                <path d="M7 10.5V19h10v-8.5"></path>
+                <path d="M10 20V14H14V20H19V12H22L12 3L2 12H5V20H10Z"></path>
               </svg>
             </span>
             <span>Home</span>
@@ -614,10 +683,7 @@
           <button class="nav-button" type="button" id="progressButton" aria-label="Progress">
             <span class="nav-pill">
               <svg viewBox="0 0 24 24">
-                <path d="M7 17V9"></path>
-                <path d="M12 17V6"></path>
-                <path d="M17 17v-4"></path>
-                <path d="M5 19h14"></path>
+                <path d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM9 17H7V10H9V17ZM13 17H11V7H13V17ZM17 17H15V13H17V17Z"></path>
               </svg>
             </span>
             <span>Progress</span>
@@ -626,8 +692,7 @@
           <button class="nav-button is-active" type="button" id="profileNavButton" aria-label="Profile">
             <span class="nav-pill">
               <svg viewBox="0 0 24 24">
-                <path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"></path>
-                <path d="M4 20a8 8 0 0 1 16 0"></path>
+                <path d="M12 12C14.21 12 16 10.21 16 8C16 5.79 14.21 4 12 4C9.79 4 8 5.79 8 8C8 10.21 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V20H20V18C20 15.34 14.67 14 12 14Z"></path>
               </svg>
             </span>
             <span>Profile</span>
@@ -689,7 +754,6 @@
     const emailToggle = document.getElementById("emailToggle");
     const textToggle = document.getElementById("textToggle");
     const backButton = document.getElementById("backButton");
-    const settingsButton = document.getElementById("settingsButton");
     const avatarEditButton = document.getElementById("avatarEditButton");
     const editDetailsButton = document.getElementById("editDetailsButton");
     const birthYearButton = document.getElementById("birthYearButton");
@@ -767,10 +831,6 @@
 
     backButton.addEventListener("click", function () {
       window.history.length > 1 ? window.history.back() : window.location.href = "home.html";
-    });
-
-    settingsButton.addEventListener("click", function () {
-      window.alert("Settings panel coming soon.");
     });
 
     avatarEditButton.addEventListener("click", function () {
