@@ -31,7 +31,9 @@
     html,
     body {
       margin: 0;
+      width: 100%;
       min-height: 100%;
+      overflow-x: hidden;
       font-family: Arial, Helvetica, sans-serif;
       background:
         radial-gradient(circle at top left, rgba(255, 255, 255, 0.96), transparent 38%),
@@ -59,9 +61,12 @@
     }
 
     .page {
+      width: 100%;
+      max-width: 100%;
       min-height: 100vh;
       display: flex;
       justify-content: center;
+      overflow-x: hidden;
       padding: calc(env(safe-area-inset-top, 0px) + 12px) 12px calc(env(safe-area-inset-bottom, 0px) + 18px);
     }
 
@@ -979,6 +984,94 @@
     @keyframes spin {
       to {
         transform: rotate(360deg);
+      }
+    }
+
+    @media (max-width: 420px) {
+      .page {
+        padding: calc(env(safe-area-inset-top, 0px) + 8px) 8px calc(env(safe-area-inset-bottom, 0px) + 14px);
+      }
+
+      .shell {
+        min-height: auto;
+        border-radius: 24px;
+      }
+
+      .header {
+        gap: 12px;
+        padding: 18px 16px 8px;
+        align-items: flex-start;
+      }
+
+      .main {
+        gap: 16px;
+        padding: 12px 16px 18px;
+      }
+
+      .hero-card,
+      .section-card {
+        padding: 16px;
+      }
+
+      .footer {
+        padding: 0 16px 16px;
+      }
+
+      .duration-picker-controls {
+        grid-template-columns: minmax(56px, 72px) 1fr minmax(56px, 72px);
+        gap: 10px;
+      }
+
+      .duration-adjust-button {
+        min-height: 68px;
+        font-size: 2rem;
+      }
+
+      .safety-actions,
+      .timer-mode-switch,
+      .voice-coach-controls {
+        grid-template-columns: 1fr;
+      }
+
+      .timer-controls {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .step {
+        grid-template-columns: 44px 1fr;
+        gap: 12px;
+      }
+
+      .step-number {
+        width: 44px;
+        height: 44px;
+        border-radius: 16px;
+      }
+
+      .step-text {
+        margin-top: 2px;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .header-title {
+        font-size: 1.2rem;
+      }
+
+      .icon-button {
+        width: 48px;
+        min-width: 48px;
+        height: 48px;
+      }
+
+      .exercise-name {
+        max-width: none;
+      }
+
+      .meta-row,
+      .meta-grid,
+      .timer-controls {
+        gap: 8px;
       }
     }
 

@@ -26,7 +26,9 @@
     html,
     body {
       margin: 0;
+      width: 100%;
       min-height: 100%;
+      overflow-x: hidden;
       font-family: Arial, Helvetica, sans-serif;
       background: linear-gradient(180deg, #fdfaf6 0%, var(--bg) 100%);
       color: var(--text);
@@ -37,9 +39,12 @@
     }
 
     .page {
+      width: 100%;
+      max-width: 100%;
       min-height: 100vh;
       display: flex;
       justify-content: center;
+      overflow-x: hidden;
       padding: calc(env(safe-area-inset-top, 0px) + 10px) 8px 8px;
       background:
         radial-gradient(circle at 95% 6%, rgba(255, 166, 127, 0.16), transparent 10%),

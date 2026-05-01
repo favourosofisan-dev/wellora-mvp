@@ -25,7 +25,9 @@
     html,
     body {
       margin: 0;
+      width: 100%;
       min-height: 100%;
+      overflow-x: hidden;
       font-family: Arial, Helvetica, sans-serif;
       background:
         radial-gradient(circle at 100% 24%, rgba(255, 126, 85, 0.2), transparent 10%),
@@ -38,10 +40,13 @@
     }
 
     .page {
+      width: 100%;
+      max-width: 100%;
       min-height: 100vh;
       padding: calc(env(safe-area-inset-top, 0px) + 18px) 14px 28px;
       display: flex;
       justify-content: center;
+      overflow-x: hidden;
     }
 
     .screen {

@@ -24,7 +24,9 @@
     html,
     body {
       margin: 0;
+      width: 100%;
       min-height: 100%;
+      overflow-x: hidden;
       font-family: Arial, Helvetica, sans-serif;
       background:
         radial-gradient(circle at 20% 15%, rgba(160, 92, 54, 0.2), transparent 18%),
@@ -38,13 +40,16 @@
     }
 
     .page {
+      width: 100%;
+      max-width: 100%;
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
+      overflow-x: hidden;
       padding: 20px;
       position: relative;
-      overflow: hidden;
+      overflow-y: hidden;
       isolation: isolate;
     }
 
