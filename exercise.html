@@ -249,6 +249,24 @@
       border: 1px solid var(--border);
     }
 
+    .difficulty-pill.beginner {
+      background: linear-gradient(180deg, #dff3df 0%, #cde9cf 100%);
+      color: #2f6a38;
+      border-color: rgba(123, 177, 130, 0.55);
+    }
+
+    .difficulty-pill.intermediate {
+      background: linear-gradient(180deg, #ffe7cf 0%, #f7d8b5 100%);
+      color: #9a5a18;
+      border-color: rgba(220, 161, 92, 0.55);
+    }
+
+    .difficulty-pill.advanced {
+      background: linear-gradient(180deg, #ffd8d2 0%, #f3beb4 100%);
+      color: #9f3529;
+      border-color: rgba(206, 108, 94, 0.5);
+    }
+
     .meta-grid {
       display: grid;
       gap: 12px;
@@ -289,13 +307,214 @@
       gap: 14px;
     }
 
+    .safety-card {
+      gap: 18px;
+      background: linear-gradient(180deg, rgba(255, 247, 228, 0.96), rgba(255, 242, 219, 0.98));
+      border-color: rgba(237, 196, 122, 0.8);
+      box-shadow: 0 14px 30px rgba(169, 125, 52, 0.12);
+    }
+
+    .safety-alert {
+      display: grid;
+      gap: 10px;
+      padding: 18px;
+      border-radius: 22px;
+      background: rgba(255, 251, 242, 0.85);
+      border: 1px solid rgba(235, 192, 113, 0.7);
+    }
+
+    .safety-alert-title {
+      margin: 0;
+      font-size: 1.18rem;
+      line-height: 1.5;
+      font-weight: 800;
+      color: #7a4317;
+    }
+
+    .safety-checkin {
+      display: grid;
+      gap: 12px;
+    }
+
+    .safety-question {
+      margin: 0;
+      font-size: 1.02rem;
+      line-height: 1.5;
+      color: #6d4f35;
+      font-weight: 800;
+    }
+
+    .safety-actions,
+    .variation-switch {
+      display: grid;
+      gap: 10px;
+    }
+
+    .safety-actions {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .safety-button,
+    .variation-button {
+      min-height: 52px;
+      padding: 12px 16px;
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.92);
+      color: var(--accent);
+      font-size: 1rem;
+      line-height: 1.3;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, color 0.2s ease, opacity 0.2s ease;
+      box-shadow: 0 8px 18px rgba(143, 108, 84, 0.08);
+    }
+
+    .safety-button:hover,
+    .safety-button:focus-visible,
+    .variation-button:hover,
+    .variation-button:focus-visible {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 24px rgba(143, 108, 84, 0.14);
+    }
+
+    .safety-button.is-active,
+    .variation-button.is-active {
+      background: linear-gradient(180deg, #8f4e2b 0%, #793f21 100%);
+      color: #fffaf5;
+      border-color: transparent;
+    }
+
+    .safety-button.no-choice.is-active {
+      background: linear-gradient(180deg, #c95d41 0%, #aa4025 100%);
+      color: #fff7f3;
+    }
+
+    .safety-note,
+    .variation-tip,
+    .contra-note {
+      margin: 0;
+      font-size: 0.96rem;
+      line-height: 1.6;
+      font-weight: 700;
+    }
+
+    .safety-note {
+      color: #7a4f20;
+    }
+
+    .variation-tip {
+      color: #6c5b51;
+    }
+
+    .contra-note {
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(233, 194, 120, 0.68);
+      color: #77512c;
+    }
+
     .timer-card {
       gap: 18px;
     }
 
+    .duration-picker-card {
+      gap: 18px;
+    }
+
+    .duration-picker-shell {
+      display: grid;
+      gap: 16px;
+      padding: 22px 18px;
+      border-radius: 22px;
+      background: linear-gradient(180deg, #fff8f2 0%, #f5ebe2 100%);
+      border: 1px solid var(--border);
+      text-align: center;
+    }
+
+    .duration-picker-intro {
+      margin: 0;
+      font-size: 1rem;
+      line-height: 1.6;
+      color: #6c5b51;
+    }
+
+    .duration-picker-controls {
+      display: grid;
+      grid-template-columns: minmax(72px, 96px) 1fr minmax(72px, 96px);
+      align-items: center;
+      gap: 14px;
+    }
+
+    .duration-adjust-button {
+      min-height: 76px;
+      border-radius: 24px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.92);
+      color: var(--accent);
+      font-size: 2.4rem;
+      line-height: 1;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 10px 22px rgba(143, 108, 84, 0.1);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+    }
+
+    .duration-adjust-button:hover,
+    .duration-adjust-button:focus-visible {
+      transform: translateY(-1px);
+      box-shadow: 0 14px 28px rgba(143, 108, 84, 0.14);
+    }
+
+    .duration-adjust-button:disabled {
+      cursor: not-allowed;
+      opacity: 0.55;
+      transform: none;
+      box-shadow: 0 8px 18px rgba(143, 108, 84, 0.08);
+    }
+
+    .duration-picker-value {
+      min-height: 108px;
+      padding: 18px 16px;
+      border-radius: 26px;
+      background: linear-gradient(180deg, #8f4e2b 0%, #793f21 100%);
+      color: #fffaf5;
+      display: grid;
+      align-content: center;
+      justify-items: center;
+      box-shadow: 0 14px 28px rgba(138, 76, 43, 0.18);
+    }
+
+    .duration-picker-label {
+      margin: 0;
+      font-size: 0.9rem;
+      line-height: 1.3;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-weight: 800;
+      opacity: 0.9;
+    }
+
+    .duration-picker-minutes {
+      margin: 6px 0 0;
+      font-size: clamp(2.6rem, 10vw, 4rem);
+      line-height: 0.95;
+      letter-spacing: -0.08em;
+      font-weight: 800;
+    }
+
+    .duration-picker-note {
+      margin: 0;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
     .timer-display {
       display: grid;
-      gap: 8px;
+      gap: 14px;
       justify-items: center;
       padding: 22px 18px;
       border-radius: 22px;
@@ -304,44 +523,18 @@
       text-align: center;
     }
 
-    .timer-visual {
-      position: relative;
-      width: min(100%, 216px);
-      aspect-ratio: 1;
-      display: grid;
-      place-items: center;
-    }
-
-    .timer-ring {
-      width: 100%;
-      height: 100%;
-      transform: rotate(-90deg);
-    }
-
-    .timer-ring-track,
-    .timer-ring-progress {
-      fill: none;
-      stroke-width: 10;
-    }
-
-    .timer-ring-track {
-      stroke: rgba(221, 200, 188, 0.55);
-    }
-
-    .timer-ring-progress {
-      stroke: var(--accent);
-      stroke-linecap: round;
-      transition: stroke-dashoffset 0.35s ease;
-      filter: drop-shadow(0 8px 18px rgba(138, 76, 43, 0.18));
-    }
-
     .timer-readout {
-      position: absolute;
-      inset: 0;
+      width: 100%;
+      min-height: 170px;
       display: grid;
       align-content: center;
       justify-items: center;
-      padding: 24px;
+      gap: 10px;
+      padding: 26px 20px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(221, 200, 188, 0.7);
+      box-shadow: 0 10px 22px rgba(143, 108, 84, 0.08);
       text-align: center;
     }
 
@@ -576,6 +769,60 @@
       font-size: 1.05rem;
       line-height: 1.75;
       color: #4f443d;
+    }
+
+    .voice-coach-controls {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .voice-coach-button {
+      min-height: 52px;
+      padding: 12px 16px;
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.92);
+      color: var(--accent);
+      font-size: 1rem;
+      line-height: 1.3;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+      box-shadow: 0 8px 18px rgba(143, 108, 84, 0.08);
+    }
+
+    .voice-coach-button:hover,
+    .voice-coach-button:focus-visible {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 24px rgba(143, 108, 84, 0.14);
+    }
+
+    .voice-coach-button.primary {
+      background: linear-gradient(180deg, #8f4e2b 0%, #793f21 100%);
+      color: #fffaf5;
+      border: 0;
+    }
+
+    .voice-coach-button.stop {
+      background: linear-gradient(180deg, #c95d41 0%, #aa4025 100%);
+      color: #fff7f3;
+      border: 0;
+    }
+
+    .voice-coach-button:disabled {
+      cursor: not-allowed;
+      opacity: 0.55;
+      transform: none;
+      box-shadow: 0 8px 18px rgba(143, 108, 84, 0.08);
+    }
+
+    .voice-coach-note {
+      margin: 0;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: var(--muted);
+      font-weight: 700;
     }
 
     .steps {
@@ -826,21 +1073,36 @@
             <div class="video-frame" id="videoContainer"></div>
           </article>
 
+          <article class="section-card duration-picker-card" aria-labelledby="durationPickerHeading">
+            <div class="section-head">
+              <h3 class="section-title" id="durationPickerHeading">Set Your Time</h3>
+            </div>
+
+            <div class="duration-picker-shell">
+              <p class="duration-picker-intro" id="durationPickerIntro">Pick how many minutes you would like to do this exercise.</p>
+
+              <div class="duration-picker-controls">
+                <button class="duration-adjust-button" type="button" id="durationDecreaseButton" aria-label="Decrease minutes">-</button>
+                <div class="duration-picker-value" aria-live="polite" aria-atomic="true">
+                  <p class="duration-picker-label">Chosen Duration</p>
+                  <p class="duration-picker-minutes" id="durationPickerValue">5 min</p>
+                </div>
+                <button class="duration-adjust-button" type="button" id="durationIncreaseButton" aria-label="Increase minutes">+</button>
+              </div>
+
+              <p class="duration-picker-note" id="durationPickerNote">You can choose from 1 to 15 minutes.</p>
+            </div>
+          </article>
+
           <article class="section-card timer-card" aria-labelledby="timerHeading">
             <div class="section-head">
               <h3 class="section-title" id="timerHeading">Exercise Timer</h3>
             </div>
 
             <div class="timer-display">
-              <div class="timer-visual" aria-hidden="true">
-                <svg class="timer-ring" viewBox="0 0 120 120">
-                  <circle class="timer-ring-track" cx="60" cy="60" r="48"></circle>
-                  <circle class="timer-ring-progress" id="timerRingProgress" cx="60" cy="60" r="48"></circle>
-                </svg>
-                <div class="timer-readout">
-                  <p class="timer-label" id="timerLabel">Time Remaining</p>
-                  <p class="timer-value" id="timerValue">00:00</p>
-                </div>
+              <div class="timer-readout">
+                <p class="timer-label" id="timerLabel">Time Remaining</p>
+                <p class="timer-value" id="timerValue">00:00</p>
               </div>
               <div class="timer-progress-bar" aria-hidden="true">
                 <div class="timer-progress-fill" id="timerProgressFill"></div>
@@ -861,11 +1123,47 @@
             </div>
           </article>
 
+          <article class="section-card safety-card" aria-labelledby="safetyHeading">
+            <div class="section-head">
+              <h3 class="section-title" id="safetyHeading">Safety Check</h3>
+            </div>
+
+            <div class="safety-alert">
+              <p class="safety-alert-title">⚠️ Stop immediately if you feel dizzy, short of breath, or any discomfort.</p>
+            </div>
+
+            <div class="safety-checkin">
+              <p class="safety-question">Do you feel well enough to start?</p>
+              <div class="safety-actions">
+                <button class="safety-button" type="button" id="readyYesButton">Yes, I'm ready</button>
+                <button class="safety-button no-choice" type="button" id="readyNoButton">No, not today</button>
+              </div>
+              <p class="safety-note" id="safetyCheckinNote">Please choose the option that feels safest for you today.</p>
+            </div>
+
+            <div class="safety-checkin">
+              <p class="safety-question">Choose the version that feels most comfortable.</p>
+              <div class="variation-switch" role="group" aria-label="Exercise variation">
+                <button class="variation-button is-active" type="button" id="standingOptionButton">Standing</button>
+                <button class="variation-button" type="button" id="seatedOptionButton">Seated</button>
+                <button class="variation-button" type="button" id="lowImpactOptionButton">Low impact</button>
+              </div>
+              <p class="variation-tip" id="variationTip">💡 Standing version: Move at a steady pace and keep support nearby if needed.</p>
+            </div>
+
+            <p class="contra-note" id="contraindicationNote" hidden></p>
+          </article>
+
           <article class="section-card">
             <div class="section-head">
               <h3 class="section-title">Step-by-Step Instructions</h3>
             </div>
 
+            <div class="voice-coach-controls" aria-label="Voice coach controls">
+              <button class="voice-coach-button primary" type="button" id="voiceCoachButton">Read Aloud</button>
+              <button class="voice-coach-button stop" type="button" id="voiceCoachStopButton" disabled>Stop</button>
+            </div>
+            <p class="voice-coach-note" id="voiceCoachNote">Tap Read Aloud if you would like the exercise steps spoken clearly.</p>
             <p class="description" id="descriptionText"></p>
             <ol class="steps" id="stepsList"></ol>
           </article>
@@ -925,7 +1223,6 @@
     const timerLabel = document.getElementById("timerLabel");
     const timerValue = document.getElementById("timerValue");
     const timerHelp = document.getElementById("timerHelp");
-    const timerRingProgress = document.getElementById("timerRingProgress");
     const timerProgressFill = document.getElementById("timerProgressFill");
     const countdownModeButton = document.getElementById("countdownModeButton");
     const stopwatchModeButton = document.getElementById("stopwatchModeButton");
@@ -933,6 +1230,22 @@
     const timerPauseButton = document.getElementById("timerPauseButton");
     const timerResetButton = document.getElementById("timerResetButton");
     const timerStopAlarmButton = document.getElementById("timerStopAlarmButton");
+    const durationPickerIntro = document.getElementById("durationPickerIntro");
+    const durationPickerValue = document.getElementById("durationPickerValue");
+    const durationPickerNote = document.getElementById("durationPickerNote");
+    const durationDecreaseButton = document.getElementById("durationDecreaseButton");
+    const durationIncreaseButton = document.getElementById("durationIncreaseButton");
+    const readyYesButton = document.getElementById("readyYesButton");
+    const readyNoButton = document.getElementById("readyNoButton");
+    const safetyCheckinNote = document.getElementById("safetyCheckinNote");
+    const standingOptionButton = document.getElementById("standingOptionButton");
+    const seatedOptionButton = document.getElementById("seatedOptionButton");
+    const lowImpactOptionButton = document.getElementById("lowImpactOptionButton");
+    const variationTip = document.getElementById("variationTip");
+    const contraindicationNote = document.getElementById("contraindicationNote");
+    const voiceCoachButton = document.getElementById("voiceCoachButton");
+    const voiceCoachStopButton = document.getElementById("voiceCoachStopButton");
+    const voiceCoachNote = document.getElementById("voiceCoachNote");
 
     let currentUser = null;
     let currentExercise = null;
@@ -945,11 +1258,16 @@
     let isCompletingExercise = false;
     let timerAlarmActive = false;
     let timerAlarmContext = null;
-    const timerRingCircumference = 2 * Math.PI * 48;
+    let voiceCoachReading = false;
+    let availableSpeechVoices = [];
+    let readinessChoice = "unknown";
+    let selectedVariation = "standing";
     const defaultExerciseDurationSeconds = 5 * 60;
+    const minDurationMinutes = 1;
+    const maxDurationMinutes = 15;
+    let selectedDurationMinutes = 5;
 
-    timerRingProgress.style.strokeDasharray = String(timerRingCircumference);
-    timerRingProgress.style.strokeDashoffset = String(timerRingCircumference);
+    renderVoiceCoachState();
 
     function redirectToLogin() {
       window.location.href = "login.html";
@@ -1000,6 +1318,270 @@
     function clearStatus() {
       statusMessage.textContent = "";
       statusMessage.className = "status-card";
+    }
+
+    function getContraindicationMessage(category) {
+      const notes = {
+        "Balance and Stability": "Fall risk: Keep a chair, wall, or support nearby.",
+        "Strength": "Use slow, controlled movement and stop if you feel strain or pain.",
+        "Flexibility": "Stretch gently and avoid bouncing or pushing into pain.",
+        "Sexual Health": "Consult your doctor if you have pelvic pain, recent surgery, or medical concerns."
+      };
+
+      return notes[category] || "";
+    }
+
+    function renderDifficultyBadge(difficulty) {
+      const label = String(difficulty || "Not provided").trim();
+      const normalized = label.toLowerCase();
+
+      difficultyPill.textContent = label || "Not provided";
+      difficultyPill.className = "difficulty-pill";
+
+      if (normalized === "beginner") {
+        difficultyPill.classList.add("beginner");
+      } else if (normalized === "intermediate") {
+        difficultyPill.classList.add("intermediate");
+      } else if (normalized === "advanced") {
+        difficultyPill.classList.add("advanced");
+      }
+    }
+
+    function renderReadinessState() {
+      readyYesButton.classList.toggle("is-active", readinessChoice === "yes");
+      readyNoButton.classList.toggle("is-active", readinessChoice === "no");
+
+      if (readinessChoice === "yes") {
+        safetyCheckinNote.textContent = "Thank you. Start gently and pause anytime you need to.";
+      } else if (readinessChoice === "no") {
+        safetyCheckinNote.textContent = "That is okay. Rest today and speak with a doctor if symptoms continue.";
+      } else {
+        safetyCheckinNote.textContent = "Please choose the option that feels safest for you today.";
+      }
+    }
+
+    function renderVariationState() {
+      standingOptionButton.classList.toggle("is-active", selectedVariation === "standing");
+      seatedOptionButton.classList.toggle("is-active", selectedVariation === "seated");
+      lowImpactOptionButton.classList.toggle("is-active", selectedVariation === "low-impact");
+
+      if (selectedVariation === "seated") {
+        variationTip.textContent = "💡 Seated version: Perform the exercise sitting on a sturdy chair.";
+      } else if (selectedVariation === "low-impact") {
+        variationTip.textContent = "💡 Low impact: Reduce range of motion and go slower.";
+      } else {
+        variationTip.textContent = "💡 Standing version: Move at a steady pace and keep support nearby if needed.";
+      }
+    }
+
+    function setReadinessChoice(choice) {
+      if (choice !== "yes" && choice !== "no" && choice !== "unknown") {
+        return;
+      }
+
+      readinessChoice = choice;
+      renderReadinessState();
+      renderTimerState();
+    }
+
+    function setVariationChoice(choice) {
+      if (choice !== "standing" && choice !== "seated" && choice !== "low-impact") {
+        return;
+      }
+
+      selectedVariation = choice;
+      renderVariationState();
+    }
+
+    function getSpeechSynthesisApi() {
+      return window.speechSynthesis || null;
+    }
+
+    function loadSpeechVoices() {
+      const synthesis = getSpeechSynthesisApi();
+
+      if (!synthesis) {
+        availableSpeechVoices = [];
+        return [];
+      }
+
+      availableSpeechVoices = synthesis.getVoices() || [];
+      return availableSpeechVoices;
+    }
+
+    function selectPreferredVoice() {
+      const voices = availableSpeechVoices.length ? availableSpeechVoices : loadSpeechVoices();
+
+      if (!voices.length) {
+        return null;
+      }
+
+      const preferredNames = [
+        "samantha",
+        "zira",
+        "susan",
+        "karen",
+        "moira",
+        "ava",
+        "aria",
+        "serena",
+        "female"
+      ];
+
+      const normalizedVoices = voices.filter(function (voice) {
+        return /en/i.test(voice.lang || "");
+      });
+
+      const voicePool = normalizedVoices.length ? normalizedVoices : voices;
+      const preferredVoice = voicePool.find(function (voice) {
+        const label = ((voice.name || "") + " " + (voice.voiceURI || "")).toLowerCase();
+        return preferredNames.some(function (token) {
+          return label.indexOf(token) !== -1;
+        });
+      });
+
+      return preferredVoice || voicePool[0] || null;
+    }
+
+    function buildVoiceCoachText() {
+      const title = currentExercise && currentExercise.exercise_name
+        ? currentExercise.exercise_name
+        : "this exercise";
+      const description = currentExercise && currentExercise.description
+        ? String(currentExercise.description).trim()
+        : "";
+      const steps = parseSteps(description);
+      const instructions = steps.length
+        ? steps.map(function (step, index) {
+          return "Step " + (index + 1) + ". " + step;
+        }).join(" ")
+        : (description || "Instructions are not available yet.");
+
+      return "Let's begin " + title + ". " + instructions;
+    }
+
+    function renderVoiceCoachState() {
+      const supported = !!(window.SpeechSynthesisUtterance && getSpeechSynthesisApi());
+      voiceCoachButton.disabled = !supported || voiceCoachReading;
+      voiceCoachStopButton.disabled = !supported || !voiceCoachReading;
+
+      if (!supported) {
+        voiceCoachNote.textContent = "Read Aloud is not available in this browser.";
+        return;
+      }
+
+      voiceCoachNote.textContent = voiceCoachReading
+        ? "Reading the exercise steps aloud now."
+        : "Tap Read Aloud if you would like the exercise steps spoken clearly.";
+    }
+
+    function stopVoiceCoach() {
+      const synthesis = getSpeechSynthesisApi();
+
+      if (synthesis) {
+        synthesis.cancel();
+      }
+
+      voiceCoachReading = false;
+      renderVoiceCoachState();
+    }
+
+    function startVoiceCoach() {
+      const synthesis = getSpeechSynthesisApi();
+
+      if (!window.SpeechSynthesisUtterance || !synthesis) {
+        renderVoiceCoachState();
+        setStatus("Read Aloud is not available in this browser.", "error");
+        return;
+      }
+
+      const textToSpeak = buildVoiceCoachText();
+
+      if (!textToSpeak) {
+        setStatus("There are no instructions available to read aloud yet.", "error");
+        return;
+      }
+
+      synthesis.cancel();
+
+      const utterance = new SpeechSynthesisUtterance(textToSpeak);
+      const preferredVoice = selectPreferredVoice();
+
+      if (preferredVoice) {
+        utterance.voice = preferredVoice;
+        utterance.lang = preferredVoice.lang || "en-US";
+      } else {
+        utterance.lang = "en-US";
+      }
+
+      utterance.rate = 0.92;
+      utterance.pitch = 1;
+      utterance.volume = 1;
+      utterance.onstart = function () {
+        voiceCoachReading = true;
+        renderVoiceCoachState();
+      };
+      utterance.onend = function () {
+        voiceCoachReading = false;
+        renderVoiceCoachState();
+      };
+      utterance.onerror = function () {
+        voiceCoachReading = false;
+        renderVoiceCoachState();
+        setStatus("We couldn't read the instructions aloud right now. Please try again.", "error");
+      };
+
+      voiceCoachReading = true;
+      renderVoiceCoachState();
+      synthesis.speak(utterance);
+    }
+
+    function clampDurationMinutes(minutes) {
+      const safeMinutes = Number(minutes);
+
+      if (!Number.isFinite(safeMinutes)) {
+        return minDurationMinutes;
+      }
+
+      return Math.min(maxDurationMinutes, Math.max(minDurationMinutes, Math.round(safeMinutes)));
+    }
+
+    function secondsToMinutes(seconds) {
+      const safeSeconds = Number(seconds);
+
+      if (!Number.isFinite(safeSeconds) || safeSeconds <= 0) {
+        return clampDurationMinutes(defaultExerciseDurationSeconds / 60);
+      }
+
+      return clampDurationMinutes(safeSeconds / 60);
+    }
+
+    function getSelectedDurationSeconds() {
+      return selectedDurationMinutes * 60;
+    }
+
+    function renderDurationPicker() {
+      durationPickerValue.textContent = selectedDurationMinutes + " min";
+
+      const buttonsLocked = timerRunning || timerAlarmActive || isCompletingExercise;
+      durationDecreaseButton.disabled = buttonsLocked || selectedDurationMinutes <= minDurationMinutes;
+      durationIncreaseButton.disabled = buttonsLocked || selectedDurationMinutes >= maxDurationMinutes;
+    }
+
+    function setSelectedDurationMinutes(minutes, options) {
+      const config = options || {};
+      selectedDurationMinutes = clampDurationMinutes(minutes);
+
+      if (currentExercise) {
+        durationPickerIntro.textContent = "Pick how many minutes you would like to do " + (currentExercise.exercise_name || "this exercise") + ".";
+      }
+
+      durationPickerNote.textContent = "You can choose from 1 to 15 minutes. The timer will use " + selectedDurationMinutes + " minute" + (selectedDurationMinutes === 1 ? "" : "s") + ".";
+      renderDurationPicker();
+
+      if (config.resetTimer !== false) {
+        resetTimer(getSelectedDurationSeconds());
+      }
     }
 
     function formatClock(totalSeconds) {
@@ -1076,6 +1658,7 @@
 
     function updateTimerControls() {
       const hasDuration = timerTotalSeconds > 0;
+      const readyToExercise = readinessChoice === "yes";
 
       if (timerAlarmActive) {
         timerStartButton.disabled = true;
@@ -1086,11 +1669,11 @@
       }
 
       if (timerMode === "countdown") {
-        timerStartButton.disabled = !hasDuration || timerRunning || timerCurrentSeconds <= 0;
+        timerStartButton.disabled = !readyToExercise || !hasDuration || timerRunning || timerCurrentSeconds <= 0;
         timerPauseButton.disabled = !hasDuration || !timerRunning;
         timerResetButton.disabled = !hasDuration || (timerCurrentSeconds === timerTotalSeconds && !timerRunning);
       } else {
-        timerStartButton.disabled = timerRunning;
+        timerStartButton.disabled = !readyToExercise || timerRunning;
         timerPauseButton.disabled = !timerRunning;
         timerResetButton.disabled = !hasDuration ? timerCurrentSeconds === 0 && !timerRunning : timerCurrentSeconds === 0 && !timerRunning;
       }
@@ -1123,11 +1706,14 @@
 
       timerLabel.textContent = timerMode === "countdown" ? "Time Remaining" : "Elapsed Time";
       timerValue.textContent = formatClock(timerCurrentSeconds);
-      timerRingProgress.style.strokeDashoffset = String(timerRingCircumference * (1 - progressRatio));
       timerProgressFill.style.width = String(progressRatio * 100) + "%";
 
       if (timerAlarmActive) {
         timerHelp.textContent = "Time is up. Press Stop to silence the alarm and save this exercise.";
+      } else if (readinessChoice === "no") {
+        timerHelp.textContent = "Take today to rest. You can come back when you feel ready.";
+      } else if (readinessChoice !== "yes") {
+        timerHelp.textContent = "Please complete the safety check before starting.";
       } else if (timerRunning) {
         timerHelp.textContent = timerMode === "countdown"
           ? "Timer is running. Move at a steady pace."
@@ -1146,8 +1732,12 @@
 
       renderTimerModeButtons();
       updateTimerControls();
-      completeButton.disabled = timerAlarmActive || isCompletingExercise;
+      completeButton.disabled = timerAlarmActive || isCompletingExercise || readinessChoice !== "yes";
       completeButtonLabel.textContent = isCompletingExercise ? "Saving..." : "Complete";
+      renderDurationPicker();
+      renderReadinessState();
+      renderVariationState();
+      renderVoiceCoachState();
     }
 
     function resetTimer(totalSeconds) {
@@ -1320,6 +1910,18 @@
         return [];
       }
 
+      const normalizedStepLabels = normalized.replace(/\s+(step\s*\d+\s*[:.\-]?)/gi, "\n$1");
+      const namedStepMatches = normalizedStepLabels.match(/(?:^|\n)\s*step\s*\d+\s*[:.\-]?\s*/gi);
+
+      if (namedStepMatches && namedStepMatches.length > 1) {
+        return normalizedStepLabels
+          .split(/(?:^|\n)\s*step\s*\d+\s*[:.\-]?\s*/i)
+          .map(function (step) {
+            return step.trim();
+          })
+          .filter(Boolean);
+      }
+
       const numberedMatches = normalized.match(/\d+[\).\-\:]\s*[^]+?(?=(?:\n?\d+[\).\-\:]\s)|$)/g);
 
       if (numberedMatches && numberedMatches.length > 1) {
@@ -1421,6 +2023,7 @@
     }
 
     function renderExercise(exercise) {
+      stopVoiceCoach();
       currentExercise = exercise;
 
       const exerciseTitle = exercise.exercise_name || "Exercise";
@@ -1428,14 +2031,24 @@
       const difficulty = exercise.difficulty || "Not provided";
       const duration = formatDuration(exercise.duration_seconds);
       const steps = parseSteps(exercise.description);
+      const defaultMinutes = secondsToMinutes(exercise.duration_seconds);
+      const contraindicationMessage = getContraindicationMessage(category);
 
       document.title = exerciseTitle + " | Wellora";
       exerciseName.textContent = exerciseTitle;
       categoryPill.textContent = category;
-      difficultyPill.textContent = difficulty;
+      renderDifficultyBadge(difficulty);
       durationValue.textContent = duration;
       exerciseIdValue.textContent = exercise.id;
       descriptionText.textContent = exercise.description || "Instructions are not available yet.";
+
+      if (contraindicationMessage) {
+        contraindicationNote.hidden = false;
+        contraindicationNote.textContent = "Note: " + contraindicationMessage;
+      } else {
+        contraindicationNote.hidden = true;
+        contraindicationNote.textContent = "";
+      }
 
       stepsList.innerHTML = steps.map(function (step, index) {
         return (
@@ -1447,7 +2060,9 @@
       }).join("");
 
       renderMedia(exercise.video_url, exercise.image_url, exerciseTitle);
-      resetTimer(exercise.duration_seconds);
+      setReadinessChoice("unknown");
+      setVariationChoice("standing");
+      setSelectedDurationMinutes(defaultMinutes);
     }
 
     async function loadExercise() {
@@ -1510,6 +2125,7 @@
       currentUser = data.user;
 
       clearStatus();
+      stopVoiceCoach();
       pauseTimer();
       completeButton.disabled = true;
       completeButtonLabel.textContent = autoTriggered ? "Finishing..." : "Saving...";
@@ -1519,7 +2135,8 @@
         .insert({
           user_id: currentUser.id,
           exercise_id: urlExerciseId,
-          count: 1
+          count: 1,
+          duration_spent: getSelectedDurationSeconds()
         });
 
       if (error) {
@@ -1537,9 +2154,7 @@
         id: String(urlExerciseId),
         exercise_name: currentExercise && currentExercise.exercise_name ? currentExercise.exercise_name : "Exercise",
         category: currentExercise && currentExercise.category ? currentExercise.category : "",
-        minutes: currentExercise && currentExercise.duration_seconds
-          ? String(Math.max(1, Math.round(Number(currentExercise.duration_seconds) / 60)))
-          : "",
+        minutes: String(selectedDurationMinutes),
         next_id: nextExerciseId
       });
       window.location.href = "completion.html?" + completionParams.toString();
@@ -1589,12 +2204,71 @@
       completeExercise(true);
     });
 
+    durationDecreaseButton.addEventListener("click", function () {
+      if (timerRunning || timerAlarmActive || isCompletingExercise) {
+        return;
+      }
+
+      setSelectedDurationMinutes(selectedDurationMinutes - 1);
+    });
+
+    durationIncreaseButton.addEventListener("click", function () {
+      if (timerRunning || timerAlarmActive || isCompletingExercise) {
+        return;
+      }
+
+      setSelectedDurationMinutes(selectedDurationMinutes + 1);
+    });
+
+    readyYesButton.addEventListener("click", function () {
+      setReadinessChoice("yes");
+    });
+
+    readyNoButton.addEventListener("click", function () {
+      pauseTimer();
+      stopVoiceCoach();
+      setReadinessChoice("no");
+    });
+
+    standingOptionButton.addEventListener("click", function () {
+      setVariationChoice("standing");
+    });
+
+    seatedOptionButton.addEventListener("click", function () {
+      setVariationChoice("seated");
+    });
+
+    lowImpactOptionButton.addEventListener("click", function () {
+      setVariationChoice("low-impact");
+    });
+
+    voiceCoachButton.addEventListener("click", function () {
+      startVoiceCoach();
+    });
+
+    voiceCoachStopButton.addEventListener("click", function () {
+      stopVoiceCoach();
+    });
+
     countdownModeButton.addEventListener("click", function () {
       setTimerMode("countdown");
     });
 
     stopwatchModeButton.addEventListener("click", function () {
       setTimerMode("stopwatch");
+    });
+
+    loadSpeechVoices();
+
+    if (getSpeechSynthesisApi()) {
+      getSpeechSynthesisApi().addEventListener("voiceschanged", function () {
+        loadSpeechVoices();
+        renderVoiceCoachState();
+      });
+    }
+
+    window.addEventListener("beforeunload", function () {
+      stopVoiceCoach();
     });
 
     supabaseClient.auth.onAuthStateChange(function (event, session) {

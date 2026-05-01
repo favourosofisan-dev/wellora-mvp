@@ -79,19 +79,15 @@
       border: 3px solid rgba(255, 255, 255, 0.72);
     }
 
-    .hero-image::after {
-      content: "";
-      position: absolute;
-      inset: auto 0 0;
-      height: 72px;
-      background: linear-gradient(180deg, transparent, rgba(255, 244, 235, 0.78));
-      pointer-events: none;
-    }
-
+    .hero-image iframe,
     .hero-image img {
       width: 100%;
       height: 100%;
       display: block;
+      border: 0;
+    }
+
+    .hero-image img {
       object-fit: cover;
     }
 
@@ -125,6 +121,41 @@
       font-weight: 700;
       letter-spacing: 0.04em;
       text-transform: uppercase;
+    }
+
+    .benefits-section {
+      display: grid;
+      gap: 14px;
+      padding: 18px 16px;
+      border-radius: 24px;
+      background: linear-gradient(180deg, rgba(255, 250, 245, 0.98) 0%, rgba(247, 238, 229, 0.98) 100%);
+      border: 1px solid var(--border);
+      box-shadow: 0 14px 28px rgba(118, 77, 48, 0.08);
+    }
+
+    .benefits-section h2 {
+      margin: 0;
+      font-size: 1.18rem;
+      line-height: 1.4;
+      font-weight: 800;
+    }
+
+    .benefits-copy {
+      margin: 0;
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.7;
+    }
+
+    .benefits-list {
+      margin: 0;
+      padding-left: 20px;
+      color: #4b3d35;
+      display: grid;
+      gap: 8px;
+      font-size: 0.98rem;
+      line-height: 1.6;
+      font-weight: 600;
     }
 
     .goal-section {
@@ -308,8 +339,15 @@
         <button class="topbar-button" type="button" id="skipButton">Skip</button>
       </header>
 
-      <div class="hero-image" aria-hidden="true">
-        <img src="image/onboarding.png" alt="">
+      <div class="hero-image">
+        <iframe
+          src="https://www.youtube.com/embed/Bw_2bPrNA4g"
+          title="Benefits of engaging in consistent gentle movements for seniors"
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen
+        ></iframe>
       </div>
       <p class="hero-caption">Calm movement. Gentle strength.</p>
 
@@ -319,6 +357,18 @@
         <p class="supporting">
           We'll help you improve your balance, flexibility, and energy  at your own pace. No rush. No strain.
         </p>
+      </section>
+
+      <section class="benefits-section" aria-labelledby="benefitsHeading">
+        <h2 id="benefitsHeading">Benefits of consistent gentle movement for seniors</h2>
+        <p class="benefits-copy">
+          Small, steady movement sessions can support stronger balance, easier mobility, and more confidence in everyday life.
+        </p>
+        <ul class="benefits-list">
+          <li>Helps reduce stiffness and keeps joints moving more comfortably.</li>
+          <li>Builds stability and strength for safer daily movement.</li>
+          <li>Supports circulation, mood, and steady energy over time.</li>
+        </ul>
       </section>
 
       <section class="goal-section" aria-labelledby="goalHeading">

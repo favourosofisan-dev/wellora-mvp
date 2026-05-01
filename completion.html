@@ -459,6 +459,11 @@
 
         <section class="stats" aria-label="Progress summary">
           <article class="stat-card">
+            <p class="stat-value"><span id="completedMinutesValue">12</span> min</p>
+            <p class="stat-label">You completed</p>
+          </article>
+
+          <article class="stat-card">
             <p class="stat-value"><span id="streakValue">7</span> days</p>
             <p class="stat-label">Streak</p>
           </article>
@@ -530,6 +535,7 @@
     const nextExerciseId = params.get("next_id") || "";
 
     const completedExerciseName = document.getElementById("completedExerciseName");
+    const completedMinutesValue = document.getElementById("completedMinutesValue");
     const streakValue = document.getElementById("streakValue");
     const totalExercisesValue = document.getElementById("totalExercisesValue");
     const minutesTodayValue = document.getElementById("minutesTodayValue");
@@ -541,6 +547,17 @@
     const profileButton = document.getElementById("profileButton");
 
     completedExerciseName.textContent = exerciseName;
+    completedMinutesValue.textContent = String(Math.max(1, Math.round(minutes)));
+
+    function getProgressDurationSeconds(row, durationMap) {
+      const spentSeconds = Number(row && row.duration_spent);
+
+      if (Number.isFinite(spentSeconds) && spentSeconds > 0) {
+        return spentSeconds;
+      }
+
+      return durationMap.get(row.exercise_id) || 0;
+    }
 
     async function requireUser() {
       const { data, error } = await supabaseClient.auth.getUser();
@@ -618,7 +635,7 @@
 
       const { data, error } = await supabaseClient
         .from("user_progress")
-        .select("created_at, count, exercise_id")
+        .select("created_at, count, exercise_id, duration_spent")
         .eq("user_id", user.id)
         .order("created_at", { ascending: false });
 
@@ -664,7 +681,7 @@
 
         const count = Number(row.count);
         const safeCount = Number.isFinite(count) && count > 0 ? count : 1;
-        return sum + ((durationMap.get(row.exercise_id) || 0) * safeCount);
+        return sum + (getProgressDurationSeconds(row, durationMap) * safeCount);
       }, 0) / 60;
 
       streakValue.textContent = String(calculateStreak(progressRows));
@@ -684,7 +701,7 @@
         return;
       }
 
-      window.location.href = "exercise.html?id=" + encodeURIComponent(nextExerciseId);
+      window.location.href = "exercise.html?v=20260430&id=" + encodeURIComponent(nextExerciseId);
     });
 
     backHomeButton.addEventListener("click", function () {
