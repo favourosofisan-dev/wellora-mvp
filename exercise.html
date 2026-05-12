@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Wellora Exercise</title>
+  <link rel="manifest" href="/manifest.json">
   <link rel="icon" type="image/png" href="image/wellora logo.png">
   <style>
     :root {
@@ -131,9 +132,9 @@
     }
 
     .icon-button {
-      width: 52px;
-      min-width: 52px;
-      height: 52px;
+      width: 104px;
+      min-width: 104px;
+      height: 104px;
       border-radius: 18px;
       border: 1px solid var(--border);
       background: rgba(255, 255, 255, 0.74);
@@ -159,8 +160,8 @@
     .meta-item svg,
     .video-placeholder svg,
     .complete-button svg {
-      width: 24px;
-      height: 24px;
+      width: 48px;
+      height: 48px;
       stroke: currentColor;
       fill: none;
       stroke-width: 2;
@@ -965,6 +966,136 @@
       color: var(--muted);
     }
 
+    .journal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(29, 29, 29, 0.5);
+      display: grid;
+      place-items: center;
+      padding: 18px;
+      z-index: 20;
+    }
+
+    .journal-modal {
+      width: min(100%, 520px);
+      max-height: calc(100vh - 36px);
+      overflow: auto;
+      background: linear-gradient(180deg, #fffaf5 0%, #f7eee6 100%);
+      border: 1px solid rgba(234, 222, 212, 0.92);
+      border-radius: 28px;
+      box-shadow: 0 22px 48px rgba(89, 63, 48, 0.18);
+      padding: 22px 18px 18px;
+      display: grid;
+      gap: 18px;
+    }
+
+    .journal-head {
+      display: grid;
+      gap: 8px;
+    }
+
+    .journal-title,
+    .journal-text,
+    .journal-field-label,
+    .journal-support-text,
+    .journal-mic-status {
+      margin: 0;
+    }
+
+    .journal-title {
+      font-size: 1.35rem;
+      line-height: 1.2;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+
+    .journal-text,
+    .journal-support-text,
+    .journal-mic-status {
+      color: #66574e;
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    .journal-field-label {
+      font-size: 1rem;
+      line-height: 1.4;
+      font-weight: 800;
+      color: var(--text);
+    }
+
+    .journal-textarea {
+      width: 100%;
+      min-height: 132px;
+      resize: vertical;
+      border-radius: 22px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.92);
+      padding: 16px 18px;
+      color: var(--text);
+      font-size: 1rem;
+      line-height: 1.6;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.84);
+    }
+
+    .journal-mood-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .journal-mood-button,
+    .journal-mic-button,
+    .journal-action-button {
+      min-height: 52px;
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.92);
+      color: var(--accent);
+      font-size: 1rem;
+      line-height: 1.35;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, color 0.2s ease, opacity 0.2s ease;
+      box-shadow: 0 8px 18px rgba(143, 108, 84, 0.08);
+    }
+
+    .journal-mood-button.is-active,
+    .journal-mic-button.is-listening,
+    .journal-action-button.primary {
+      background: linear-gradient(180deg, #8f4e2b 0%, #793f21 100%);
+      color: #fffaf5;
+      border-color: transparent;
+    }
+
+    .journal-mic-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+    }
+
+    .journal-mic-button svg {
+      width: 44px;
+      height: 44px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .journal-action-row {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .journal-action-button.secondary {
+      color: #6b5b51;
+    }
+
     .hidden {
       display: none !important;
     }
@@ -1059,9 +1190,9 @@
       }
 
       .icon-button {
-        width: 48px;
-        min-width: 48px;
-        height: 48px;
+        width: 96px;
+        min-width: 96px;
+        height: 96px;
       }
 
       .exercise-name {
@@ -1275,6 +1406,50 @@
         </footer>
       </div>
 
+      <section class="journal-overlay hidden" id="journalOverlay" aria-hidden="true">
+        <div class="journal-modal" role="dialog" aria-modal="true" aria-labelledby="journalModalTitle">
+          <div class="journal-head">
+            <h2 class="journal-title" id="journalModalTitle">How do you feel after this exercise?</h2>
+            <p class="journal-text">A short note helps Wellora spot gentle patterns in your week.</p>
+          </div>
+
+          <div>
+            <p class="journal-field-label">Choose your mood</p>
+            <div class="journal-mood-grid" id="journalMoodGrid" role="group" aria-label="Mood choices">
+              <button class="journal-mood-button" type="button" data-mood="Good">🙂 Good</button>
+              <button class="journal-mood-button" type="button" data-mood="Okay">😐 Okay</button>
+              <button class="journal-mood-button" type="button" data-mood="Sore">😣 Sore</button>
+              <button class="journal-mood-button" type="button" data-mood="Tired">😴 Tired</button>
+            </div>
+          </div>
+
+          <div>
+            <label class="journal-field-label" for="journalEntryInput">How do you feel after this exercise?</label>
+            <textarea class="journal-textarea" id="journalEntryInput" placeholder="You can write a few words about your body, energy, pain level, or sleep."></textarea>
+          </div>
+
+          <div>
+            <button class="journal-mic-button" type="button" id="journalMicButton">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 15a3 3 0 0 0 3-3V7a3 3 0 1 0-6 0v5a3 3 0 0 0 3 3Z"></path>
+                <path d="M19 11a7 7 0 0 1-14 0"></path>
+                <path d="M12 18v3"></path>
+                <path d="M8 21h8"></path>
+              </svg>
+              <span id="journalMicButtonLabel">Start voice dictation</span>
+            </button>
+            <p class="journal-mic-status" id="journalMicStatus">Tap the microphone to speak your journal note.</p>
+          </div>
+
+          <p class="journal-support-text">You can save a mood, a note, both, or skip journaling for now.</p>
+
+          <div class="journal-action-row">
+            <button class="journal-action-button secondary" type="button" id="journalSkipButton">Skip</button>
+            <button class="journal-action-button primary" type="button" id="journalSaveButton">Save and Finish</button>
+          </div>
+        </div>
+      </section>
+
       <section class="loading-screen" id="loadingScreen" aria-live="polite">
         <div class="loading-card">
           <div class="spinner" aria-hidden="true"></div>
@@ -1339,6 +1514,14 @@
     const voiceCoachButton = document.getElementById("voiceCoachButton");
     const voiceCoachStopButton = document.getElementById("voiceCoachStopButton");
     const voiceCoachNote = document.getElementById("voiceCoachNote");
+    const journalOverlay = document.getElementById("journalOverlay");
+    const journalMoodGrid = document.getElementById("journalMoodGrid");
+    const journalEntryInput = document.getElementById("journalEntryInput");
+    const journalMicButton = document.getElementById("journalMicButton");
+    const journalMicButtonLabel = document.getElementById("journalMicButtonLabel");
+    const journalMicStatus = document.getElementById("journalMicStatus");
+    const journalSaveButton = document.getElementById("journalSaveButton");
+    const journalSkipButton = document.getElementById("journalSkipButton");
 
     let currentUser = null;
     let currentExercise = null;
@@ -1359,6 +1542,11 @@
     const minDurationMinutes = 1;
     const maxDurationMinutes = 15;
     let selectedDurationMinutes = 5;
+    let selectedJournalMood = "";
+    let journalRecognition = null;
+    let journalMicListening = false;
+    let pendingCompletionAutoTriggered = false;
+    const JournalSpeechRecognitionApi = window.SpeechRecognition || window.webkitSpeechRecognition;
 
     renderVoiceCoachState();
 
@@ -1411,6 +1599,78 @@
     function clearStatus() {
       statusMessage.textContent = "";
       statusMessage.className = "status-card";
+    }
+
+    function setJournalMicState(isListening, message) {
+      journalMicListening = isListening;
+      journalMicButton.classList.toggle("is-listening", isListening);
+      journalMicButtonLabel.textContent = isListening ? "Listening..." : "Start voice dictation";
+      journalMicStatus.textContent = message || (JournalSpeechRecognitionApi
+        ? "Tap the microphone to speak your journal note."
+        : "Voice dictation is not supported in this browser.");
+    }
+
+    function renderJournalMoodState() {
+      const moodButtons = journalMoodGrid.querySelectorAll(".journal-mood-button");
+
+      moodButtons.forEach(function (button) {
+        button.classList.toggle("is-active", button.dataset.mood === selectedJournalMood);
+      });
+    }
+
+    function openJournalModal(autoTriggered) {
+      pendingCompletionAutoTriggered = Boolean(autoTriggered);
+      selectedJournalMood = "";
+      renderJournalMoodState();
+      journalEntryInput.value = "";
+      journalOverlay.classList.remove("hidden");
+      journalOverlay.setAttribute("aria-hidden", "false");
+      completeButton.disabled = true;
+      completeButtonLabel.textContent = pendingCompletionAutoTriggered ? "Time complete" : "Complete";
+      setJournalMicState(false);
+      window.setTimeout(function () {
+        journalEntryInput.focus();
+      }, 30);
+    }
+
+    function closeJournalModal() {
+      if (journalRecognition && journalMicListening) {
+        journalRecognition.stop();
+      }
+
+      journalOverlay.classList.add("hidden");
+      journalOverlay.setAttribute("aria-hidden", "true");
+      setJournalMicState(false);
+      renderTimerState();
+    }
+
+    function getJournalPayload() {
+      return {
+        entryText: String(journalEntryInput.value || "").trim(),
+        mood: selectedJournalMood || null
+      };
+    }
+
+    async function saveJournalEntry(userId, urlExerciseId, journalPayload) {
+      const hasEntryText = Boolean(journalPayload.entryText);
+      const hasMood = Boolean(journalPayload.mood);
+
+      if (!hasEntryText && !hasMood) {
+        return;
+      }
+
+      const { error } = await supabaseClient
+        .from("user_journal")
+        .insert({
+          user_id: userId,
+          exercise_id: urlExerciseId,
+          entry_text: hasEntryText ? journalPayload.entryText : null,
+          mood: hasMood ? journalPayload.mood : null
+        });
+
+      if (error) {
+        throw error;
+      }
     }
 
     function getContraindicationMessage(category) {
@@ -2192,7 +2452,7 @@
       return data.user;
     }
 
-    async function completeExercise(autoTriggered) {
+    async function finalizeExerciseCompletion(autoTriggered, journalPayload, skippedJournal) {
       const urlExerciseId = rawExerciseId && !Number.isNaN(Number(rawExerciseId))
         ? Number(rawExerciseId)
         : rawExerciseId;
@@ -2241,6 +2501,17 @@
         return;
       }
 
+      try {
+        if (!skippedJournal) {
+          await saveJournalEntry(currentUser.id, urlExerciseId, journalPayload || { entryText: "", mood: null });
+        }
+      } catch (journalError) {
+        sessionStorage.setItem(
+          "welloraJournalSaveWarning",
+          journalError.message || "We saved your exercise, but couldn't save your journal note."
+        );
+      }
+
       setStatus(autoTriggered ? "Time complete. Redirecting..." : "Exercise completed. Redirecting...", "success");
       const nextExerciseId = await getNextExerciseId();
       const completionParams = new URLSearchParams({
@@ -2251,6 +2522,17 @@
         next_id: nextExerciseId
       });
       window.location.href = "completion.html?" + completionParams.toString();
+    }
+
+    function completeExercise(autoTriggered) {
+      if (isCompletingExercise || !journalOverlay.classList.contains("hidden")) {
+        return;
+      }
+
+      clearStatus();
+      stopVoiceCoach();
+      pauseTimer();
+      openJournalModal(autoTriggered);
     }
 
     window.completeExercise = completeExercise;
@@ -2343,6 +2625,82 @@
       stopVoiceCoach();
     });
 
+    journalMoodGrid.addEventListener("click", function (event) {
+      const moodButton = event.target.closest(".journal-mood-button");
+
+      if (!moodButton) {
+        return;
+      }
+
+      selectedJournalMood = moodButton.dataset.mood === selectedJournalMood ? "" : moodButton.dataset.mood;
+      renderJournalMoodState();
+    });
+
+    journalMicButton.addEventListener("click", function () {
+      if (!JournalSpeechRecognitionApi) {
+        setJournalMicState(false, "Voice dictation is not supported in this browser.");
+        return;
+      }
+
+      if (!journalRecognition) {
+        journalRecognition = new JournalSpeechRecognitionApi();
+        journalRecognition.lang = "en-US";
+        journalRecognition.continuous = false;
+        journalRecognition.interimResults = false;
+        journalRecognition.maxAlternatives = 1;
+
+        journalRecognition.onstart = function () {
+          setJournalMicState(true, "Listening now. Speak naturally and pause when you finish.");
+        };
+
+        journalRecognition.onend = function () {
+          setJournalMicState(false, JournalSpeechRecognitionApi
+            ? "Voice note added. You can tap the microphone again to add more."
+            : "Voice dictation is not supported in this browser.");
+        };
+
+        journalRecognition.onerror = function () {
+          setJournalMicState(false, "We couldn't capture your voice note right now. Please try again or type instead.");
+        };
+
+        journalRecognition.onresult = function (event) {
+          const transcript = event && event.results && event.results[0] && event.results[0][0]
+            ? String(event.results[0][0].transcript || "").trim()
+            : "";
+
+          if (!transcript) {
+            return;
+          }
+
+          journalEntryInput.value = journalEntryInput.value
+            ? journalEntryInput.value.replace(/\s+$/, "") + " " + transcript
+            : transcript;
+        };
+      }
+
+      if (journalMicListening) {
+        journalRecognition.stop();
+        return;
+      }
+
+      try {
+        journalRecognition.start();
+      } catch (error) {
+        setJournalMicState(false, "We couldn't start voice dictation right now. Please try again.");
+      }
+    });
+
+    journalSkipButton.addEventListener("click", function () {
+      closeJournalModal();
+      finalizeExerciseCompletion(pendingCompletionAutoTriggered, { entryText: "", mood: null }, true);
+    });
+
+    journalSaveButton.addEventListener("click", function () {
+      const journalPayload = getJournalPayload();
+      closeJournalModal();
+      finalizeExerciseCompletion(pendingCompletionAutoTriggered, journalPayload, false);
+    });
+
     countdownModeButton.addEventListener("click", function () {
       setTimerMode("countdown");
     });
@@ -2362,6 +2720,10 @@
 
     window.addEventListener("beforeunload", function () {
       stopVoiceCoach();
+
+      if (journalRecognition && journalMicListening) {
+        journalRecognition.stop();
+      }
     });
 
     supabaseClient.auth.onAuthStateChange(function (event, session) {
@@ -2402,5 +2764,7 @@
 
     init();
   </script>
+  <script src="voice-control.js"></script>
+  <script src="/pwa.js"></script>
 </body>
 </html>

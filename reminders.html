@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wellora Reminders</title>
+  <link rel="icon" type="image/png" href="image/wellora logo.png">
+  <style>
+    :root {
+      --bg: #fbf7f2;
+      --surface: rgba(255, 255, 255, 0.96);
+      --surface-soft: #f4ede6;
+      --text: #2a221d;
+      --muted: #6f6056;
+      --accent: #8b4a27;
+      --accent-dark: #6f381b;
+      --success: #2f7d4c;
+      --danger: #b04836;
+      --border: rgba(232, 221, 213, 0.95);
+      --shadow: 0 18px 40px rgba(125, 94, 72, 0.1);
+      --nav-shadow: 0 -10px 24px rgba(106, 84, 67, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      width: 100%;
+      min-height: 100%;
+      overflow-x: hidden;
+      font-family: Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at 12% 8%, rgba(255, 255, 255, 0.98), transparent 20%),
+        radial-gradient(circle at 100% 0, rgba(238, 213, 193, 0.28), transparent 18%),
+        linear-gradient(180deg, #fdfaf6 0%, var(--bg) 100%);
+      color: var(--text);
+    }
+
+    body {
+      min-height: 100vh;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    .page {
+      width: 100%;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      padding: calc(env(safe-area-inset-top, 0px) + 12px) 12px calc(env(safe-area-inset-bottom, 0px) + 18px);
+    }
+
+    .screen {
+      width: min(100%, 420px);
+      min-height: calc(100vh - 24px);
+      background: linear-gradient(180deg, #fdfaf7 0%, #fbf6f0 100%);
+      border: 1px solid rgba(228, 215, 205, 0.95);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .content {
+      padding: 24px 22px 116px;
+      display: grid;
+      gap: 22px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--accent-dark);
+    }
+
+    .icon-button,
+    .save-button,
+    .nav-button {
+      border: 0;
+      background: transparent;
+      color: inherit;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .icon-button {
+      width: 88px;
+      height: 88px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.78);
+      display: grid;
+      place-items: center;
+      box-shadow: 0 8px 16px rgba(125, 94, 72, 0.08);
+      flex-shrink: 0;
+    }
+
+    .icon-button svg,
+    .card-icon svg,
+    .nav-button svg {
+      width: 48px;
+      height: 48px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .nav-button svg {
+      fill: currentColor;
+      stroke: none;
+    }
+
+    .topbar-copy h1,
+    .topbar-copy p,
+    .hero h2,
+    .hero p,
+    .field-label,
+    .hint,
+    .status-card,
+    .save-button,
+    .preview-card h3,
+    .preview-card p {
+      margin: 0;
+    }
+
+    .topbar-copy p {
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.5;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .topbar-copy h1 {
+      margin-top: 4px;
+      font-size: 1.3rem;
+      line-height: 1.2;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+
+    .hero,
+    .form-card,
+    .preview-card,
+    .status-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      box-shadow: 0 12px 26px rgba(143, 108, 84, 0.08);
+    }
+
+    .hero {
+      padding: 22px 18px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .hero h2 {
+      font-size: clamp(2rem, 8vw, 3rem);
+      line-height: 0.98;
+      letter-spacing: -0.07em;
+      font-weight: 800;
+      max-width: 9ch;
+    }
+
+    .hero p {
+      color: #5a4b43;
+      font-size: 1rem;
+      line-height: 1.7;
+      max-width: 30ch;
+    }
+
+    .form-card {
+      padding: 18px;
+      display: grid;
+      gap: 18px;
+    }
+
+    .field-row {
+      display: grid;
+      gap: 10px;
+    }
+
+    .field-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .field-label {
+      font-size: 1rem;
+      line-height: 1.4;
+      font-weight: 800;
+    }
+
+    .hint {
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.55;
+    }
+
+    .input,
+    .time-input {
+      width: 100%;
+      min-height: 54px;
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      background: #fffdfa;
+      padding: 14px 16px;
+      color: var(--text);
+      font-size: 1rem;
+      line-height: 1.4;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    }
+
+    .switch {
+      position: relative;
+      width: 60px;
+      height: 34px;
+      display: inline-block;
+      flex-shrink: 0;
+    }
+
+    .switch input {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      inset: 0;
+      border-radius: 999px;
+      background: #ddd5ce;
+      transition: background 0.2s ease;
+    }
+
+    .slider::before {
+      content: "";
+      position: absolute;
+      width: 26px;
+      height: 26px;
+      left: 4px;
+      top: 4px;
+      border-radius: 50%;
+      background: #ffffff;
+      box-shadow: 0 4px 10px rgba(67, 45, 31, 0.12);
+      transition: transform 0.2s ease;
+    }
+
+    .switch input:checked + .slider {
+      background: var(--success);
+    }
+
+    .switch input:checked + .slider::before {
+      transform: translateX(26px);
+    }
+
+    .preview-card {
+      padding: 18px;
+      display: grid;
+      gap: 10px;
+      background: linear-gradient(180deg, #fffaf6 0%, #f5ece3 100%);
+    }
+
+    .preview-card h3 {
+      font-size: 1.05rem;
+      line-height: 1.35;
+      font-weight: 800;
+    }
+
+    .preview-card p {
+      color: #554841;
+      font-size: 1rem;
+      line-height: 1.65;
+    }
+
+    .save-button {
+      min-height: 56px;
+      border-radius: 18px;
+      background: linear-gradient(180deg, #8f4e2b 0%, #793f21 100%);
+      color: #fffaf5;
+      font-size: 1rem;
+      line-height: 1.4;
+      font-weight: 800;
+      box-shadow: 0 14px 28px rgba(138, 76, 43, 0.2);
+    }
+
+    .save-button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .status-card {
+      display: none;
+      padding: 16px 18px;
+      font-size: 0.98rem;
+      line-height: 1.6;
+      font-weight: 700;
+    }
+
+    .status-card.show {
+      display: block;
+    }
+
+    .status-card.success {
+      color: var(--success);
+      background: rgba(245, 251, 245, 0.96);
+      border-color: rgba(79, 125, 83, 0.16);
+    }
+
+    .status-card.error {
+      color: var(--danger);
+      background: rgba(255, 247, 245, 0.96);
+      border-color: rgba(176, 72, 54, 0.16);
+    }
+
+    .bottom-nav {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(255, 252, 248, 0.98);
+      border-top: 1px solid rgba(228, 215, 205, 0.92);
+      box-shadow: var(--nav-shadow);
+      padding: 12px 18px 16px;
+    }
+
+    .nav-list {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .nav-button {
+      display: grid;
+      justify-items: center;
+      gap: 6px;
+      color: #ab9b90;
+      width: 100%;
+    }
+
+    .nav-button span {
+      font-size: 0.82rem;
+      line-height: 1.2;
+    }
+
+    .nav-pill {
+      width: 100%;
+      min-height: 44px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+    }
+
+    .nav-button.is-active {
+      color: var(--accent);
+    }
+
+    .nav-button.is-active .nav-pill {
+      background: #ede6df;
+      box-shadow: 0 8px 16px rgba(134, 70, 36, 0.12);
+    }
+
+    @media (min-width: 768px) {
+      .page {
+        padding: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="screen" aria-label="Reminder preferences screen">
+      <div class="content">
+        <header class="topbar">
+          <button class="icon-button" type="button" id="backButton" aria-label="Go back">
+            <svg viewBox="0 0 24 24">
+              <path d="M15 18 9 12l6-6"></path>
+            </svg>
+          </button>
+
+          <div class="topbar-copy">
+            <p>Reminders</p>
+            <h1>Smart daily nudges</h1>
+          </div>
+        </header>
+
+        <section class="hero">
+          <h2>Stay gently on track.</h2>
+          <p>Pick a daily time and city so Wellora can suggest the right routine for your day.</p>
+        </section>
+
+        <section class="form-card" aria-labelledby="reminderSettingsTitle">
+          <div class="field-row">
+            <div class="field-head">
+              <div>
+                <p class="field-label" id="reminderSettingsTitle">Enable daily reminders</p>
+                <p class="hint">Wellora will send one helpful nudge near your chosen time.</p>
+              </div>
+              <label class="switch" aria-label="Enable daily reminders">
+                <input type="checkbox" id="enabledToggle" checked>
+                <span class="slider"></span>
+              </label>
+            </div>
+          </div>
+
+          <div class="field-row">
+            <label class="field-label" for="preferredTime">Preferred time</label>
+            <input class="time-input" type="time" id="preferredTime" value="09:00" step="60">
+            <p class="hint">Default is 9:00 AM. Your browser will use your local time zone.</p>
+          </div>
+
+          <div class="field-row">
+            <label class="field-label" for="cityInput">Your city</label>
+            <input class="input" type="text" id="cityInput" placeholder="Enter your city" autocomplete="address-level2">
+            <p class="hint">We use your city to check the weather before building your reminder.</p>
+          </div>
+
+          <button class="save-button" type="button" id="saveButton">Save Reminder Settings</button>
+        </section>
+
+        <section class="preview-card" aria-live="polite">
+          <h3>Preview</h3>
+          <p id="previewText">Your morning reminder will appear here after you save your settings.</p>
+        </section>
+
+        <div class="status-card" id="statusMessage" aria-live="polite"></div>
+      </div>
+
+      <nav class="bottom-nav" aria-label="Primary navigation">
+        <div class="nav-list">
+          <button class="nav-button" type="button" id="homeButton" aria-label="Home">
+            <span class="nav-pill">
+              <svg viewBox="0 0 24 24">
+                <path d="M10 20V14H14V20H19V12H22L12 3L2 12H5V20H10Z"></path>
+              </svg>
+            </span>
+            <span>Home</span>
+          </button>
+
+          <button class="nav-button" type="button" id="progressButton" aria-label="Progress">
+            <span class="nav-pill">
+              <svg viewBox="0 0 24 24">
+                <path d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM9 17H7V10H9V17ZM13 17H11V7H13V17ZM17 17H15V13H17V17Z"></path>
+              </svg>
+            </span>
+            <span>Progress</span>
+          </button>
+
+          <button class="nav-button is-active" type="button" id="profileButton" aria-label="Profile">
+            <span class="nav-pill">
+              <svg viewBox="0 0 24 24">
+                <path d="M12 12C14.21 12 16 10.21 16 8C16 5.79 14.21 4 12 4C9.79 4 8 5.79 8 8C8 10.21 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V20H20V18C20 15.34 14.67 14 12 14Z"></path>
+              </svg>
+            </span>
+            <span>Profile</span>
+          </button>
+        </div>
+      </nav>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script src="wellora-flow.js"></script>
+  <script>
+    const supabaseClient = window.createWelloraSupabaseClient();
+    const reminderPreviewText = document.getElementById("previewText");
+    const statusMessage = document.getElementById("statusMessage");
+    const enabledToggle = document.getElementById("enabledToggle");
+    const preferredTimeInput = document.getElementById("preferredTime");
+    const cityInput = document.getElementById("cityInput");
+    const saveButton = document.getElementById("saveButton");
+    const backButton = document.getElementById("backButton");
+    const homeButton = document.getElementById("homeButton");
+    const progressButton = document.getElementById("progressButton");
+    const profileButton = document.getElementById("profileButton");
+    const reminderStoreKey = "welloraReminderPreferences";
+    let currentUser = null;
+
+    function setStatus(message, type) {
+      statusMessage.textContent = message;
+      statusMessage.className = "status-card show " + type;
+    }
+
+    function clearStatus() {
+      statusMessage.textContent = "";
+      statusMessage.className = "status-card";
+    }
+
+    function readLocalReminderPreferences() {
+      try {
+        return JSON.parse(localStorage.getItem(reminderStoreKey) || "null");
+      } catch (error) {
+        return null;
+      }
+    }
+
+    function saveLocalReminderPreferences(preferences) {
+      localStorage.setItem(reminderStoreKey, JSON.stringify(preferences));
+    }
+
+    function formatDisplayTime(value) {
+      if (!value) {
+        return "9:00 AM";
+      }
+
+      const parts = String(value).split(":");
+      const hours = Number(parts[0]);
+      const minutes = Number(parts[1] || 0);
+
+      if (!Number.isFinite(hours) || !Number.isFinite(minutes)) {
+        return value;
+      }
+
+      const period = hours >= 12 ? "PM" : "AM";
+      const displayHour = hours % 12 || 12;
+      return displayHour + ":" + String(minutes).padStart(2, "0") + " " + period;
+    }
+
+    function updatePreview() {
+      if (!enabledToggle.checked) {
+        reminderPreviewText.textContent = "Reminders are turned off. You can enable them anytime.";
+        return;
+      }
+
+      const city = cityInput.value.trim() || "your city";
+      reminderPreviewText.textContent = "Wellora will check the weather near " + city + " around " + formatDisplayTime(preferredTimeInput.value) + " and send a gentle movement nudge.";
+    }
+
+    async function requireUser() {
+      const { data, error } = await supabaseClient.auth.getUser();
+
+      if (error || !data || !data.user) {
+        window.location.href = "login.html";
+        return null;
+      }
+
+      currentUser = data.user;
+      return data.user;
+    }
+
+    async function getCoordinatesForCity(city) {
+      const response = await fetch("https://geocoding-api.open-meteo.com/v1/search?name=" + encodeURIComponent(city) + "&count=1&language=en&format=json");
+
+      if (!response.ok) {
+        throw new Error("We couldn't look up that city right now.");
+      }
+
+      const payload = await response.json();
+      const result = payload && payload.results && payload.results[0] ? payload.results[0] : null;
+
+      if (!result || !Number.isFinite(Number(result.latitude)) || !Number.isFinite(Number(result.longitude))) {
+        throw new Error("We couldn't find that city. Please try a larger nearby city.");
+      }
+
+      return {
+        city: result.name,
+        latitude: Number(result.latitude),
+        longitude: Number(result.longitude)
+      };
+    }
+
+    async function loadReminderRecord(userId) {
+      const { data, error } = await supabaseClient
+        .from("user_reminders")
+        .select("id, enabled, preferred_time, latitude, longitude, city, created_at")
+        .eq("user_id", userId)
+        .order("created_at", { ascending: false })
+        .limit(1);
+
+      if (error) {
+        throw error;
+      }
+
+      return data && data.length ? data[0] : null;
+    }
+
+    function populateForm(record) {
+      const localRecord = readLocalReminderPreferences();
+      const source = record || localRecord;
+
+      if (!source) {
+        updatePreview();
+        return;
+      }
+
+      enabledToggle.checked = source.enabled !== false;
+      preferredTimeInput.value = String(source.preferred_time || "09:00:00").slice(0, 5) || "09:00";
+      cityInput.value = source.city || "";
+      updatePreview();
+    }
+
+    async function registerReminderServiceWorker() {
+      if (!("serviceWorker" in navigator)) {
+        return null;
+      }
+
+      return navigator.serviceWorker.register("reminder-service.js");
+    }
+
+    async function sendReminderContextToServiceWorker() {
+      if (!("serviceWorker" in navigator)) {
+        return;
+      }
+
+      const registration = await navigator.serviceWorker.ready;
+      const sessionResponse = await supabaseClient.auth.getSession();
+      const session = sessionResponse && sessionResponse.data ? sessionResponse.data.session : null;
+      const localPreferences = readLocalReminderPreferences();
+
+      if (!registration.active || !currentUser || !session || !localPreferences) {
+        return;
+      }
+
+      registration.active.postMessage({
+        type: "SYNC_REMINDER_CONTEXT",
+        payload: {
+          userId: currentUser.id,
+          accessToken: session.access_token,
+          supabaseUrl: window.WELLORA_SUPABASE_URL,
+          supabaseAnonKey: window.WELLORA_SUPABASE_ANON_KEY,
+          reminder: localPreferences
+        }
+      });
+    }
+
+    async function tryRegisterPeriodicSync() {
+      if (!("serviceWorker" in navigator)) {
+        return false;
+      }
+
+      try {
+        const registration = await navigator.serviceWorker.ready;
+
+        if (!registration.periodicSync) {
+          return false;
+        }
+
+        const permissionStatus = await navigator.permissions.query({ name: "periodic-background-sync" });
+
+        if (permissionStatus.state !== "granted") {
+          return false;
+        }
+
+        await registration.periodicSync.register("wellora-reminder-check", {
+          minInterval: 60 * 60 * 1000
+        });
+
+        return true;
+      } catch (error) {
+        return false;
+      }
+    }
+
+    async function requestNotificationPermission() {
+      if (!("Notification" in window)) {
+        return "unsupported";
+      }
+
+      if (Notification.permission === "granted") {
+        return "granted";
+      }
+
+      if (Notification.permission === "denied") {
+        return "denied";
+      }
+
+      return Notification.requestPermission();
+    }
+
+    async function saveReminderSettings() {
+      clearStatus();
+      saveButton.disabled = true;
+
+      try {
+        const user = currentUser || await requireUser();
+
+        if (!user) {
+          return;
+        }
+
+        const city = cityInput.value.trim();
+        if (!city) {
+          throw new Error("Please enter your city before saving reminders.");
+        }
+
+        const preferredTime = preferredTimeInput.value || "09:00";
+        const coords = await getCoordinatesForCity(city);
+        const payload = {
+          user_id: user.id,
+          enabled: enabledToggle.checked,
+          preferred_time: preferredTime + ":00",
+          latitude: coords.latitude,
+          longitude: coords.longitude,
+          city: coords.city
+        };
+
+        const response = await supabaseClient
+          .from("user_reminders")
+          .upsert(payload, {
+            onConflict: "user_id"
+          });
+
+        if (response.error) {
+          throw response.error;
+        }
+
+        saveLocalReminderPreferences(payload);
+        populateForm(payload);
+
+        await registerReminderServiceWorker();
+        const permission = await requestNotificationPermission();
+        await sendReminderContextToServiceWorker();
+        const periodicSyncEnabled = await tryRegisterPeriodicSync();
+
+        if (permission === "denied") {
+          setStatus("Settings saved, but notifications are blocked in this browser. Please allow notifications to receive reminder nudges.", "error");
+        } else if (periodicSyncEnabled) {
+          setStatus("Reminder settings saved. Smart nudges are ready in the background.", "success");
+        } else {
+          setStatus("Reminder settings saved. Background reminder support depends on your browser, so nudges work best after opening Wellora regularly.", "success");
+        }
+      } catch (error) {
+        setStatus(error.message || "We couldn't save your reminder settings right now.", "error");
+      } finally {
+        saveButton.disabled = false;
+      }
+    }
+
+    function startForegroundReminderHeartbeat() {
+      if (!("serviceWorker" in navigator)) {
+        return;
+      }
+
+      window.setInterval(async function () {
+        try {
+          const registration = await navigator.serviceWorker.ready;
+
+          if (registration.active) {
+            registration.active.postMessage({ type: "RUN_REMINDER_CHECK" });
+          }
+        } catch (error) {
+        }
+      }, 5 * 60 * 1000);
+    }
+
+    enabledToggle.addEventListener("change", updatePreview);
+    preferredTimeInput.addEventListener("input", updatePreview);
+    cityInput.addEventListener("input", updatePreview);
+    saveButton.addEventListener("click", saveReminderSettings);
+
+    backButton.addEventListener("click", function () {
+      window.history.length > 1 ? window.history.back() : window.location.href = "profile.html";
+    });
+
+    homeButton.addEventListener("click", function () {
+      window.location.href = "home.html";
+    });
+
+    progressButton.addEventListener("click", function () {
+      window.location.href = "progress.html";
+    });
+
+    profileButton.addEventListener("click", function () {
+      window.location.href = "profile.html";
+    });
+
+    navigator.serviceWorker && navigator.serviceWorker.addEventListener("message", function (event) {
+      const data = event.data || {};
+
+      if (data.type === "REMINDER_NOTIFICATION_SENT") {
+        setStatus("A smart reminder was sent: " + data.message, "success");
+      }
+    });
+
+    async function init() {
+      updatePreview();
+      const user = await requireUser();
+
+      if (!user) {
+        return;
+      }
+
+      try {
+        await registerReminderServiceWorker();
+      } catch (error) {
+      }
+
+      try {
+        const reminderRecord = await loadReminderRecord(user.id);
+        populateForm(reminderRecord);
+      } catch (error) {
+        populateForm(null);
+      }
+
+      try {
+        await sendReminderContextToServiceWorker();
+      } catch (error) {
+      }
+
+      try {
+        const registration = await navigator.serviceWorker.ready;
+
+        if (registration.active) {
+          registration.active.postMessage({ type: "RUN_REMINDER_CHECK" });
+        }
+      } catch (error) {
+      }
+
+      startForegroundReminderHeartbeat();
+    }
+
+    init();
+  </script>
+  <script src="voice-control.js"></script>
+</body>
+</html>

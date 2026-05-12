@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Wellora Profile</title>
+  <link rel="manifest" href="/manifest.json">
   <link rel="icon" type="image/png" href="image/wellora logo.png">
   <style>
     :root {
@@ -75,7 +76,7 @@
     }
 
     .topbar-side {
-      width: 40px;
+      width: 80px;
       display: flex;
       justify-content: center;
       flex-shrink: 0;
@@ -100,8 +101,8 @@
     }
 
     .icon-button {
-      width: 40px;
-      height: 40px;
+      width: 80px;
+      height: 80px;
       border-radius: 12px;
       background: rgba(255, 255, 255, 0.68);
       box-shadow: 0 8px 16px rgba(125, 94, 72, 0.08);
@@ -111,8 +112,8 @@
     .avatar-edit svg,
     .detail-arrow svg,
     .pref-icon svg {
-      width: 24px;
-      height: 24px;
+      width: 48px;
+      height: 48px;
       stroke: currentColor;
       fill: none;
       stroke-width: 2.4;
@@ -121,8 +122,8 @@
     }
 
     .nav-button svg {
-      width: 24px;
-      height: 24px;
+      width: 48px;
+      height: 48px;
       fill: currentColor;
       transition: transform 0.2s ease;
     }
@@ -172,8 +173,8 @@
       position: absolute;
       right: 2px;
       bottom: 4px;
-      width: 38px;
-      height: 38px;
+      width: 76px;
+      height: 76px;
       border-radius: 50%;
       background: var(--accent);
       color: #fffaf5;
@@ -298,8 +299,8 @@
     }
 
     .goal-icon {
-      width: 28px;
-      height: 28px;
+      width: 56px;
+      height: 56px;
       object-fit: contain;
       flex-shrink: 0;
       padding: 4px;
@@ -335,8 +336,8 @@
     }
 
     .pref-icon {
-      width: 52px;
-      height: 48px;
+      width: 104px;
+      height: 96px;
       border-radius: 16px;
       background: #eee8e3;
       color: var(--accent);
@@ -406,6 +407,19 @@
       font-size: 1rem;
       font-weight: 800;
       background: rgba(255, 255, 255, 0.25);
+    }
+
+    .secondary-button {
+      width: 100%;
+      min-height: 56px;
+      border-radius: 20px;
+      border: 1px solid rgba(134, 70, 36, 0.16);
+      color: var(--accent-dark);
+      font-size: 1rem;
+      font-weight: 800;
+      background: rgba(255, 255, 255, 0.72);
+      box-shadow: 0 10px 20px rgba(125, 94, 72, 0.08);
+      margin-bottom: 14px;
     }
 
     .version {
@@ -515,7 +529,8 @@
     .large-text .section-head h2,
     .large-text .pref-label,
     .large-text .detail-value,
-    .large-text .logout-button {
+    .large-text .logout-button,
+    .large-text .secondary-button {
       font-size: 1.06rem;
     }
 
@@ -669,6 +684,8 @@
             <h2 id="accountTitle">Account</h2>
           </div>
 
+          <button class="secondary-button" type="button" id="remindersButton">Reminders</button>
+          <button class="secondary-button" type="button" id="reportsButton">Share report with caregiver</button>
           <button class="logout-button" type="button" id="logoutButton">Log Out</button>
           <p class="version">Version 2.4.1 (Stable)</p>
         </section>
@@ -777,6 +794,8 @@
       "Cognitive Function": "image/cognitive function.png"
     };
     const logoutButton = document.getElementById("logoutButton");
+    const remindersButton = document.getElementById("remindersButton");
+    const reportsButton = document.getElementById("reportsButton");
     const homeButton = document.getElementById("homeButton");
     const progressButton = document.getElementById("progressButton");
     const profileNavButton = document.getElementById("profileNavButton");
@@ -888,6 +907,14 @@
       window.location.href = "login.html";
     });
 
+    remindersButton.addEventListener("click", function () {
+      window.location.href = "reminders.html";
+    });
+
+    reportsButton.addEventListener("click", function () {
+      window.location.href = "reports.html";
+    });
+
     homeButton.addEventListener("click", function () {
       window.location.href = "home.html";
     });
@@ -902,5 +929,7 @@
 
     requireUser();
   </script>
+  <script src="voice-control.js"></script>
+  <script src="/pwa.js"></script>
 </body>
 </html>

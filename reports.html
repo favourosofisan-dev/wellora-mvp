@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wellora Caregiver Report</title>
+  <link rel="icon" type="image/png" href="image/wellora logo.png">
+  <style>
+    :root {
+      --bg: #fbf7f2;
+      --surface: rgba(255, 255, 255, 0.96);
+      --surface-soft: #f5eee6;
+      --text: #2a221d;
+      --muted: #6f6056;
+      --accent: #8b4a27;
+      --accent-dark: #6f381b;
+      --success: #2f7d4c;
+      --danger: #b04836;
+      --border: rgba(232, 221, 213, 0.95);
+      --shadow: 0 18px 40px rgba(125, 94, 72, 0.1);
+      --nav-shadow: 0 -10px 24px rgba(106, 84, 67, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      width: 100%;
+      min-height: 100%;
+      overflow-x: hidden;
+      font-family: Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at 12% 8%, rgba(255, 255, 255, 0.98), transparent 20%),
+        radial-gradient(circle at 100% 0, rgba(238, 213, 193, 0.28), transparent 18%),
+        linear-gradient(180deg, #fdfaf6 0%, var(--bg) 100%);
+      color: var(--text);
+    }
+
+    body {
+      min-height: 100vh;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    .page {
+      width: 100%;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      padding: calc(env(safe-area-inset-top, 0px) + 12px) 12px calc(env(safe-area-inset-bottom, 0px) + 18px);
+    }
+
+    .screen {
+      width: min(100%, 760px);
+      min-height: calc(100vh - 24px);
+      background: linear-gradient(180deg, #fdfaf7 0%, #fbf6f0 100%);
+      border: 1px solid rgba(228, 215, 205, 0.95);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .content {
+      padding: 24px 22px 116px;
+      display: grid;
+      gap: 22px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--accent-dark);
+    }
+
+    .icon-button,
+    .primary-button,
+    .secondary-button,
+    .nav-button {
+      border: 0;
+      background: transparent;
+      color: inherit;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .icon-button {
+      width: 88px;
+      height: 88px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.78);
+      display: grid;
+      place-items: center;
+      box-shadow: 0 8px 16px rgba(125, 94, 72, 0.08);
+      flex-shrink: 0;
+    }
+
+    .icon-button svg,
+    .nav-button svg {
+      width: 48px;
+      height: 48px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .nav-button svg {
+      fill: currentColor;
+      stroke: none;
+    }
+
+    .topbar-copy h1,
+    .topbar-copy p,
+    .hero h2,
+    .hero p,
+    .field-label,
+    .hint,
+    .status-card,
+    .report-card h3,
+    .report-card p,
+    .setup-list li,
+    .disclaimer,
+    .preview-shell p {
+      margin: 0;
+    }
+
+    .topbar-copy p {
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.5;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .topbar-copy h1 {
+      margin-top: 4px;
+      font-size: 1.3rem;
+      line-height: 1.2;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+
+    .hero,
+    .form-card,
+    .report-card,
+    .preview-shell,
+    .status-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      box-shadow: 0 12px 26px rgba(143, 108, 84, 0.08);
+    }
+
+    .hero,
+    .form-card,
+    .report-card,
+    .preview-shell {
+      padding: 20px 18px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .hero h2 {
+      font-size: clamp(2rem, 7vw, 3rem);
+      line-height: 0.98;
+      letter-spacing: -0.07em;
+      font-weight: 800;
+      max-width: 9ch;
+    }
+
+    .hero p,
+    .hint,
+    .disclaimer,
+    .preview-shell p,
+    .report-card p,
+    .setup-list li {
+      color: #5a4b43;
+      font-size: 1rem;
+      line-height: 1.7;
+    }
+
+    .field-row {
+      display: grid;
+      gap: 10px;
+    }
+
+    .field-row.inline {
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .field-label {
+      font-size: 1rem;
+      line-height: 1.4;
+      font-weight: 800;
+    }
+
+    .input {
+      width: 100%;
+      min-height: 54px;
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      background: #fffdfa;
+      padding: 14px 16px;
+      color: var(--text);
+      font-size: 1rem;
+      line-height: 1.4;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    }
+
+    .switch {
+      position: relative;
+      width: 60px;
+      height: 34px;
+      display: inline-block;
+      flex-shrink: 0;
+    }
+
+    .switch input {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      inset: 0;
+      border-radius: 999px;
+      background: #ddd5ce;
+      transition: background 0.2s ease;
+    }
+
+    .slider::before {
+      content: "";
+      position: absolute;
+      width: 26px;
+      height: 26px;
+      left: 4px;
+      top: 4px;
+      border-radius: 50%;
+      background: #ffffff;
+      box-shadow: 0 4px 10px rgba(67, 45, 31, 0.12);
+      transition: transform 0.2s ease;
+    }
+
+    .switch input:checked + .slider {
+      background: var(--success);
+    }
+
+    .switch input:checked + .slider::before {
+      transform: translateX(26px);
+    }
+
+    .button-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .primary-button,
+    .secondary-button {
+      min-height: 54px;
+      border-radius: 18px;
+      font-size: 1rem;
+      line-height: 1.4;
+      font-weight: 800;
+      box-shadow: 0 10px 20px rgba(125, 94, 72, 0.08);
+      padding: 0 14px;
+    }
+
+    .primary-button {
+      background: linear-gradient(180deg, #8f4e2b 0%, #793f21 100%);
+      color: #fffaf5;
+    }
+
+    .secondary-button {
+      border: 1px solid rgba(134, 70, 36, 0.16);
+      color: var(--accent-dark);
+      background: rgba(255, 255, 255, 0.76);
+    }
+
+    .primary-button:disabled,
+    .secondary-button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .status-card {
+      display: none;
+      padding: 16px 18px;
+      font-size: 0.98rem;
+      line-height: 1.6;
+      font-weight: 700;
+    }
+
+    .status-card.show {
+      display: block;
+    }
+
+    .status-card.success {
+      color: var(--success);
+      background: rgba(245, 251, 245, 0.96);
+      border-color: rgba(79, 125, 83, 0.16);
+    }
+
+    .status-card.error {
+      color: var(--danger);
+      background: rgba(255, 247, 245, 0.96);
+      border-color: rgba(176, 72, 54, 0.16);
+    }
+
+    .setup-list {
+      margin: 0;
+      padding-left: 20px;
+    }
+
+    .preview-shell {
+      background: linear-gradient(180deg, #fffaf6 0%, #f5ece3 100%);
+    }
+
+    .preview-frame {
+      width: 100%;
+      min-height: 420px;
+      border: 1px solid rgba(216, 192, 177, 0.5);
+      border-radius: 18px;
+      background: #ffffff;
+    }
+
+    .bottom-nav {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(255, 252, 248, 0.98);
+      border-top: 1px solid rgba(228, 215, 205, 0.92);
+      box-shadow: var(--nav-shadow);
+      padding: 12px 18px 16px;
+    }
+
+    .nav-list {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .nav-button {
+      display: grid;
+      justify-items: center;
+      gap: 6px;
+      color: #ab9b90;
+      width: 100%;
+    }
+
+    .nav-button span {
+      font-size: 0.82rem;
+      line-height: 1.2;
+    }
+
+    .nav-pill {
+      width: 100%;
+      min-height: 44px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+    }
+
+    .nav-button.is-active {
+      color: var(--accent);
+    }
+
+    .nav-button.is-active .nav-pill {
+      background: #ede6df;
+      box-shadow: 0 8px 16px rgba(134, 70, 36, 0.12);
+    }
+
+    @media (max-width: 640px) {
+      .button-row {
+        grid-template-columns: 1fr;
+      }
+
+      .field-row.inline {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="screen" aria-label="Caregiver reports screen">
+      <div class="content">
+        <header class="topbar">
+          <button class="icon-button" type="button" id="backButton" aria-label="Go back">
+            <svg viewBox="0 0 24 24">
+              <path d="M15 18 9 12l6-6"></path>
+            </svg>
+          </button>
+
+          <div class="topbar-copy">
+            <p>Caregiver Report</p>
+            <h1>Share weekly progress</h1>
+          </div>
+        </header>
+
+        <section class="hero">
+          <h2>Keep loved ones informed.</h2>
+          <p>Create a simple weekly report, print it to PDF, or send it by email when you are ready.</p>
+        </section>
+
+        <section class="form-card" aria-labelledby="reportShareTitle">
+          <div class="field-row">
+            <label class="field-label" id="reportShareTitle" for="caregiverEmail">Caregiver email</label>
+            <input class="input" type="email" id="caregiverEmail" placeholder="name@example.com" autocomplete="email">
+            <p class="hint">This email is only used when you choose to share a report.</p>
+          </div>
+
+          <div class="field-row inline">
+            <div>
+              <p class="field-label">Scheduled reports</p>
+              <p class="hint">Send to this caregiver every Monday at 9:00 AM.</p>
+            </div>
+            <label class="switch" aria-label="Enable scheduled caregiver reports">
+              <input type="checkbox" id="scheduledToggle">
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <p class="disclaimer">You control this report. Caregiver only sees what you share.</p>
+
+          <div class="button-row">
+            <button class="secondary-button" type="button" id="generateButton">Generate Report</button>
+            <button class="secondary-button" type="button" id="downloadButton" disabled>Download / Print</button>
+            <button class="primary-button" type="button" id="sendButton" disabled>Generate &amp; Send</button>
+          </div>
+        </section>
+
+        <section class="report-card">
+          <h3>EmailJS Setup</h3>
+          <ol class="setup-list">
+            <li>Sign up at <a href="https://www.emailjs.com/" target="_blank" rel="noopener noreferrer">emailjs.com</a>.</li>
+            <li>Create an email service and email template in the EmailJS dashboard.</li>
+            <li>Add your values to `window.WELLORA_EMAILJS_PUBLIC_KEY`, `window.WELLORA_EMAILJS_SERVICE_ID`, and `window.WELLORA_EMAILJS_TEMPLATE_ID`, or store them in localStorage with the same names.</li>
+          </ol>
+          <p>If EmailJS is not configured, Wellora will still let you generate, print, and download the report manually.</p>
+        </section>
+
+        <section class="preview-shell">
+          <h3>Report preview</h3>
+          <p id="previewHint">Generate a report to preview what you will share.</p>
+          <iframe class="preview-frame" id="previewFrame" title="Caregiver report preview"></iframe>
+        </section>
+
+        <div class="status-card" id="statusMessage" aria-live="polite"></div>
+      </div>
+
+      <nav class="bottom-nav" aria-label="Primary navigation">
+        <div class="nav-list">
+          <button class="nav-button" type="button" id="homeButton" aria-label="Home">
+            <span class="nav-pill">
+              <svg viewBox="0 0 24 24">
+                <path d="M10 20V14H14V20H19V12H22L12 3L2 12H5V20H10Z"></path>
+              </svg>
+            </span>
+            <span>Home</span>
+          </button>
+
+          <button class="nav-button" type="button" id="progressButton" aria-label="Progress">
+            <span class="nav-pill">
+              <svg viewBox="0 0 24 24">
+                <path d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM9 17H7V10H9V17ZM13 17H11V7H13V17ZM17 17H15V13H17V17Z"></path>
+              </svg>
+            </span>
+            <span>Progress</span>
+          </button>
+
+          <button class="nav-button is-active" type="button" id="profileButton" aria-label="Profile">
+            <span class="nav-pill">
+              <svg viewBox="0 0 24 24">
+                <path d="M12 12C14.21 12 16 10.21 16 8C16 5.79 14.21 4 12 4C9.79 4 8 5.79 8 8C8 10.21 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V20H20V18C20 15.34 14.67 14 12 14Z"></path>
+              </svg>
+            </span>
+            <span>Profile</span>
+          </button>
+        </div>
+      </nav>
+    </section>
+  </main>
+
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script src="wellora-flow.js"></script>
+  <script>
+    const supabaseClient = window.createWelloraSupabaseClient();
+    const reportStoreKey = "welloraCaregiverReportSettings";
+    const backButton = document.getElementById("backButton");
+    const caregiverEmailInput = document.getElementById("caregiverEmail");
+    const scheduledToggle = document.getElementById("scheduledToggle");
+    const generateButton = document.getElementById("generateButton");
+    const downloadButton = document.getElementById("downloadButton");
+    const sendButton = document.getElementById("sendButton");
+    const previewFrame = document.getElementById("previewFrame");
+    const previewHint = document.getElementById("previewHint");
+    const statusMessage = document.getElementById("statusMessage");
+    const homeButton = document.getElementById("homeButton");
+    const progressButton = document.getElementById("progressButton");
+    const profileButton = document.getElementById("profileButton");
+
+    let currentUser = null;
+    let currentProfile = null;
+    let latestReportHtml = "";
+    let latestReportPayload = null;
+
+    function setStatus(message, type) {
+      statusMessage.textContent = message;
+      statusMessage.className = "status-card show " + type;
+    }
+
+    function clearStatus() {
+      statusMessage.textContent = "";
+      statusMessage.className = "status-card";
+    }
+
+    function readLocalSettings() {
+      try {
+        return JSON.parse(localStorage.getItem(reportStoreKey) || "null");
+      } catch (error) {
+        return null;
+      }
+    }
+
+    function saveLocalSettings(settings) {
+      localStorage.setItem(reportStoreKey, JSON.stringify(settings));
+    }
+
+    function escapeHtml(value) {
+      return String(value == null ? "" : value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+    function requireUserProfile() {
+      currentProfile = window.WelloraFlow.readProfile();
+      return currentProfile;
+    }
+
+    async function requireUser() {
+      const { data, error } = await supabaseClient.auth.getUser();
+
+      if (error || !data || !data.user) {
+        window.location.href = "login.html";
+        return null;
+      }
+
+      currentUser = data.user;
+      currentProfile = window.WelloraFlow.syncProfileFromUser(data.user);
+      return data.user;
+    }
+
+    function getMondayAndSunday(now) {
+      const base = new Date(now);
+      base.setHours(0, 0, 0, 0);
+      const day = base.getDay();
+      const diffToMonday = day === 0 ? -6 : 1 - day;
+      const monday = new Date(base);
+      monday.setDate(base.getDate() + diffToMonday);
+      const sunday = new Date(monday);
+      sunday.setDate(monday.getDate() + 6);
+      sunday.setHours(23, 59, 59, 999);
+      return {
+        monday: monday,
+        sunday: sunday
+      };
+    }
+
+    function formatDate(value) {
+      return new Intl.DateTimeFormat("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric"
+      }).format(value);
+    }
+
+    function formatWeekRange(monday, sunday) {
+      return formatDate(monday) + " - " + formatDate(sunday);
+    }
+
+    function formatCompletionDate(value) {
+      const date = new Date(value);
+      return Number.isNaN(date.getTime()) ? "Unknown date" : formatDate(date);
+    }
+
+    function getWeekIsoBounds() {
+      const range = getMondayAndSunday(new Date());
+      return {
+        range: range,
+        startIso: range.monday.toISOString(),
+        endIso: range.sunday.toISOString()
+      };
+    }
+
+    async function loadWeeklyProgress(userId, startIso, endIso) {
+      let response = await supabaseClient
+        .from("user_progress")
+        .select("id, created_at, exercise_id, count, duration_spent, energy_level")
+        .eq("user_id", userId)
+        .gte("created_at", startIso)
+        .lte("created_at", endIso)
+        .order("created_at", { ascending: false });
+
+      if (response.error && String(response.error.message || "").toLowerCase().includes("energy_level")) {
+        response = await supabaseClient
+          .from("user_progress")
+          .select("id, created_at, exercise_id, count, duration_spent")
+          .eq("user_id", userId)
+          .gte("created_at", startIso)
+          .lte("created_at", endIso)
+          .order("created_at", { ascending: false });
+      }
+
+      if (response.error) {
+        throw response.error;
+      }
+
+      return response.data || [];
+    }
+
+    async function loadWeeklyJournal(userId, startIso, endIso) {
+      try {
+        const response = await supabaseClient
+          .from("user_journal")
+          .select("id, entry_text, mood, created_at")
+          .eq("user_id", userId)
+          .gte("created_at", startIso)
+          .lte("created_at", endIso)
+          .order("created_at", { ascending: false });
+
+        if (response.error) {
+          throw response.error;
+        }
+
+        return response.data || [];
+      } catch (error) {
+        return [];
+      }
+    }
+
+    async function loadWeeklyVoiceLogs(userId, startIso, endIso) {
+      try {
+        const response = await supabaseClient
+          .from("voice_logs")
+          .select("id, created_at")
+          .eq("user_id", userId)
+          .gte("created_at", startIso)
+          .lte("created_at", endIso);
+
+        if (response.error) {
+          throw response.error;
+        }
+
+        return response.data || [];
+      } catch (error) {
+        try {
+          const localLogs = JSON.parse(localStorage.getItem("welloraVoiceLogs") || "[]");
+          return localLogs.filter(function (item) {
+            return item && item.created_at && item.created_at >= startIso && item.created_at <= endIso;
+          });
+        } catch (localError) {
+          return [];
+        }
+      }
+    }
+
+    function computeAverageMood(entries) {
+      if (!entries.length) {
+        return "Not enough journal entries yet";
+      }
+
+      const moodScores = {
+        Good: 4,
+        Okay: 3,
+        Tired: 2,
+        Sore: 1
+      };
+
+      const total = entries.reduce(function (sum, entry) {
+        return sum + (moodScores[entry.mood] || 0);
+      }, 0);
+      const counted = entries.filter(function (entry) {
+        return moodScores[entry.mood];
+      }).length;
+
+      if (!counted) {
+        return "Not enough mood data yet";
+      }
+
+      const average = total / counted;
+
+      if (average >= 3.5) {
+        return "Mostly Good";
+      }
+
+      if (average >= 2.5) {
+        return "Mostly Okay";
+      }
+
+      if (average >= 1.5) {
+        return "Mostly Tired";
+      }
+
+      return "Mostly Sore";
+    }
+
+    function computeAverageEnergy(progressRows) {
+      const energyValues = progressRows
+        .map(function (row) {
+          return Number(row.energy_level);
+        })
+        .filter(function (value) {
+          return Number.isFinite(value);
+        });
+
+      if (!energyValues.length) {
+        return "Not tracked yet";
+      }
+
+      const average = energyValues.reduce(function (sum, value) {
+        return sum + value;
+      }, 0) / energyValues.length;
+
+      return average.toFixed(1) + " / 5";
+    }
+
+    function buildJournalHighlights(journalEntries) {
+      if (!journalEntries.length) {
+        return [
+          "No journal entries were added this week."
+        ];
+      }
+
+      return journalEntries.slice(0, 3).map(function (entry) {
+        const pieces = [];
+
+        if (entry.mood) {
+          pieces.push(entry.mood);
+        }
+
+        if (entry.entry_text) {
+          pieces.push(entry.entry_text);
+        }
+
+        return formatCompletionDate(entry.created_at) + ": " + pieces.join(" - ");
+      });
+    }
+
+    function getConfiguredOpenAiKey() {
+      return window.WELLORA_OPENAI_API_KEY
+        || localStorage.getItem("welloraOpenAIApiKey")
+        || sessionStorage.getItem("welloraOpenAIApiKey")
+        || "";
+    }
+
+    async function generateAiJournalSummary(journalEntries) {
+      const apiKey = getConfiguredOpenAiKey();
+
+      if (!apiKey || !journalEntries.length) {
+        return "";
+      }
+
+      const promptEntries = journalEntries.map(function (entry) {
+        return formatCompletionDate(entry.created_at) + " Mood: " + (entry.mood || "Unknown") + ". Note: " + (entry.entry_text || "No note");
+      }).join("\n");
+
+      const response = await fetch("https://api.openai.com/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + apiKey
+        },
+        body: JSON.stringify({
+          model: "gpt-4o-mini",
+          messages: [
+            {
+              role: "system",
+              content: "You are a caring senior wellness coach."
+            },
+            {
+              role: "user",
+              content: "The user's journal entries this week:\n" + promptEntries + "\n\nSummarize in 2 warm, encouraging sentences. Note any positive trends or patterns."
+            }
+          ],
+          temperature: 0.7,
+          max_tokens: 140
+        })
+      });
+
+      if (!response.ok) {
+        return "";
+      }
+
+      const payload = await response.json();
+      return payload && payload.choices && payload.choices[0] && payload.choices[0].message
+        ? String(payload.choices[0].message.content || "").trim()
+        : "";
+    }
+
+    function getEmailJsConfig() {
+      return {
+        publicKey: window.WELLORA_EMAILJS_PUBLIC_KEY || localStorage.getItem("WELLORA_EMAILJS_PUBLIC_KEY") || "",
+        serviceId: window.WELLORA_EMAILJS_SERVICE_ID || localStorage.getItem("WELLORA_EMAILJS_SERVICE_ID") || "",
+        templateId: window.WELLORA_EMAILJS_TEMPLATE_ID || localStorage.getItem("WELLORA_EMAILJS_TEMPLATE_ID") || ""
+      };
+    }
+
+    function isEmailJsConfigured() {
+      const config = getEmailJsConfig();
+      return Boolean(config.publicKey && config.serviceId && config.templateId && window.emailjs);
+    }
+
+    function createReportHtml(payload) {
+      const highlightsMarkup = payload.journalHighlights.length
+        ? "<ul>" + payload.journalHighlights.map(function (item) {
+            return "<li>" + escapeHtml(item) + "</li>";
+          }).join("") + "</ul>"
+        : "<p>No journal highlights yet.</p>";
+
+      const aiSummaryBlock = payload.aiSummary
+        ? "<p><strong>AI Summary:</strong> " + escapeHtml(payload.aiSummary) + "</p>"
+        : "";
+
+      return [
+        "<!DOCTYPE html>",
+        "<html lang=\"en\">",
+        "<head>",
+        "<meta charset=\"UTF-8\">",
+        "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">",
+        "<title>Wellora Weekly Report</title>",
+        "<style>",
+        "body { font-family: Arial, Helvetica, sans-serif; margin: 0; padding: 28px; color: #2a221d; background: #faf7f2; }",
+        ".sheet { max-width: 800px; margin: 0 auto; background: #ffffff; border: 1px solid #e8ddd5; border-radius: 18px; padding: 28px; }",
+        "h1, h2, h3, p { margin-top: 0; }",
+        "h1 { font-size: 2rem; line-height: 1.1; margin-bottom: 8px; }",
+        "h2 { font-size: 1.1rem; margin-bottom: 12px; }",
+        ".muted { color: #6f6056; }",
+        ".grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin: 20px 0; }",
+        ".card { border: 1px solid #eadfd6; border-radius: 16px; padding: 16px; background: #fffaf5; }",
+        "ul { margin: 8px 0 0; padding-left: 20px; }",
+        "@media print { body { background: #ffffff; padding: 0; } .sheet { border: 0; border-radius: 0; box-shadow: none; } }",
+        "</style>",
+        "</head>",
+        "<body>",
+        "<div class=\"sheet\">",
+        "<h1>Wellora Weekly Report for " + escapeHtml(payload.userName) + "</h1>",
+        "<p class=\"muted\">Week range: " + escapeHtml(payload.weekRange) + "</p>",
+        "<div class=\"grid\">",
+        "<div class=\"card\"><h2>Total exercises completed</h2><p>" + escapeHtml(payload.totalExercisesCompleted) + "</p></div>",
+        "<div class=\"card\"><h2>Average mood</h2><p>" + escapeHtml(payload.averageMood) + "</p></div>",
+        "<div class=\"card\"><h2>Average energy</h2><p>" + escapeHtml(payload.averageEnergy) + "</p></div>",
+        "<div class=\"card\"><h2>Voice command usage</h2><p>" + escapeHtml(payload.voiceCommandUsage) + "</p></div>",
+        "</div>",
+        "<div class=\"card\"><h2>Journal highlights</h2>",
+        aiSummaryBlock,
+        highlightsMarkup,
+        "</div>",
+        "<div class=\"card\" style=\"margin-top: 16px;\"><h2>Safety note</h2><p>No falls or safety alerts reported</p></div>",
+        "</div>",
+        "</body>",
+        "</html>"
+      ].join("");
+    }
+
+    function renderPreview(reportHtml) {
+      previewFrame.srcdoc = reportHtml;
+      previewHint.textContent = "Review the report below before printing or sharing.";
+      downloadButton.disabled = false;
+      sendButton.disabled = false;
+    }
+
+    async function buildReportPayload() {
+      const user = currentUser || await requireUser();
+      if (!user) {
+        return null;
+      }
+
+      requireUserProfile();
+      const bounds = getWeekIsoBounds();
+      const progressRows = await loadWeeklyProgress(user.id, bounds.startIso, bounds.endIso);
+      const journalEntries = await loadWeeklyJournal(user.id, bounds.startIso, bounds.endIso);
+      const voiceLogs = await loadWeeklyVoiceLogs(user.id, bounds.startIso, bounds.endIso);
+      const aiSummary = await generateAiJournalSummary(journalEntries);
+
+      return {
+        userName: currentProfile && currentProfile.name ? currentProfile.name : (user.email || "Wellora User"),
+        caregiverEmail: caregiverEmailInput.value.trim(),
+        weekRange: formatWeekRange(bounds.range.monday, bounds.range.sunday),
+        totalExercisesCompleted: String(progressRows.length) + " / 7",
+        averageMood: computeAverageMood(journalEntries),
+        averageEnergy: computeAverageEnergy(progressRows),
+        voiceCommandUsage: String(voiceLogs.length) + " commands this week",
+        journalHighlights: buildJournalHighlights(journalEntries),
+        aiSummary: aiSummary
+      };
+    }
+
+    async function generateReport() {
+      clearStatus();
+      generateButton.disabled = true;
+
+      try {
+        const payload = await buildReportPayload();
+
+        if (!payload) {
+          return;
+        }
+
+        latestReportPayload = payload;
+        latestReportHtml = createReportHtml(payload);
+        renderPreview(latestReportHtml);
+        saveLocalSettings({
+          caregiverEmail: caregiverEmailInput.value.trim(),
+          scheduled: scheduledToggle.checked
+        });
+        await syncReportContextToServiceWorker();
+        setStatus("Caregiver report generated. You can now print, download, or send it.", "success");
+      } catch (error) {
+        setStatus(error.message || "We couldn't generate the caregiver report right now.", "error");
+      } finally {
+        generateButton.disabled = false;
+      }
+    }
+
+    function downloadOrPrintReport() {
+      if (!latestReportHtml) {
+        setStatus("Generate a report first so there is something to print or download.", "error");
+        return;
+      }
+
+      const newWindow = window.open("", "_blank", "noopener,noreferrer");
+
+      if (!newWindow) {
+        setStatus("Pop-up blocking prevented the print preview. Please allow pop-ups and try again.", "error");
+        return;
+      }
+
+      newWindow.document.open();
+      newWindow.document.write(latestReportHtml);
+      newWindow.document.close();
+      newWindow.focus();
+      newWindow.print();
+    }
+
+    function downloadReportHtmlFile() {
+      if (!latestReportHtml) {
+        return;
+      }
+
+      const blob = new Blob([latestReportHtml], { type: "text/html" });
+      const url = URL.createObjectURL(blob);
+      const anchor = document.createElement("a");
+      anchor.href = url;
+      anchor.download = "wellora-weekly-report.html";
+      document.body.appendChild(anchor);
+      anchor.click();
+      anchor.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    async function sendReport() {
+      clearStatus();
+
+      if (!caregiverEmailInput.value.trim()) {
+        setStatus("Please enter a caregiver email before sending the report.", "error");
+        return;
+      }
+
+      if (!latestReportHtml || !latestReportPayload) {
+        await generateReport();
+      }
+
+      if (!latestReportHtml || !latestReportPayload) {
+        return;
+      }
+
+      if (!isEmailJsConfigured()) {
+        downloadReportHtmlFile();
+        setStatus("Email service is not configured yet, so we downloaded the report HTML for manual sharing.", "success");
+        return;
+      }
+
+      const config = getEmailJsConfig();
+
+      try {
+        window.emailjs.init({
+          publicKey: config.publicKey
+        });
+
+        const response = await window.emailjs.send(
+          config.serviceId,
+          config.templateId,
+          {
+            caregiver_email: caregiverEmailInput.value.trim(),
+            user_name: latestReportPayload.userName,
+            week_range: latestReportPayload.weekRange,
+            total_exercises_completed: latestReportPayload.totalExercisesCompleted,
+            average_mood: latestReportPayload.averageMood,
+            average_energy: latestReportPayload.averageEnergy,
+            voice_command_usage: latestReportPayload.voiceCommandUsage,
+            journal_highlights: latestReportPayload.aiSummary || latestReportPayload.journalHighlights.join("\n"),
+            safety_note: "No falls or safety alerts reported",
+            report_html: latestReportHtml
+          }
+        );
+
+        if (response.status !== 200) {
+          throw new Error(response.text || "EmailJS did not confirm the send.");
+        }
+
+        setStatus("Caregiver report sent successfully.", "success");
+      } catch (error) {
+        downloadReportHtmlFile();
+        setStatus((error.text || error.message || "Email sending failed.") + " We downloaded the report HTML so you can still share it manually.", "error");
+      }
+    }
+
+    async function registerReminderServiceWorker() {
+      if (!("serviceWorker" in navigator)) {
+        return null;
+      }
+
+      return navigator.serviceWorker.register("reminder-service.js");
+    }
+
+    async function syncReportContextToServiceWorker() {
+      if (!("serviceWorker" in navigator)) {
+        return;
+      }
+
+      const registration = await navigator.serviceWorker.ready;
+      const sessionResponse = await supabaseClient.auth.getSession();
+      const session = sessionResponse && sessionResponse.data ? sessionResponse.data.session : null;
+      const settings = readLocalSettings();
+
+      if (!registration.active || !currentUser || !session || !settings) {
+        return;
+      }
+
+      registration.active.postMessage({
+        type: "SYNC_REPORT_CONTEXT",
+        payload: {
+          userId: currentUser.id,
+          accessToken: session.access_token,
+          supabaseUrl: window.WELLORA_SUPABASE_URL,
+          supabaseAnonKey: window.WELLORA_SUPABASE_ANON_KEY,
+          reportSchedule: {
+            caregiverEmail: settings.caregiverEmail || "",
+            enabled: Boolean(settings.scheduled),
+            weekday: "monday",
+            preferred_time: "09:00:00",
+            emailServiceConfigured: isEmailJsConfigured()
+          }
+        }
+      });
+    }
+
+    function startForegroundScheduleHeartbeat() {
+      if (!("serviceWorker" in navigator)) {
+        return;
+      }
+
+      window.setInterval(async function () {
+        try {
+          const registration = await navigator.serviceWorker.ready;
+
+          if (registration.active) {
+            registration.active.postMessage({ type: "RUN_REMINDER_CHECK" });
+          }
+        } catch (error) {
+        }
+      }, 5 * 60 * 1000);
+    }
+
+    function populateSavedSettings() {
+      const settings = readLocalSettings();
+
+      if (!settings) {
+        return;
+      }
+
+      caregiverEmailInput.value = settings.caregiverEmail || "";
+      scheduledToggle.checked = Boolean(settings.scheduled);
+    }
+
+    backButton.addEventListener("click", function () {
+      window.history.length > 1 ? window.history.back() : window.location.href = "profile.html";
+    });
+
+    generateButton.addEventListener("click", generateReport);
+    downloadButton.addEventListener("click", function () {
+      downloadReportHtmlFile();
+      downloadOrPrintReport();
+    });
+    sendButton.addEventListener("click", sendReport);
+
+    caregiverEmailInput.addEventListener("input", function () {
+      saveLocalSettings({
+        caregiverEmail: caregiverEmailInput.value.trim(),
+        scheduled: scheduledToggle.checked
+      });
+    });
+
+    scheduledToggle.addEventListener("change", async function () {
+      saveLocalSettings({
+        caregiverEmail: caregiverEmailInput.value.trim(),
+        scheduled: scheduledToggle.checked
+      });
+
+      try {
+        await syncReportContextToServiceWorker();
+      } catch (error) {
+      }
+    });
+
+    homeButton.addEventListener("click", function () {
+      window.location.href = "home.html";
+    });
+
+    progressButton.addEventListener("click", function () {
+      window.location.href = "progress.html";
+    });
+
+    profileButton.addEventListener("click", function () {
+      window.location.href = "profile.html";
+    });
+
+    if (navigator.serviceWorker) {
+      navigator.serviceWorker.addEventListener("message", function (event) {
+        const data = event.data || {};
+
+        if (data.type === "SCHEDULED_REPORT_REMINDER_SENT") {
+          setStatus(data.message, "success");
+        }
+      });
+    }
+
+    async function init() {
+      populateSavedSettings();
+      previewFrame.srcdoc = "<!DOCTYPE html><html><body style=\"font-family: Arial, Helvetica, sans-serif; padding: 24px; color: #6f6056;\">Generate a report to preview what you will share.</body></html>";
+      const user = await requireUser();
+
+      if (!user) {
+        return;
+      }
+
+      try {
+        await registerReminderServiceWorker();
+        await syncReportContextToServiceWorker();
+      } catch (error) {
+      }
+
+      startForegroundScheduleHeartbeat();
+    }
+
+    init();
+  </script>
+  <script src="voice-control.js"></script>
+</body>
+</html>

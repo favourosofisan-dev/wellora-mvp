@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Wellora Category</title>
+  <link rel="manifest" href="/manifest.json">
   <link rel="icon" type="image/png" href="image/wellora logo.png">
   <style>
     :root {
@@ -94,8 +95,8 @@
     }
 
     .icon-button {
-      width: 40px;
-      height: 40px;
+      width: 80px;
+      height: 80px;
       border-radius: 12px;
       background: rgba(255, 255, 255, 0.7);
       color: var(--accent);
@@ -109,8 +110,8 @@
     .profile-button svg,
     .play-button svg,
     .meta svg {
-      width: 20px;
-      height: 20px;
+      width: 40px;
+      height: 40px;
       stroke: currentColor;
       fill: none;
       stroke-width: 2;
@@ -119,8 +120,8 @@
     }
 
     .nav-button svg {
-      width: 24px;
-      height: 24px;
+      width: 48px;
+      height: 48px;
       fill: currentColor;
       transition: transform 0.2s ease;
     }
@@ -138,15 +139,15 @@
     }
 
     .screen-icon {
-      width: 22px;
-      height: 22px;
+      width: 44px;
+      height: 44px;
       object-fit: contain;
       flex-shrink: 0;
     }
 
     .profile-button {
-      width: 40px;
-      height: 40px;
+      width: 80px;
+      height: 80px;
       border-radius: 50%;
       background: linear-gradient(180deg, #f5f0ea 0%, #eee6df 100%);
       color: #8f7c70;
@@ -254,8 +255,8 @@
     }
 
     .play-button {
-      width: 38px;
-      height: 38px;
+      width: 76px;
+      height: 76px;
       border-radius: 50%;
       background: var(--accent);
       color: #fff8f2;
@@ -265,8 +266,8 @@
     }
 
     .play-button svg {
-      width: 18px;
-      height: 18px;
+      width: 36px;
+      height: 36px;
       fill: currentColor;
       stroke: none;
       margin-left: 2px;
@@ -397,8 +398,8 @@
     }
 
     .meta svg {
-      width: 14px;
-      height: 14px;
+      width: 28px;
+      height: 28px;
     }
 
     .meta span:last-child {
@@ -980,5 +981,7 @@
 
     init();
   </script>
+  <script src="voice-control.js"></script>
+  <script src="/pwa.js"></script>
 </body>
 </html>
