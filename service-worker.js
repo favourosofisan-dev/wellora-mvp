@@ -1,4 +1,4 @@
-const CACHE_NAME = "wellora-pwa-v2";
+const CACHE_NAME = "wellora-pwa-v3";
 const APP_SHELL_FILES = [
   "/",
   "/index.html",
@@ -71,6 +71,15 @@ self.addEventListener("fetch", function (event) {
     return;
   }
 
+  const requestUrl = new URL(event.request.url);
+  const isSameOrigin = requestUrl.origin === self.location.origin;
+  const isAppCodeRequest = isSameOrigin && (
+    requestUrl.pathname.endsWith(".js") ||
+    requestUrl.pathname.endsWith(".css") ||
+    requestUrl.pathname.endsWith(".json") ||
+    requestUrl.pathname.endsWith(".html")
+  );
+
   if (event.request.mode === "navigate") {
     event.respondWith(
       fetch(event.request).then(function (networkResponse) {
@@ -93,6 +102,26 @@ self.addEventListener("fetch", function (event) {
     return;
   }
 
+  if (isAppCodeRequest) {
+    event.respondWith(
+      fetch(event.request).then(function (networkResponse) {
+        if (networkResponse && networkResponse.status === 200) {
+          const responseClone = networkResponse.clone();
+
+          caches.open(CACHE_NAME).then(function (cache) {
+            cache.put(event.request, responseClone);
+          });
+        }
+
+        return networkResponse;
+      }).catch(function () {
+        return caches.match(event.request);
+      })
+    );
+
+    return;
+  }
+
   event.respondWith(
     caches.match(event.request).then(function (cachedResponse) {
       if (cachedResponse) {
@@ -104,9 +133,7 @@ self.addEventListener("fetch", function (event) {
           return networkResponse;
         }
 
-        const requestUrl = new URL(event.request.url);
-
-        if (requestUrl.origin === self.location.origin) {
+        if (isSameOrigin) {
           const responseClone = networkResponse.clone();
 
           caches.open(CACHE_NAME).then(function (cache) {
