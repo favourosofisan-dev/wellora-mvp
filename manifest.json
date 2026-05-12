@@ -1,20 +1,26 @@
 {
   "name": "Wellora for Seniors",
   "short_name": "Wellora",
+  "description": "A gentle senior wellness app with guided exercises, progress tracking, and supportive routines.",
+  "id": "/",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
+  "orientation": "portrait",
   "theme_color": "#8d4d2c",
   "background_color": "#fbf7f2",
   "icons": [
     {
       "src": "/image/wellora-logo-192.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
       "src": "/image/wellora-logo-512.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }
