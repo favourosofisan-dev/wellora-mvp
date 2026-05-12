@@ -79,6 +79,7 @@
       "  z-index: 9999;",
       "  touch-action: none;",
       "  user-select: none;",
+      "  width: max-content;",
       "}",
       ".wellora-voice-button {",
       "  width: 88px;",
@@ -91,6 +92,7 @@
       "  color: #ffffff;",
       "  box-shadow: 0 14px 28px rgba(138, 76, 43, 0.3);",
       "  cursor: pointer;",
+      "  touch-action: none;",
       "}",
       ".wellora-voice-button svg {",
       "  width: 40px;",
@@ -105,6 +107,9 @@
       "  animation: welloraVoicePulse 1.4s ease-in-out infinite;",
       "}",
       ".wellora-voice-label {",
+      "  display: inline-flex;",
+      "  align-items: center;",
+      "  justify-content: center;",
       "  min-width: 104px;",
       "  min-height: 30px;",
       "  padding: 6px 10px;",
@@ -116,6 +121,7 @@
       "  font: 700 0.84rem/1.2 Arial, Helvetica, sans-serif;",
       "  text-align: center;",
       "  white-space: nowrap;",
+      "  touch-action: none;",
       "}",
       ".wellora-voice-label.is-listening {",
       "  background: rgba(138, 76, 43, 0.96);",
@@ -304,6 +310,8 @@
       return;
     }
 
+    event.preventDefault();
+
     dragState = {
       pointerId: event.pointerId,
       startX: event.clientX,
@@ -320,6 +328,8 @@
     if (!dragState || event.pointerId !== dragState.pointerId) {
       return;
     }
+
+    event.preventDefault();
 
     const deltaX = event.clientX - dragState.startX;
     const deltaY = event.clientY - dragState.startY;
@@ -378,10 +388,18 @@
 
       toggleListening();
     });
+    buttonElement.addEventListener("pointerdown", handleDockPointerDown);
+    buttonElement.addEventListener("pointermove", handleDockPointerMove);
+    buttonElement.addEventListener("pointerup", handleDockPointerUp);
+    buttonElement.addEventListener("pointercancel", handleDockPointerUp);
 
     labelElement = document.createElement("div");
     labelElement.className = "wellora-voice-label";
     labelElement.textContent = "Tap to record";
+    labelElement.addEventListener("pointerdown", handleDockPointerDown);
+    labelElement.addEventListener("pointermove", handleDockPointerMove);
+    labelElement.addEventListener("pointerup", handleDockPointerUp);
+    labelElement.addEventListener("pointercancel", handleDockPointerUp);
 
     dockElement.appendChild(buttonElement);
     dockElement.appendChild(labelElement);
