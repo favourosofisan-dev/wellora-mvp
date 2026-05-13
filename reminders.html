@@ -692,53 +692,28 @@
       saveButton.disabled = true;
 
       try {
-        const user = currentUser || await requireUser();
-
+        const { data: { user } } = await supabaseClient.auth.getUser();
         if (!user) {
           return;
         }
 
-        const city = cityInput.value.trim();
-        if (!city) {
-          throw new Error("Please enter your city before saving reminders.");
-        }
-
-        const preferredTime = preferredTimeInput.value || "09:00";
-        const coords = await getCoordinatesForCity(city);
         const payload = {
           user_id: user.id,
-          enabled: enabledToggle.checked,
-          preferred_time: preferredTime + ":00",
-          latitude: coords.latitude,
-          longitude: coords.longitude,
-          city: coords.city
+          enabled: document.getElementById("enabledToggle").checked,
+          preferred_time: document.getElementById("preferredTime").value,
+          city: document.getElementById("cityInput").value
         };
 
-        const response = await supabaseClient
-          .from("user_reminders")
-          .upsert(payload, {
-            onConflict: "user_id"
-          });
+        const response = await supabaseClient.from("user_reminders").upsert(payload);
 
         if (response.error) {
           throw response.error;
         }
 
+        currentUser = user;
         saveLocalReminderPreferences(payload);
         populateForm(payload);
-
-        await registerReminderServiceWorker();
-        const permission = await requestNotificationPermission();
-        await sendReminderContextToServiceWorker();
-        const periodicSyncEnabled = await tryRegisterPeriodicSync();
-
-        if (permission === "denied") {
-          setStatus("Settings saved, but notifications are blocked in this browser. Please allow notifications to receive reminder nudges.", "error");
-        } else if (periodicSyncEnabled) {
-          setStatus("Reminder settings saved. Smart nudges are ready in the background.", "success");
-        } else {
-          setStatus("Reminder settings saved. Background reminder support depends on your browser, so nudges work best after opening Wellora regularly.", "success");
-        }
+        setStatus("Reminder settings saved.", "success");
       } catch (error) {
         setStatus(error.message || "We couldn't save your reminder settings right now.", "error");
       } finally {

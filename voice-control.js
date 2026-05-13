@@ -27,7 +27,6 @@
   let buttonElement = null;
   let labelElement = null;
   let popupHideTimeoutId = null;
-  let remoteVoiceLoggingDisabled = false;
   let suppressNextToggle = false;
   let dragState = null;
 
@@ -436,6 +435,25 @@
     }
   }
 
+  async function logRecognizedCommand(recognisedText) {
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      return;
+    }
+
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        await supabase.from("voice_logs").insert({
+          user_id: user.id,
+          command: recognisedText,
+          recognized: true
+        });
+      }
+    } catch (error) {
+    }
+  }
+
   async function saveVoiceLog(entry) {
     const localEntry = Object.assign(
       {
@@ -449,39 +467,6 @@
       existingLogs.unshift(localEntry);
       localStorage.setItem(voiceLogStorageKey, JSON.stringify(existingLogs.slice(0, 100)));
     } catch (error) {
-    }
-
-    if (remoteVoiceLoggingDisabled) {
-      return;
-    }
-
-    const supabaseClient = getSupabaseClient();
-    if (!supabaseClient) {
-      return;
-    }
-
-    try {
-      const authResponse = await supabaseClient.auth.getUser();
-      const userId = authResponse && authResponse.data && authResponse.data.user
-        ? authResponse.data.user.id
-        : null;
-
-      const insertPayload = {
-        user_id: userId,
-        transcript: localEntry.transcript,
-        normalized_command: localEntry.normalized_command,
-        understood: localEntry.understood,
-        page_name: localEntry.page_name,
-        exercise_id: localEntry.exercise_id || null
-      };
-
-      const response = await supabaseClient.from("voice_logs").insert(insertPayload);
-
-      if (response && response.error) {
-        remoteVoiceLoggingDisabled = true;
-      }
-    } catch (error) {
-      remoteVoiceLoggingDisabled = true;
     }
   }
 
@@ -909,6 +894,10 @@
 
     if (!understood && !settings.suppressFailureSpeech) {
       speak("Sorry, I didn't catch that. Say Help me for commands.");
+    }
+
+    if (understood) {
+      logRecognizedCommand(transcript);
     }
 
     if (!settings.skipLog) {

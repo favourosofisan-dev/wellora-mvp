@@ -927,21 +927,54 @@
       generateButton.disabled = true;
 
       try {
-        const payload = await buildReportPayload();
-
-        if (!payload) {
+        const user = currentUser || await requireUser();
+        if (!user) {
           return;
         }
 
-        latestReportPayload = payload;
-        latestReportHtml = createReportHtml(payload);
-        renderPreview(latestReportHtml);
+        const bounds = getWeekIsoBounds();
+        const progressRows = await loadWeeklyProgress(user.id, bounds.startIso, bounds.endIso);
+        const journalRows = await loadWeeklyJournal(user.id, bounds.startIso, bounds.endIso);
+        const completedCount = progressRows.length;
+        const journalEntries = journalRows
+          .map(function (entry) {
+            return entry && entry.entry_text ? String(entry.entry_text).trim() : "";
+          })
+          .filter(Boolean)
+          .slice(0, 5);
+        const safeUserEmail = escapeHtml(user.email || "Unknown user");
+        const safeCompletedCount = escapeHtml(completedCount);
+        const safeJournalEntries = escapeHtml(journalEntries.join(", ") || "No journal entries yet");
+        const reportHtml = `
+    <html><body>
+    <h1>Wellora Weekly Report</h1>
+    <p>User: ${safeUserEmail}</p>
+    <p>Exercises completed: ${safeCompletedCount}</p>
+    <p>Recent journal: ${safeJournalEntries}</p>
+    </body></html>
+  `;
+
+        latestReportPayload = {
+          userEmail: user.email || "",
+          completedCount: completedCount,
+          journalEntries: journalEntries
+        };
+        latestReportHtml = reportHtml;
+        renderPreview(reportHtml);
         saveLocalSettings({
           caregiverEmail: caregiverEmailInput.value.trim(),
           scheduled: scheduledToggle.checked
         });
-        await syncReportContextToServiceWorker();
-        setStatus("Caregiver report generated. You can now print, download, or send it.", "success");
+
+        const win = window.open("", "_blank", "noopener,noreferrer");
+        if (!win) {
+          setStatus("Report generated, but pop-up blocking prevented print preview.", "error");
+          return;
+        }
+
+        win.document.write(reportHtml);
+        win.print();
+        setStatus("Report generated. You can print it or save it as a PDF from the print dialog.", "success");
       } catch (error) {
         setStatus(error.message || "We couldn't generate the caregiver report right now.", "error");
       } finally {

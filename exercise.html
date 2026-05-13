@@ -1656,26 +1656,18 @@
       };
     }
 
-    async function saveJournalEntry(userId, urlExerciseId, journalPayload) {
-      const hasEntryText = Boolean(journalPayload.entryText);
-      const hasMood = Boolean(journalPayload.mood);
-
-      if (!hasEntryText && !hasMood) {
+    async function saveJournalEntry(exerciseId, entryText, mood) {
+      const { data: { user } } = await supabaseClient.auth.getUser();
+      if (!user) {
         return;
       }
 
-      const { error } = await supabaseClient
-        .from("user_journal")
-        .insert({
-          user_id: userId,
-          exercise_id: urlExerciseId,
-          entry_text: hasEntryText ? journalPayload.entryText : null,
-          mood: hasMood ? journalPayload.mood : null
-        });
-
-      if (error) {
-        throw error;
-      }
+      await supabaseClient.from("user_journal").insert({
+        user_id: user.id,
+        exercise_id: exerciseId,
+        entry_text: entryText,
+        mood: mood
+      });
     }
 
     function getContraindicationMessage(category) {
@@ -2508,7 +2500,8 @@
 
       try {
         if (!skippedJournal) {
-          await saveJournalEntry(currentUser.id, urlExerciseId, journalPayload || { entryText: "", mood: null });
+          const entry = journalPayload || { entryText: "", mood: null };
+          await saveJournalEntry(urlExerciseId, entry.entryText, entry.mood);
         }
       } catch (journalError) {
         sessionStorage.setItem(
