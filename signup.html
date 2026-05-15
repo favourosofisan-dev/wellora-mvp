@@ -88,13 +88,42 @@
     }
 
     .auth-card {
-      width: min(100%, 420px);
+      width: 100%;
+      max-width: 400px;
+      margin: 0 auto;
       background: var(--surface);
       border: 1px solid rgba(234, 222, 212, 0.92);
       box-shadow: var(--shadow);
-      padding: 28px 16px 22px;
+      padding: 16px;
       display: grid;
       gap: 22px;
+    }
+
+    .auth-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .auth-tab {
+      flex: 1 1 140px;
+      min-height: 48px;
+      border-radius: 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 16px;
+      text-decoration: none;
+      font-weight: 800;
+      border: 1px solid var(--border);
+      color: var(--accent);
+      background: rgba(255, 255, 255, 0.72);
+    }
+
+    .auth-tab.is-active {
+      background: linear-gradient(180deg, #914c29 0%, #7b3f20 100%);
+      border-color: transparent;
+      color: #fff7f1;
     }
 
     .brand {
@@ -192,7 +221,7 @@
     .primary-button,
     .google-button {
       width: 100%;
-      min-height: 58px;
+      min-height: 48px;
       border-radius: 18px;
       font-family: inherit;
       font-size: 1rem;
@@ -308,7 +337,7 @@
 
     @media (min-width: 480px) {
       .auth-card {
-        padding: 34px 22px 24px;
+        padding: 24px;
       }
 
       .brand {
@@ -333,7 +362,13 @@
       }
 
       .auth-card {
-        width: 440px;
+        max-width: 400px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .auth-tab {
+        flex-basis: 100%;
       }
     }
   </style>
@@ -345,6 +380,11 @@
         <img class="brand-mark" src="image/wellora logo.png" alt="" aria-hidden="true">
         <span>WELLORA</span>
       </div>
+
+      <nav class="auth-tabs" aria-label="Authentication">
+        <a class="auth-tab" href="login.html">Sign In</a>
+        <a class="auth-tab is-active" href="signup.html" aria-current="page">Sign Up</a>
+      </nav>
 
       <header class="hero">
         <h1>Create your account</h1>

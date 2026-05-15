@@ -63,13 +63,16 @@
       background: linear-gradient(180deg, #fdfaf6 0%, #fbf6f0 100%);
       border: 1px solid rgba(228, 215, 205, 0.95);
       border-radius: 24px;
-      overflow: hidden;
+      overflow: visible;
       position: relative;
       box-shadow: 0 18px 42px rgba(116, 89, 71, 0.12);
+      display: flex;
+      flex-direction: column;
     }
 
     .app-shell {
-      padding: 18px 18px 104px;
+      flex: 1;
+      padding: 18px 18px 132px;
     }
 
     .topbar {
@@ -78,6 +81,12 @@
       justify-content: space-between;
       gap: 10px;
       margin-bottom: 26px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      padding: 8px 0 14px;
+      background: linear-gradient(180deg, rgba(253, 250, 246, 0.98) 0%, rgba(253, 250, 246, 0.92) 100%);
+      backdrop-filter: blur(8px);
     }
 
     .brand {
@@ -122,17 +131,22 @@
       width: 76px;
       height: 76px;
       border-radius: 50%;
-      background: linear-gradient(180deg, #f7dcc5 0%, #eed0b7 100%);
+      background: #e0d6cc;
       display: grid;
       place-items: center;
       overflow: hidden;
-      border: 1px solid rgba(184, 144, 117, 0.25);
+      border: 1px solid rgba(159, 138, 123, 0.45);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
     }
 
     .avatar svg {
-      width: 40px;
-      height: 40px;
-      fill: #3d5368;
+      width: 42px;
+      height: 42px;
+      stroke: #6f5e54;
+      fill: none;
+      stroke-width: 1.9;
+      stroke-linecap: round;
+      stroke-linejoin: round;
     }
 
     .eyebrow {
@@ -222,88 +236,141 @@
       margin-top: 28px;
       border: 0;
       width: 100%;
-      border-radius: 18px;
+      border-radius: 24px;
       overflow: hidden;
       position: relative;
-      min-height: 146px;
+      min-height: 180px;
       cursor: pointer;
-      background:
-        linear-gradient(180deg, rgba(31, 52, 56, 0.08), rgba(26, 49, 52, 0.2)),
-        linear-gradient(135deg, #88b1af 0%, #6d8e8b 58%, #4d6261 100%);
-      box-shadow: 0 16px 30px rgba(90, 107, 105, 0.18);
-      padding: 22px 18px;
+      background: linear-gradient(145deg, #fff0e6 0%, #f8ede4 45%, #f3e7de 100%);
+      box-shadow: 0 18px 34px rgba(141, 77, 44, 0.12);
+      padding: 24px 20px;
       display: flex;
-      align-items: flex-end;
+      align-items: stretch;
       text-align: left;
+      border: 1px solid rgba(221, 195, 176, 0.75);
+      gap: 12px;
+      isolation: isolate;
     }
 
     .featured-card::before {
       content: "";
       position: absolute;
-      width: 54px;
-      height: 92px;
-      left: 50%;
-      top: 8px;
-      transform: translateX(-50%);
-      border-radius: 2px 2px 0 0;
-      background: linear-gradient(180deg, #ebd5ac 0%, #f3dfba 100%);
-      box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1);
+      width: 148px;
+      height: 148px;
+      right: -34px;
+      top: -28px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.9) 0%, rgba(255, 240, 230, 0.18) 72%, transparent 73%);
+      z-index: 0;
     }
 
     .featured-card::after {
       content: "";
       position: absolute;
-      width: 74px;
-      height: 48px;
-      left: 50%;
-      bottom: 20px;
-      transform: translateX(-50%);
-      background:
-        linear-gradient(180deg, #384544 0%, #2e3837 100%);
-      clip-path: polygon(28% 0, 72% 0, 72% 52%, 100% 52%, 100% 100%, 0 100%, 0 52%, 28% 52%);
-      border-radius: 4px;
-      opacity: 0.95;
+      width: 112px;
+      height: 112px;
+      left: -26px;
+      bottom: -34px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(244, 221, 206, 0.95) 0%, rgba(244, 221, 206, 0.22) 70%, transparent 71%);
+      z-index: 0;
     }
 
     .featured-content {
       position: relative;
       z-index: 1;
-      color: #ffffff;
+      color: #3e2d24;
+      display: grid;
+      gap: 12px;
+      width: 100%;
+      align-content: start;
     }
 
     .pill {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-height: 18px;
-      padding: 0 8px;
+      justify-self: start;
+      gap: 8px;
+      min-height: 48px;
+      padding: 10px 16px;
       border-radius: 999px;
       background: rgba(141, 72, 37, 0.92);
       color: #fff7f1;
-      font-size: 0.5rem;
+      font-size: 0.72rem;
       font-weight: 800;
       letter-spacing: 0.12em;
       text-transform: uppercase;
+      box-shadow: 0 10px 18px rgba(141, 72, 37, 0.16);
+    }
+
+    .pill::before {
+      content: "\2728";
+      font-size: 0.95rem;
+      line-height: 1;
+    }
+
+    .pill.is-beginner,
+    .pill[data-level="beginner"],
+    .pill[data-difficulty="beginner"] {
+      background: #5ea66b;
+      color: #ffffff;
+    }
+
+    .pill.is-intermediate,
+    .pill[data-level="intermediate"],
+    .pill[data-difficulty="intermediate"] {
+      background: #de7d3a;
+      color: #ffffff;
     }
 
     .featured-content h3 {
-      margin: 10px 0 4px;
+      margin: 0;
       font-size: 1.4rem;
-      line-height: 1.1;
+      line-height: 1.18;
       letter-spacing: -0.04em;
       font-weight: 800;
+      color: #4c3429;
     }
 
     .featured-content p {
       margin: 0;
-      font-size: 0.74rem;
-      color: rgba(255, 255, 255, 0.85);
-      line-height: 1.4;
-      max-width: 160px;
+      font-size: 0.95rem;
+      color: #7d685c;
+      line-height: 1.6;
+      max-width: 26ch;
+    }
+
+    .featured-card button,
+    .featured-card .button,
+    .featured-card .primary-button,
+    .featured-card .secondary-button {
+      width: 100%;
+      min-height: 48px;
+      border-radius: 18px;
+      background: #8d4d2c;
+      color: #ffffff;
+      padding: 14px;
+      border: 0;
+      font-weight: 800;
+      box-shadow: 0 12px 22px rgba(141, 77, 44, 0.16);
+    }
+
+    @media (max-width: 640px) {
+      .featured-card {
+        padding: 24px 20px;
+      }
+
+      .featured-card button,
+      .featured-card .button,
+      .featured-card .primary-button,
+      .featured-card .secondary-button {
+        width: 100%;
+      }
     }
 
     .bottom-nav {
-      position: absolute;
+      position: sticky;
       left: 0;
       right: 0;
       bottom: 0;
@@ -312,6 +379,8 @@
       box-shadow: var(--nav-shadow);
       padding: 10px 10px 14px;
       animation: navRise 0.45s ease-out;
+      margin-top: auto;
+      z-index: 10;
     }
 
     .nav-list {
