@@ -60,8 +60,10 @@
     .screen {
       width: min(100%, 390px);
       min-height: 100vh;
+      height: calc(100vh - env(safe-area-inset-top, 0px) - 18px);
+      max-height: calc(100vh - env(safe-area-inset-top, 0px) - 18px);
       position: relative;
-      overflow: visible;
+      overflow: hidden;
       background: linear-gradient(180deg, #fdfaf7 0%, #fbf6f0 100%);
       border-left: 1px solid rgba(228, 215, 205, 0.95);
       border-right: 1px solid rgba(228, 215, 205, 0.95);
@@ -73,6 +75,8 @@
     .content {
       flex: 1;
       padding: 24px 24px 132px;
+      overflow-y: auto;
+      overscroll-behavior: contain;
     }
 
     .topbar {
@@ -177,28 +181,21 @@
     }
 
     .avatar-shell::before {
-      content: "";
-      position: absolute;
-      top: 28px;
-      left: 50%;
-      width: 34px;
-      height: 34px;
-      transform: translateX(-50%);
-      border-radius: 50%;
-      background: #6f5e54;
+      content: none;
     }
 
     .avatar-shell::after {
-      content: "";
-      position: absolute;
-      left: 50%;
-      bottom: 28px;
+      content: none;
+    }
+
+    .avatar-placeholder-icon {
       width: 72px;
-      height: 44px;
-      transform: translateX(-50%);
-      border-radius: 40px 40px 18px 18px;
-      background: #6f5e54;
-      opacity: 0.95;
+      height: 72px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.85;
+      stroke-linecap: round;
+      stroke-linejoin: round;
     }
 
     .avatar-initials {
@@ -476,10 +473,7 @@
     }
 
     .bottom-nav {
-      position: sticky;
-      left: 0;
-      right: 0;
-      bottom: 0;
+      position: relative;
       background: rgba(255, 252, 248, 0.98);
       border-top: 1px solid rgba(228, 215, 205, 0.92);
       box-shadow: var(--nav-shadow);
@@ -599,6 +593,8 @@
 
       .screen {
         width: 414px;
+        height: calc(100vh - 36px);
+        max-height: calc(100vh - 36px);
         border: 1px solid rgba(228, 215, 205, 0.95);
         border-radius: 24px;
       }
@@ -626,6 +622,10 @@
         <section class="hero">
           <div class="avatar-wrap">
             <div class="avatar-shell" aria-hidden="true">
+              <svg class="avatar-placeholder-icon" viewBox="0 0 24 24">
+                <path d="M12 11.25a4.25 4.25 0 1 0 0-8.5a4.25 4.25 0 0 0 0 8.5Z"></path>
+                <path d="M5.25 20.25a6.75 6.75 0 0 1 13.5 0"></path>
+              </svg>
               <p class="avatar-initials" id="avatarInitials">MT</p>
             </div>
             <button class="avatar-edit" type="button" id="avatarEditButton" aria-label="Edit profile">
