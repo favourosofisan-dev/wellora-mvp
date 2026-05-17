@@ -11,6 +11,7 @@
   <link rel="apple-touch-icon" href="/image/apple-touch-icon.png">
   <link rel="manifest" href="/manifest.json">
   <link rel="icon" type="image/png" href="image/wellora logo.png">
+  <link rel="stylesheet" href="layout.css">
   <style>
     :root {
       --bg: #f8f4ee;
@@ -50,6 +51,7 @@
 
     body {
       min-height: 100vh;
+      min-height: 100dvh;
     }
 
     img,
@@ -129,7 +131,7 @@
       padding: 22px 22px 10px;
       position: sticky;
       top: 0;
-      z-index: 10;
+      z-index: 20;
       background: linear-gradient(180deg, rgba(255, 252, 248, 0.98) 0%, rgba(255, 252, 248, 0.92) 100%);
       backdrop-filter: blur(8px);
     }
@@ -1231,6 +1233,30 @@
       }
     }
 
+    @media (max-width: 767px) {
+      .page {
+        padding: 0;
+      }
+
+      .shell {
+        width: 100%;
+        min-height: 100dvh;
+        height: 100dvh;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+      }
+
+      .content {
+        min-height: 100dvh;
+      }
+
+      .header {
+        top: 0;
+        padding-top: calc(env(safe-area-inset-top, 0px) + 22px);
+      }
+    }
+
     @media (min-width: 640px) {
       .header {
         padding: 24px 24px 10px;
@@ -1251,6 +1277,30 @@
       .hero-card,
       .section-card {
         padding: 22px;
+      }
+    }
+
+    @media (max-width: 767px) {
+      .page {
+        padding: 0;
+      }
+
+      .shell {
+        width: 100%;
+        min-height: 100dvh;
+        height: 100dvh;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+      }
+
+      .content {
+        min-height: 100dvh;
+      }
+
+      .header {
+        top: 0;
+        padding-top: calc(env(safe-area-inset-top, 0px) + 22px);
       }
     }
   </style>

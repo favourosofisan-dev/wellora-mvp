@@ -11,6 +11,7 @@
   <link rel="apple-touch-icon" href="/image/apple-touch-icon.png">
   <link rel="manifest" href="/manifest.json">
   <link rel="icon" type="image/png" href="image/wellora logo.png">
+  <link rel="stylesheet" href="layout.css">
   <style>
     :root {
       --bg: #fbf7f2;
@@ -47,6 +48,7 @@
 
     body {
       min-height: 100vh;
+      min-height: 100dvh;
     }
 
     button,
@@ -89,7 +91,7 @@
       color: var(--accent-dark);
       position: sticky;
       top: 0;
-      z-index: 10;
+      z-index: 20;
       padding: 8px 0 14px;
       background: linear-gradient(180deg, rgba(253, 250, 246, 0.98) 0%, rgba(253, 250, 246, 0.92) 100%);
       backdrop-filter: blur(8px);
@@ -363,7 +365,8 @@
       box-shadow: var(--nav-shadow);
       padding: 12px 18px 16px;
       margin-top: auto;
-      z-index: 10;
+      z-index: 30;
+      pointer-events: auto;
     }
 
     .nav-list {
@@ -411,13 +414,44 @@
         grid-template-columns: 1fr;
       }
     }
+
+    @media (max-width: 767px) {
+      .page {
+        padding: 0;
+      }
+
+      .screen {
+        width: 100%;
+        min-height: 100dvh;
+        height: 100dvh;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+      }
+
+      .content {
+        padding: 0 22px calc(env(safe-area-inset-bottom, 0px) + 132px);
+        overflow-y: auto;
+        overscroll-behavior: contain;
+      }
+
+      .topbar {
+        top: 0;
+        padding-top: calc(env(safe-area-inset-top, 0px) + 8px);
+      }
+
+      .bottom-nav {
+        bottom: 0;
+        padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 16px);
+      }
+    }
   </style>
 </head>
 <body>
   <main class="page">
     <section class="screen" aria-label="Caregiver reports screen">
       <div class="content">
-        <header class="topbar">
+        <header class="topbar site-header">
           <button class="icon-button" type="button" id="backButton" aria-label="Go back">
             <svg viewBox="0 0 24 24">
               <path d="M15 18 9 12l6-6"></path>

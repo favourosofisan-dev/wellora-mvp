@@ -1,0 +1,155 @@
+/* Shared layout: scroll regions, sticky chrome, auth stacking */
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+/* Auth: body column + scrollable main */
+body:has(.auth-card) {
+  display: flex;
+  flex-direction: column;
+}
+
+body:has(.auth-card) > main.page {
+  flex: 1 1 auto;
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-top: max(16px, env(safe-area-inset-top, 0px));
+  padding-bottom: max(24px, env(safe-area-inset-bottom, 0px));
+}
+
+body:has(.auth-card) .auth-card {
+  min-height: auto;
+  justify-content: flex-start;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+/* Sticky top chrome */
+.site-header,
+.topbar,
+.screen > .header,
+.shell > .app > .header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  width: 100%;
+  background: var(--bg, #fbf7f2);
+}
+
+/* App frame: header / scroll / bottom nav */
+.screen,
+.shell > .app {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.screen > .app-shell,
+.screen > .content,
+.shell > .app > .main {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+.screen > .header,
+.screen > .topbar.site-header {
+  flex-shrink: 0;
+}
+
+.bottom-nav {
+  position: sticky;
+  bottom: 0;
+  z-index: 100;
+  flex-shrink: 0;
+  width: 100%;
+  margin-top: auto;
+  pointer-events: auto;
+  background: var(--surface, #ffffff);
+}
+
+/* Progress shell */
+.shell:has(.app) {
+  display: flex;
+  flex-direction: column;
+}
+
+.shell > .app {
+  flex: 1 1 auto;
+  overflow: hidden;
+}
+
+.shell > .app > .bottom-nav {
+  position: sticky;
+  bottom: 0;
+}
+
+/* Mobile: lock outer scroll so nav stays pinned */
+@media (max-width: 767px) {
+  body:has(.screen),
+  body:has(.shell .app) {
+    overflow: hidden;
+  }
+
+  main.page:has(.screen),
+  main.page:has(.shell) {
+    min-height: 100dvh;
+    max-height: 100dvh;
+    overflow: hidden;
+  }
+
+  .screen {
+    width: 100%;
+    min-height: 100dvh;
+    max-height: 100dvh;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .shell {
+    width: 100%;
+    min-height: 100dvh;
+    max-height: 100dvh;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .shell > .app {
+    min-height: 100dvh;
+  }
+
+  .screen > .bottom-nav,
+  .shell > .app > .bottom-nav {
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 12px);
+  }
+
+  .app-shell > .topbar,
+  .content > .topbar,
+  .shell > .app > .header {
+    padding-top: calc(env(safe-area-inset-top, 0px) + 8px);
+  }
+}

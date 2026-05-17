@@ -11,6 +11,7 @@
   <link rel="apple-touch-icon" href="/image/apple-touch-icon.png">
   <link rel="manifest" href="/manifest.json">
   <link rel="icon" type="image/png" href="image/wellora logo.png">
+  <link rel="stylesheet" href="layout.css">
   <style>
     :root {
       --bg: #f7f2eb;
@@ -55,7 +56,7 @@
       overflow-x: hidden;
       padding: 20px;
       position: relative;
-      overflow-y: hidden;
+      overflow-y: auto;
       isolation: isolate;
     }
 
@@ -91,14 +92,12 @@
       width: 100%;
       max-width: 400px;
       margin: 0 auto;
-      min-height: 86vh;
       background: linear-gradient(180deg, rgba(255, 252, 248, 0.96), rgba(250, 244, 237, 0.98));
       border: 1px solid rgba(234, 222, 212, 0.9);
       box-shadow: var(--shadow);
       padding: 16px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+      display: grid;
+      gap: 22px;
       position: relative;
     }
 

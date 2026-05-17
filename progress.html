@@ -11,6 +11,7 @@
   <link rel="apple-touch-icon" href="/image/apple-touch-icon.png">
   <link rel="manifest" href="/manifest.json">
   <link rel="icon" type="image/png" href="image/wellora logo.png">
+  <link rel="stylesheet" href="layout.css">
   <style>
     :root {
       --bg: #f8f4ee;
@@ -50,6 +51,7 @@
 
     body {
       min-height: 100vh;
+      min-height: 100dvh;
     }
 
     button,
@@ -74,7 +76,7 @@
       border: 1px solid rgba(234, 222, 212, 0.92);
       border-radius: 28px;
       box-shadow: var(--shadow);
-      overflow: visible;
+      overflow: hidden;
       position: relative;
     }
 
@@ -120,7 +122,7 @@
       padding: 22px 18px 10px;
       position: sticky;
       top: 0;
-      z-index: 10;
+      z-index: 20;
       background: linear-gradient(180deg, rgba(255, 252, 248, 0.98) 0%, rgba(255, 252, 248, 0.92) 100%);
       backdrop-filter: blur(8px);
     }
@@ -141,6 +143,17 @@
       font: inherit;
       cursor: pointer;
       padding: 0;
+    }
+
+    .icon-button--back {
+      width: 56px;
+      min-width: 56px;
+      height: 56px;
+    }
+
+    .icon-button--back svg {
+      width: 28px;
+      height: 28px;
     }
 
     .icon-button {
@@ -527,10 +540,10 @@
       border-top: 1px solid rgba(228, 215, 205, 0.92);
       box-shadow: var(--nav-shadow);
       padding: 12px 18px 16px;
-      z-index: 2;
       animation: navRise 0.45s ease-out;
       margin-top: auto;
-      z-index: 10;
+      z-index: 30;
+      pointer-events: auto;
     }
 
     .nav-list {
@@ -666,6 +679,43 @@
       }
     }
 
+    @media (max-width: 767px) {
+      .page {
+        padding: 0;
+      }
+
+      .shell {
+        width: 100%;
+        min-height: 100dvh;
+        height: 100dvh;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+      }
+
+      .app {
+        min-height: 100dvh;
+      }
+
+      .header {
+        top: 0;
+        padding-top: calc(env(safe-area-inset-top, 0px) + 22px);
+      }
+
+      .main {
+        padding: 12px 18px calc(env(safe-area-inset-bottom, 0px) + 118px);
+      }
+
+      .bottom-nav {
+        bottom: 0;
+        padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 16px);
+      }
+
+      .loading-screen {
+        min-height: 100dvh;
+      }
+    }
+
     @media (min-width: 640px) {
       .header {
         padding: 24px 24px 10px;
@@ -696,8 +746,13 @@
   <main class="page">
     <section class="shell">
       <div class="app hidden" id="app">
-        <header class="header">
+        <header class="header site-header">
           <div class="header-group">
+            <button class="icon-button icon-button--back" type="button" id="backButton" aria-label="Go back">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M15 18 9 12l6-6"></path>
+              </svg>
+            </button>
             <div class="header-copy">
               <p class="eyebrow">Progress</p>
               <h1 class="header-title">Your Wellora journey</h1>
@@ -830,6 +885,7 @@
 
     const app = document.getElementById("app");
     const loadingScreen = document.getElementById("loadingScreen");
+    const backButton = document.getElementById("backButton");
     const profileButton = document.getElementById("profileButton");
     const homeButton = document.getElementById("homeButton");
     const progressButton = document.getElementById("progressButton");
@@ -1255,6 +1311,12 @@
     }
 
     function attachNavigation() {
+      if (backButton) {
+        backButton.addEventListener("click", function () {
+          window.location.href = "home.html";
+        });
+      }
+
       profileButton.addEventListener("click", function () {
         window.location.href = "profile.html";
       });
@@ -1272,6 +1334,13 @@
       });
 
       scrollTopButton.addEventListener("click", function () {
+        const scrollRegion = document.querySelector(".app > .main");
+
+        if (scrollRegion) {
+          scrollRegion.scrollTo({ top: 0, behavior: "smooth" });
+          return;
+        }
+
         window.scrollTo({ top: 0, behavior: "smooth" });
       });
     }

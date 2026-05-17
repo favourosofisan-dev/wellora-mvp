@@ -11,6 +11,7 @@
   <link rel="apple-touch-icon" href="/image/apple-touch-icon.png">
   <link rel="manifest" href="/manifest.json">
   <link rel="icon" type="image/png" href="image/wellora logo.png">
+  <link rel="stylesheet" href="layout.css">
   <style>
     :root {
       --bg: #fbf7f2;
@@ -44,6 +45,7 @@
 
     body {
       min-height: 100vh;
+      min-height: 100dvh;
     }
 
     .page {
@@ -80,7 +82,7 @@
       backdrop-filter: blur(4px);
       position: sticky;
       top: 0;
-      z-index: 10;
+      z-index: 20;
     }
 
     .header-spacer,
@@ -342,7 +344,8 @@
       box-shadow: 0 -10px 24px rgba(106, 84, 67, 0.08);
       animation: navRise 0.45s ease-out;
       margin-top: auto;
-      z-index: 10;
+      z-index: 30;
+      pointer-events: auto;
     }
 
     .nav-list {
@@ -434,6 +437,35 @@
       }
     }
 
+    @media (max-width: 767px) {
+      .page {
+        padding: 0;
+      }
+
+      .screen {
+        width: 100%;
+        min-height: 100dvh;
+        height: 100dvh;
+        border-left: 0;
+        border-right: 0;
+        box-shadow: none;
+      }
+
+      .content {
+        padding: 6px 24px calc(env(safe-area-inset-bottom, 0px) + 140px);
+      }
+
+      .header {
+        top: 0;
+        padding-top: calc(env(safe-area-inset-top, 0px) + 22px);
+      }
+
+      .bottom-nav {
+        bottom: 0;
+        padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 16px);
+      }
+    }
+
     @media (min-width: 768px) {
       .page {
         padding: 18px;
@@ -450,7 +482,7 @@
 <body>
   <main class="page">
     <section class="screen" aria-label="Exercise completion screen">
-      <header class="header">
+      <header class="header site-header">
         <button class="close-button" type="button" id="closeButton" aria-label="Close">
           <svg viewBox="0 0 24 24">
             <path d="M6 6l12 12"></path>
