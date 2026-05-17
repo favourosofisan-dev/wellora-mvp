@@ -15,6 +15,19 @@ body {
   padding: 0;
 }
 
+:root {
+  --mobile-safe-top: env(safe-area-inset-top, 0px);
+  --mobile-safe-bottom: env(safe-area-inset-bottom, 0px);
+  --mobile-viewport-height: 100vh;
+  --mobile-nav-lift: 18px;
+}
+
+@supports (height: 100svh) {
+  :root {
+    --mobile-viewport-height: 100svh;
+  }
+}
+
 body {
   min-height: 100vh;
   min-height: 100dvh;
@@ -72,6 +85,8 @@ body:has(.auth-card) .auth-card {
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: contain;
+  scroll-padding-top: calc(var(--mobile-safe-top) + 20px);
+  scroll-padding-bottom: calc(var(--mobile-safe-bottom) + var(--mobile-nav-lift) + 96px);
 }
 
 .screen > .header,
@@ -115,15 +130,17 @@ body:has(.auth-card) .auth-card {
 
   main.page:has(.screen),
   main.page:has(.shell) {
-    min-height: 100dvh;
-    max-height: 100dvh;
+    min-height: var(--mobile-viewport-height);
+    max-height: var(--mobile-viewport-height);
     overflow: hidden;
+    padding: 0 !important;
   }
 
   .screen {
     width: 100%;
-    min-height: 100dvh;
-    max-height: 100dvh;
+    min-height: var(--mobile-viewport-height) !important;
+    height: var(--mobile-viewport-height) !important;
+    max-height: var(--mobile-viewport-height) !important;
     border: 0;
     border-radius: 0;
     box-shadow: none;
@@ -131,25 +148,46 @@ body:has(.auth-card) .auth-card {
 
   .shell {
     width: 100%;
-    min-height: 100dvh;
-    max-height: 100dvh;
+    min-height: var(--mobile-viewport-height) !important;
+    height: var(--mobile-viewport-height) !important;
+    max-height: var(--mobile-viewport-height) !important;
     border: 0;
     border-radius: 0;
     box-shadow: none;
   }
 
   .shell > .app {
-    min-height: 100dvh;
+    min-height: var(--mobile-viewport-height) !important;
+    height: 100%;
+  }
+
+  .screen > .app-shell,
+  .screen > .content,
+  .shell > .app > .main {
+    min-height: 0;
+    padding-bottom: calc(var(--mobile-safe-bottom) + var(--mobile-nav-lift) + 132px) !important;
   }
 
   .screen > .bottom-nav,
   .shell > .app > .bottom-nav {
-    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 12px);
+    bottom: var(--mobile-nav-lift) !important;
+    padding-bottom: calc(var(--mobile-safe-bottom) + 12px) !important;
   }
 
   .app-shell > .topbar,
   .content > .topbar,
   .shell > .app > .header {
-    padding-top: calc(env(safe-area-inset-top, 0px) + 8px);
+    padding-top: calc(var(--mobile-safe-top) + 8px) !important;
+  }
+
+  .screen > .header,
+  .screen > .topbar.site-header,
+  .screen > .topbar,
+  .shell > .app > .header {
+    top: 0;
+  }
+
+  .bottom-nav {
+    bottom: var(--mobile-nav-lift) !important;
   }
 }
