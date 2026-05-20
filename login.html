@@ -44,12 +44,14 @@
 
     body {
       min-height: 100vh;
+      min-height: 100dvh;
     }
 
     .page {
       width: 100%;
       max-width: 100%;
       min-height: 100vh;
+      min-height: 100dvh;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -183,6 +185,7 @@
       justify-content: space-between;
       align-items: baseline;
       gap: 16px;
+      min-width: 0;
     }
 
     .field-label,
@@ -232,6 +235,7 @@
 
     .input {
       flex: 1;
+      min-width: 0;
       border: 0;
       outline: 0;
       background: transparent;
@@ -312,6 +316,11 @@
       justify-content: center;
       gap: 12px;
       box-shadow: 0 10px 22px rgba(154, 123, 97, 0.08);
+    }
+
+    .google-button span {
+      min-width: 0;
+      overflow-wrap: anywhere;
     }
 
     .google-button:hover,
@@ -396,8 +405,34 @@
     }
 
     @media (max-width: 480px) {
+      .page {
+        align-items: flex-start;
+        padding: max(14px, env(safe-area-inset-top, 0px)) 14px max(18px, env(safe-area-inset-bottom, 0px));
+      }
+
+      .auth-card {
+        padding: 14px;
+        gap: 18px;
+      }
+
       .auth-tab {
         flex-basis: 100%;
+      }
+
+      .hero p {
+        max-width: none;
+        font-size: 1.02rem;
+      }
+
+      .field-row {
+        align-items: flex-start;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .google-button {
+        padding-left: 14px;
+        padding-right: 14px;
       }
     }
   </style>

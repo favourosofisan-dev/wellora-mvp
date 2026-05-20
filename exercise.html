@@ -87,6 +87,8 @@
       box-shadow: var(--shadow);
       overflow: visible;
       position: relative;
+      display: flex;
+      flex-direction: column;
     }
 
     .shell::before,
@@ -121,6 +123,8 @@
       display: flex;
       flex-direction: column;
       min-height: 100%;
+      flex: 1 1 auto;
+      overflow: hidden;
     }
 
     .header {
@@ -209,6 +213,10 @@
       padding: 14px 22px 24px;
       display: grid;
       gap: 20px;
+      min-height: 0;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
     }
 
     .hero-card,
@@ -1255,6 +1263,10 @@
         top: 0;
         padding-top: calc(env(safe-area-inset-top, 0px) + 22px);
       }
+
+      .main {
+        padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 32px);
+      }
     }
 
     @media (min-width: 640px) {
@@ -1301,6 +1313,10 @@
       .header {
         top: 0;
         padding-top: calc(env(safe-area-inset-top, 0px) + 22px);
+      }
+
+      .main {
+        padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 32px);
       }
     }
   </style>
