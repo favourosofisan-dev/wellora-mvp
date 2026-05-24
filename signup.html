@@ -15,13 +15,14 @@
   <style>
     :root {
       --bg: #f7f2eb;
-      --surface: rgba(255, 252, 248, 0.97);
+      --surface: rgba(255, 252, 248, 0.94);
       --surface-strong: #fffaf5;
-      --text: #26211e;
-      --muted: #8a776d;
-      --border: #eaded4;
+      --text: #221d1a;
+      --muted: #7b6b63;
+      --border: rgba(231, 219, 210, 0.96);
       --accent: #8d4825;
-      --shadow: 0 18px 40px rgba(118, 77, 48, 0.16);
+      --accent-strong: #733b1d;
+      --shadow: 0 20px 44px rgba(118, 77, 48, 0.13);
     }
 
     * {
@@ -44,19 +45,31 @@
 
     body {
       min-height: 100vh;
+      min-height: 100dvh;
+    }
+
+    body.signup-screen {
+      overflow: hidden;
+    }
+
+    body.signup-screen > main.page {
+      padding-top: max(8px, env(safe-area-inset-top, 0px)) !important;
+      padding-bottom: max(8px, env(safe-area-inset-bottom, 0px)) !important;
+      overflow: hidden !important;
     }
 
     .page {
       width: 100%;
       max-width: 100%;
       min-height: 100vh;
+      min-height: 100dvh;
       display: flex;
       align-items: center;
       justify-content: center;
       overflow-x: hidden;
-      padding: 20px;
+      overflow-y: hidden;
+      padding: 10px 12px;
       position: relative;
-      overflow-y: auto;
       isolation: isolate;
     }
 
@@ -71,110 +84,119 @@
     }
 
     .page::before {
-      width: 250px;
-      height: 250px;
-      top: 22px;
-      left: -56px;
+      width: 220px;
+      height: 220px;
+      top: 12px;
+      left: -80px;
       background:
-        radial-gradient(circle, rgba(160, 92, 54, 0.72) 0 36%, rgba(145, 77, 44, 0.4) 37% 50%, rgba(137, 72, 39, 0.52) 51% 58%, rgba(255, 95, 51, 0.95) 59% 61%, transparent 62%);
+        radial-gradient(circle, rgba(160, 92, 54, 0.36) 0 42%, rgba(255, 255, 255, 0.64) 43% 56%, transparent 57%);
     }
 
     .page::after {
-      width: 250px;
-      height: 250px;
-      right: -62px;
-      bottom: 42px;
+      width: 220px;
+      height: 220px;
+      right: -88px;
+      bottom: 12px;
       background:
-        radial-gradient(circle, rgba(160, 92, 54, 0.8) 0 36%, rgba(145, 77, 44, 0.46) 37% 50%, rgba(137, 72, 39, 0.58) 51% 58%, rgba(255, 95, 51, 0.95) 59% 61%, transparent 62%);
+        radial-gradient(circle, rgba(160, 92, 54, 0.32) 0 42%, rgba(255, 255, 255, 0.64) 43% 56%, transparent 57%);
     }
 
     .auth-card {
       width: 100%;
-      max-width: 400px;
+      max-width: 392px;
       margin: 0 auto;
-      background: var(--surface);
+      background: linear-gradient(180deg, rgba(255, 253, 250, 0.98), rgba(249, 243, 236, 0.98));
       border: 1px solid rgba(234, 222, 212, 0.92);
+      border-radius: 28px;
       box-shadow: var(--shadow);
-      padding: 16px;
+      padding: 14px;
+      backdrop-filter: blur(10px);
+    }
+
+    .auth-card {
       display: grid;
-      gap: 22px;
+      gap: 12px;
     }
 
     .auth-tabs {
       display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
+      gap: 8px;
+      padding: 5px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.66);
+      border: 1px solid rgba(234, 222, 212, 0.8);
     }
 
     .auth-tab {
-      flex: 1 1 140px;
-      min-height: 48px;
-      border-radius: 16px;
+      flex: 1 1 0;
+      min-height: 40px;
+      border-radius: 12px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      padding: 10px 16px;
+      padding: 10px 14px;
       text-decoration: none;
-      font-weight: 800;
-      border: 1px solid var(--border);
-      color: var(--accent);
-      background: rgba(255, 255, 255, 0.72);
+      font-weight: 700;
+      border: 0;
+      color: #745d50;
+      background: transparent;
     }
 
     .auth-tab.is-active {
       background: linear-gradient(180deg, #914c29 0%, #7b3f20 100%);
-      border-color: transparent;
       color: #fff7f1;
+      box-shadow: 0 10px 18px rgba(133, 73, 39, 0.2);
     }
 
     .brand {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
+      gap: 8px;
       text-align: center;
-      font-size: 1.5rem;
+      font-size: 1.22rem;
       font-weight: 800;
       letter-spacing: -0.04em;
     }
 
     .brand-mark {
-      width: 56px;
-      height: 56px;
+      width: 40px;
+      height: 40px;
       object-fit: contain;
       flex-shrink: 0;
     }
 
     .hero h1 {
       margin: 0;
-      font-size: 2.2rem;
-      line-height: 1.08;
+      font-size: 1.8rem;
+      line-height: 1;
       letter-spacing: -0.05em;
       font-weight: 800;
     }
 
     .hero p {
-      margin: 10px 0 0;
+      margin: 6px 0 0;
       color: var(--muted);
-      font-size: 1.08rem;
-      line-height: 1.5;
+      font-size: 0.9rem;
+      line-height: 1.35;
     }
 
     .form {
       display: grid;
-      gap: 14px;
+      gap: 12px;
     }
 
     .input-shell {
-      min-height: 56px;
-      border-radius: 18px;
+      min-height: 48px;
+      border-radius: 16px;
       border: 1px solid var(--border);
       background: var(--surface-strong);
       display: flex;
       align-items: center;
-      gap: 10px;
-      padding: 0 14px;
+      gap: 8px;
+      padding: 0 12px;
       transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+      box-shadow: 0 8px 18px rgba(154, 123, 97, 0.08);
     }
 
     .input-shell:focus-within {
@@ -184,8 +206,8 @@
     }
 
     .input-icon {
-      width: 40px;
-      height: 40px;
+      width: 32px;
+      height: 32px;
       stroke: #b39f94;
       flex-shrink: 0;
     }
@@ -196,7 +218,7 @@
       outline: 0;
       background: transparent;
       color: var(--text);
-      font-size: 1rem;
+      font-size: 0.94rem;
       font-family: inherit;
     }
 
@@ -211,7 +233,7 @@
       font-weight: 700;
       cursor: pointer;
       padding: 4px 0 4px 8px;
-      font-size: 0.88rem;
+      font-size: 0.78rem;
     }
 
     .toggle-password:hover,
@@ -222,10 +244,10 @@
     .primary-button,
     .google-button {
       width: 100%;
-      min-height: 48px;
-      border-radius: 18px;
+      min-height: 46px;
+      border-radius: 16px;
       font-family: inherit;
-      font-size: 1rem;
+      font-size: 0.92rem;
       font-weight: 800;
       cursor: pointer;
       transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
@@ -235,7 +257,7 @@
       border: 0;
       background: linear-gradient(180deg, #914c29 0%, #7b3f20 100%);
       color: #fff7f1;
-      box-shadow: 0 12px 24px rgba(133, 73, 39, 0.24);
+      box-shadow: 0 10px 20px rgba(133, 73, 39, 0.2);
       margin-top: 2px;
     }
 
@@ -250,11 +272,11 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 12px;
+      gap: 10px;
       color: #b2a197;
       font-weight: 700;
-      font-size: 0.92rem;
-      margin: 2px 0;
+      font-size: 0.78rem;
+      margin: 0;
     }
 
     .divider::before,
@@ -267,13 +289,13 @@
 
     .google-button {
       border: 1px solid var(--border);
-      background: rgba(255, 255, 255, 0.76);
-      color: #413833;
+      background: rgba(255, 255, 255, 0.8);
+      color: var(--accent-strong);
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 12px;
-      box-shadow: 0 10px 22px rgba(154, 123, 97, 0.08);
+      gap: 8px;
+      box-shadow: 0 8px 18px rgba(154, 123, 97, 0.08);
     }
 
     .google-button:focus-visible {
@@ -281,8 +303,8 @@
     }
 
     .google-icon {
-      width: 44px;
-      height: 44px;
+      width: 30px;
+      height: 30px;
       flex-shrink: 0;
     }
 
@@ -290,16 +312,16 @@
       margin: 0;
       text-align: center;
       color: var(--muted);
-      font-size: 0.98rem;
-      line-height: 1.5;
+      font-size: 0.86rem;
+      line-height: 1.35;
     }
 
     .notice {
       display: none;
-      border-radius: 18px;
-      padding: 14px 16px;
-      font-size: 0.95rem;
-      line-height: 1.55;
+      border-radius: 16px;
+      padding: 10px 12px;
+      font-size: 0.8rem;
+      line-height: 1.35;
       border: 1px solid transparent;
     }
 
@@ -338,43 +360,64 @@
 
     @media (min-width: 480px) {
       .auth-card {
-        padding: 24px;
+        padding: 18px;
       }
 
       .brand {
-        font-size: 1.65rem;
+        font-size: 1.28rem;
       }
 
       .hero h1 {
-        font-size: 2.55rem;
+        font-size: 1.95rem;
       }
 
+      .hero p {
+        font-size: 0.92rem;
+      }
     }
 
     @media (min-width: 768px) {
       .page {
-        padding: 28px;
+        padding: 12px 16px;
       }
 
       .page::before,
       .page::after {
-        width: 310px;
-        height: 310px;
+        width: 250px;
+        height: 250px;
       }
 
       .auth-card {
-        max-width: 400px;
+        max-width: 392px;
+        padding: 18px;
       }
     }
 
     @media (max-width: 480px) {
-      .auth-tab {
-        flex-basis: 100%;
+      .page {
+        padding: max(8px, env(safe-area-inset-top, 0px)) 10px max(8px, env(safe-area-inset-bottom, 0px));
+      }
+
+      .auth-card {
+        padding: 14px;
+      }
+
+      .hero h1 {
+        font-size: 1.64rem;
+      }
+
+      .hero p {
+        font-size: 0.86rem;
+      }
+
+      .google-button {
+        padding-left: 10px;
+        padding-right: 10px;
       }
     }
   </style>
 </head>
-<body>
+<body class="signup-screen">
   <main class="page">
     <section class="auth-card" aria-label="Create your Wellora account">
       <div class="brand">
