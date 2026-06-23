@@ -95,6 +95,87 @@
       backdrop-filter: blur(8px);
     }
 
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .language-control {
+      display: grid;
+      gap: 5px;
+      min-width: 138px;
+      position: relative;
+    }
+
+    .language-control label {
+      color: #8d4825;
+      font-size: 0.7rem;
+      font-weight: 800;
+      line-height: 1.2;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding-left: 4px;
+    }
+
+    .language-control::after {
+      content: "";
+      position: absolute;
+      right: 14px;
+      bottom: 15px;
+      width: 8px;
+      height: 8px;
+      border-right: 2px solid #8d4825;
+      border-bottom: 2px solid #8d4825;
+      transform: rotate(45deg);
+      pointer-events: none;
+    }
+
+    .language-control select {
+      min-height: 46px;
+      border-radius: 999px;
+      border: 1px solid rgba(141, 72, 37, 0.18);
+      background: linear-gradient(180deg, rgba(255, 252, 248, 0.98), rgba(247, 238, 229, 0.96));
+      color: var(--text);
+      box-shadow: 0 8px 18px rgba(116, 89, 71, 0.08);
+      font: inherit;
+      font-size: 0.9rem;
+      font-weight: 800;
+      padding: 9px 36px 9px 16px;
+      appearance: none;
+      cursor: pointer;
+    }
+
+    .language-control select:hover,
+    .language-control select:focus-visible {
+      border-color: rgba(141, 72, 37, 0.36);
+      box-shadow: 0 10px 20px rgba(116, 89, 71, 0.12), 0 0 0 4px rgba(141, 72, 37, 0.08);
+      outline: 0;
+    }
+
+    .language-control option {
+      background: #fffaf6;
+      color: #2b2522;
+      font-weight: 700;
+    }
+
+    .translation-note {
+      display: none;
+      margin: 14px 0 0;
+      padding: 12px 14px;
+      border-radius: 8px;
+      background: rgba(255, 247, 228, 0.96);
+      border: 1px solid rgba(237, 196, 122, 0.8);
+      color: #6d4f35;
+      font-size: 0.92rem;
+      line-height: 1.5;
+      font-weight: 700;
+    }
+
+    .translation-note.is-visible {
+      display: block;
+    }
+
     .brand {
       display: flex;
       align-items: center;
@@ -548,58 +629,74 @@
             <span>Wellora</span>
           </div>
 
-          <button class="icon-button" type="button" aria-label="Profile" id="profileButton">
-            <span class="avatar" aria-hidden="true">
-              <svg viewBox="0 0 24 24">
-                <path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"></path>
-                <path d="M4 20a8 8 0 0 1 16 0"></path>
-              </svg>
-            </span>
-          </button>
+          <div class="topbar-actions">
+            <div class="language-control">
+              <label for="languageSelect" data-i18n="languageLabel">Language</label>
+              <select id="languageSelect" aria-label="Language">
+                <option value="en">English</option>
+                <option value="yo">Yoruba</option>
+                <option value="ig">Igbo</option>
+                <option value="ha">Hausa</option>
+                <option value="es">Español</option>
+                <option value="fr">Français</option>
+                <option value="zh">中文</option>
+              </select>
+            </div>
+
+            <button class="icon-button" type="button" aria-label="Profile" id="profileButton" data-i18n-aria-label="profileNav">
+              <span class="avatar" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"></path>
+                  <path d="M4 20a8 8 0 0 1 16 0"></path>
+                </svg>
+              </span>
+            </button>
+          </div>
         </header>
 
         <section class="hero">
-          <p class="eyebrow">Today in Wellora</p>
-          <h1 id="heroTitle">Your Wellness Sanctuary</h1>
+          <p class="eyebrow" data-i18n="homeEyebrow">Today in Wellora</p>
+          <h1 id="heroTitle" data-i18n="homeTitle">Your Wellness Sanctuary</h1>
           <p id="heroText">Choose a category to begin your guided journey toward vitality and peace.</p>
+          <p class="translation-note" id="translationNote" aria-live="polite"></p>
         </section>
 
         <section class="category-grid" id="categoryGrid" aria-label="Wellness categories"></section>
 
         <button class="featured-card" type="button" id="featuredExerciseButton" data-exercise-id="">
           <div class="featured-content">
-            <span class="pill" id="featuredPill">Recommended</span>
-            <h3 id="featuredTitle">Loading featured exercise...</h3>
-            <p id="featuredDescription">Fetching today's guided movement from your library.</p>
+            <span class="pill" id="featuredPill" data-i18n="recommended">Recommended</span>
+            <h3 id="featuredTitle" data-i18n="loadingFeatured">Loading featured exercise...</h3>
+            <p id="featuredDescription" data-i18n="fetchingFeatured">Fetching today's guided movement from your library.</p>
           </div>
         </button>
       </div>
 
       <nav class="bottom-nav" aria-label="Primary navigation">
         <div class="nav-list">
-          <button class="nav-button is-active" type="button" aria-label="Home">
+          <button class="nav-button is-active" type="button" aria-label="Home" data-i18n-aria-label="homeNav">
             <span class="nav-pill">
               <svg viewBox="0 0 24 24">
                 <path d="M10 20V14H14V20H19V12H22L12 3L2 12H5V20H10Z"></path>
               </svg>
             </span>
-            <span>Home</span>
+            <span data-i18n="homeNav">Home</span>
           </button>
-          <button class="nav-button" type="button" aria-label="Progress" id="progressButton">
+          <button class="nav-button" type="button" aria-label="Progress" id="progressButton" data-i18n-aria-label="progressNav">
             <span class="nav-pill">
               <svg viewBox="0 0 24 24">
                 <path d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM9 17H7V10H9V17ZM13 17H11V7H13V17ZM17 17H15V13H17V17Z"></path>
               </svg>
             </span>
-            <span>Progress</span>
+            <span data-i18n="progressNav">Progress</span>
           </button>
-          <button class="nav-button" type="button" aria-label="Profile" id="navProfileButton">
+          <button class="nav-button" type="button" aria-label="Profile" id="navProfileButton" data-i18n-aria-label="profileNav">
             <span class="nav-pill">
               <svg viewBox="0 0 24 24">
                 <path d="M12 12C14.21 12 16 10.21 16 8C16 5.79 14.21 4 12 4C9.79 4 8 5.79 8 8C8 10.21 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V20H20V18C20 15.34 14.67 14 12 14Z"></path>
               </svg>
             </span>
-            <span>Profile</span>
+            <span data-i18n="profileNav">Profile</span>
           </button>
         </div>
       </nav>
@@ -609,6 +706,9 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase-config.js"></script>
   <script src="wellora-flow.js"></script>
+  <script src="translations.js"></script>
+  <script src="legal-footer.js"></script>
+  <script src="wellora-guide.js"></script>
   <script>
     const supabaseClient = window.createWelloraSupabaseClient();
 
@@ -622,6 +722,8 @@
     const profileButton = document.getElementById("profileButton");
     const navProfileButton = document.getElementById("navProfileButton");
     const progressButton = document.getElementById("progressButton");
+    const languageSelect = document.getElementById("languageSelect");
+    const translationNote = document.getElementById("translationNote");
     const categoryIcons = {
       "Balance and Stability": "image/balance and stability icon.png",
       "Flexibility": "image/flexibility.png",
@@ -633,6 +735,8 @@
       "Energy Levels": "image/energy levels.png",
       "Cognitive Function": "image/cognitive function.png"
     };
+    let cachedCategories = [];
+    let cachedExercises = [];
 
     function redirectToLogin() {
       window.location.href = "login.html";
@@ -649,6 +753,25 @@
       return minutes + "-minute routine";
     }
 
+    function t(key, fallback) {
+      return window.WelloraI18n ? window.WelloraI18n.t(key, fallback) : (fallback || key);
+    }
+
+    function updateTranslationNotice() {
+      const language = window.WelloraI18n ? window.WelloraI18n.getLanguage() : "en";
+      const notice = t("translationNotice", "");
+      translationNote.textContent = notice;
+      translationNote.classList.toggle("is-visible", language !== "en" && Boolean(notice));
+    }
+
+    function renderHomeCopy() {
+      heroTitle.textContent = t("homeTitle", "Your Wellness Sanctuary");
+      heroText.textContent = cachedExercises.length
+        ? t("homeTextReady", "Choose a category and start a gentle routine designed to keep your momentum going.")
+        : t("homeTextEmpty", "Your home screen is ready. Add your first exercise to begin building a calm daily routine.");
+      updateTranslationNotice();
+    }
+
     function renderCategories(categories) {
       const uniqueCategories = [...new Map(categories.map(item => [item.category, item])).values()];
 
@@ -661,15 +784,15 @@
               '<img src="' + icon + '" alt="">' +
             "</span>" +
             "<h2>" + category.category + "</h2>" +
-            "<p>Open category</p>" +
+            "<p>" + t("openCategory", "Open category") + "</p>" +
           "</button>"
         );
       }).join("");
 
       categoryGrid.innerHTML = markup || (
         '<article class="category-card" aria-live="polite">' +
-          '<h2>No categories available</h2>' +
-          "<p>Add exercises in Supabase to populate this screen.</p>" +
+          "<h2>" + t("noCategoriesTitle", "No categories available") + "</h2>" +
+          "<p>" + t("noCategoriesText", "Add exercises in Supabase to populate this screen.") + "</p>" +
         "</article>"
       );
     }
@@ -678,9 +801,9 @@
       if (!exercises.length) {
         featuredExerciseButton.dataset.exerciseId = "";
         featuredExerciseButton.dataset.category = "";
-        featuredTitle.textContent = "No featured exercise yet";
-        featuredDescription.textContent = "Add an exercise in Supabase and it will appear here.";
-        featuredPill.textContent = "Library Empty";
+        featuredTitle.textContent = t("noFeaturedTitle", "No featured exercise yet");
+        featuredDescription.textContent = t("noFeaturedText", "Add an exercise in Supabase and it will appear here.");
+        featuredPill.textContent = t("libraryEmpty", "Library Empty");
         return;
       }
 
@@ -779,6 +902,16 @@
 
     async function init() {
       attachNavigation();
+      window.WelloraI18n.initLanguageSelector(languageSelect);
+      window.WelloraI18n.applyTranslations(document);
+      updateTranslationNotice();
+
+      window.addEventListener("wellora:languagechange", function () {
+        window.WelloraI18n.applyTranslations(document);
+        renderHomeCopy();
+        renderCategories(cachedCategories);
+        renderFeatured(cachedExercises);
+      });
 
       const user = await requireUser();
 
@@ -789,12 +922,11 @@
       try {
         const categories = await loadCategories();
         const exercises = await loadExercises();
-        heroTitle.textContent = "Your Wellness Sanctuary";
-        heroText.textContent = exercises.length
-          ? "Choose a category and start a gentle routine designed to keep your momentum going."
-          : "Your home screen is ready. Add your first exercise to begin building a calm daily routine.";
-        renderCategories(categories);
-        renderFeatured(exercises);
+        cachedCategories = categories;
+        cachedExercises = exercises;
+        renderHomeCopy();
+        renderCategories(cachedCategories);
+        renderFeatured(cachedExercises);
       } catch (error) {
         categoryGrid.innerHTML =
           '<article class="category-card" aria-live="polite">' +
@@ -803,9 +935,9 @@
           "</article>";
         featuredExerciseButton.dataset.exerciseId = "";
         featuredExerciseButton.dataset.category = "";
-        featuredTitle.textContent = "Backend unavailable";
-        featuredDescription.textContent = "We couldn't load exercises from Supabase right now.";
-        featuredPill.textContent = "Connection Error";
+        featuredTitle.textContent = t("backendUnavailable", "Backend unavailable");
+        featuredDescription.textContent = t("backendUnavailableText", "We couldn't load exercises from Supabase right now.");
+        featuredPill.textContent = t("connectionError", "Connection Error");
       }
     }
 
@@ -815,3 +947,5 @@
   <script src="/pwa.js"></script>
 </body>
 </html>
+
+

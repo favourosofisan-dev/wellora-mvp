@@ -650,7 +650,7 @@
             </button>
           </div>
 
-          <h1 class="topbar-title">Profile</h1>
+          <h1 class="topbar-title" data-i18n="profileTitle">Profile</h1>
 
           <div class="topbar-side" aria-hidden="true"></div>
         </header>
@@ -664,7 +664,7 @@
               </svg>
               <p class="avatar-initials" id="avatarInitials">MT</p>
             </div>
-            <button class="avatar-edit" type="button" id="avatarEditButton" aria-label="Edit profile">
+            <button class="avatar-edit" type="button" id="avatarEditButton" aria-label="Edit profile" data-i18n-aria-label="editProfile">
               <svg viewBox="0 0 24 24">
                 <path d="m4 20 4.5-1 9-9a2.1 2.1 0 0 0-3-3l-9 9L4 20Z"></path>
                 <path d="m13.5 7.5 3 3"></path>
@@ -678,14 +678,14 @@
 
         <section class="section" aria-labelledby="detailsTitle">
           <div class="section-head">
-            <h2 id="detailsTitle">Your Details</h2>
-            <button class="edit-chip" type="button" id="editDetailsButton">Edit</button>
+            <h2 id="detailsTitle" data-i18n="yourDetails">Your Details</h2>
+            <button class="edit-chip" type="button" id="editDetailsButton" data-i18n="edit">Edit</button>
           </div>
 
           <div class="card details-card">
             <button class="detail-row" type="button" id="birthYearButton">
               <div class="detail-content">
-                <p class="detail-label">Birth Year</p>
+                <p class="detail-label" data-i18n="birthYear">Birth Year</p>
                 <p class="detail-value" id="birthYearValue">1955</p>
               </div>
               <span class="detail-arrow" aria-hidden="true">
@@ -697,7 +697,7 @@
 
             <button class="detail-row" type="button" id="fitnessLevelButton">
               <div class="detail-content">
-                <p class="detail-label">Fitness Level</p>
+                <p class="detail-label" data-i18n="fitnessLevel">Fitness Level</p>
                 <p class="detail-value" id="fitnessLevelValue">Beginner</p>
               </div>
               <span class="detail-arrow" aria-hidden="true">
@@ -711,7 +711,7 @@
               <div class="detail-main">
                 <img class="goal-icon" id="goalIcon" src="image/balance and stability icon.png" alt="" aria-hidden="true">
                 <div class="detail-content">
-                  <p class="detail-label">Main Goal</p>
+                  <p class="detail-label" data-i18n="mainGoal">Main Goal</p>
                   <p class="detail-value" id="goalValue">Balance &amp; Stability</p>
                 </div>
               </div>
@@ -726,7 +726,7 @@
 
         <section class="section" aria-labelledby="preferencesTitle">
           <div class="section-head">
-            <h2 id="preferencesTitle">Preferences</h2>
+            <h2 id="preferencesTitle" data-i18n="preferences">Preferences</h2>
           </div>
 
           <div class="card preferences-card">
@@ -737,8 +737,8 @@
                   <path d="m4 7 8 6 8-6"></path>
                 </svg>
               </div>
-              <div class="pref-label">Email reminders</div>
-              <label class="switch" aria-label="Email reminders">
+              <div class="pref-label" data-i18n="emailReminders">Email reminders</div>
+              <label class="switch" aria-label="Email reminders" data-i18n-aria-label="emailReminders">
                 <input type="checkbox" id="emailToggle">
                 <span class="slider"></span>
               </label>
@@ -753,8 +753,8 @@
                   <path d="M16 8v8"></path>
                 </svg>
               </div>
-              <div class="pref-label">Larger text mode</div>
-              <label class="switch" aria-label="Larger text mode">
+              <div class="pref-label" data-i18n="largerTextMode">Larger text mode</div>
+              <label class="switch" aria-label="Larger text mode" data-i18n-aria-label="largerTextMode">
                 <input type="checkbox" id="textToggle">
                 <span class="slider"></span>
               </label>
@@ -764,43 +764,43 @@
 
         <section class="account-block" aria-labelledby="accountTitle">
           <div class="section-head">
-            <h2 id="accountTitle">Account</h2>
+            <h2 id="accountTitle" data-i18n="account">Account</h2>
           </div>
 
-          <button class="secondary-button" type="button" id="remindersButton">Reminders</button>
-          <button class="secondary-button" type="button" id="reportsButton">Share report with caregiver</button>
-          <button class="logout-button" type="button" id="logoutButton">Log Out</button>
+          <button class="secondary-button" type="button" id="remindersButton" data-i18n="reminders">Reminders</button>
+          <button class="secondary-button" type="button" id="reportsButton" data-i18n="shareReport">Share report with caregiver</button>
+          <button class="logout-button" type="button" id="logoutButton" data-i18n="logout">Log Out</button>
           <p class="version">Version 2.4.1 (Stable)</p>
         </section>
       </div>
 
       <nav class="bottom-nav" aria-label="Primary navigation">
         <div class="nav-list">
-          <button class="nav-button" type="button" id="homeButton" aria-label="Home">
+          <button class="nav-button" type="button" id="homeButton" aria-label="Home" data-i18n-aria-label="homeNav">
             <span class="nav-pill">
               <svg viewBox="0 0 24 24">
                 <path d="M10 20V14H14V20H19V12H22L12 3L2 12H5V20H10Z"></path>
               </svg>
             </span>
-            <span>Home</span>
+            <span data-i18n="homeNav">Home</span>
           </button>
 
-          <button class="nav-button" type="button" id="progressButton" aria-label="Progress">
+          <button class="nav-button" type="button" id="progressButton" aria-label="Progress" data-i18n-aria-label="progressNav">
             <span class="nav-pill">
               <svg viewBox="0 0 24 24">
                 <path d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM9 17H7V10H9V17ZM13 17H11V7H13V17ZM17 17H15V13H17V17Z"></path>
               </svg>
             </span>
-            <span>Progress</span>
+            <span data-i18n="progressNav">Progress</span>
           </button>
 
-          <button class="nav-button is-active" type="button" id="profileNavButton" aria-label="Profile">
+          <button class="nav-button is-active" type="button" id="profileNavButton" aria-label="Profile" data-i18n-aria-label="profileNav">
             <span class="nav-pill">
               <svg viewBox="0 0 24 24">
                 <path d="M12 12C14.21 12 16 10.21 16 8C16 5.79 14.21 4 12 4C9.79 4 8 5.79 8 8C8 10.21 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V20H20V18C20 15.34 14.67 14 12 14Z"></path>
               </svg>
             </span>
-            <span>Profile</span>
+            <span data-i18n="profileNav">Profile</span>
           </button>
         </div>
       </nav>
@@ -810,6 +810,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase-config.js"></script>
   <script src="wellora-flow.js"></script>
+  <script src="translations.js"></script>
   <script>
     const supabaseClient = window.createWelloraSupabaseClient();
     const profileKey = "welloraProfile";
@@ -883,6 +884,15 @@
     const progressButton = document.getElementById("progressButton");
     const profileNavButton = document.getElementById("profileNavButton");
 
+    function t(key, fallback) {
+      return window.WelloraI18n ? window.WelloraI18n.t(key, fallback) : (fallback || key);
+    }
+
+    function applyProfileTranslations() {
+      window.WelloraI18n.applyTranslations(document);
+      document.title = t("profileTitle", "Profile") + " | Wellora";
+    }
+
     function renderProfile() {
       profileName.textContent = profile.name;
       profileEmail.textContent = profile.email;
@@ -952,21 +962,21 @@
     });
 
     editDetailsButton.addEventListener("click", function () {
-      editField("birthYear", "Birth year");
-      editField("fitnessLevel", "Fitness level", ["Beginner", "Intermediate", "Advanced"]);
-      editField("mainGoal", "Main goal");
+      editField("birthYear", t("birthYear", "Birth year"));
+      editField("fitnessLevel", t("fitnessLevel", "Fitness level"), ["Beginner", "Intermediate", "Advanced"]);
+      editField("mainGoal", t("mainGoal", "Main goal"));
     });
 
     birthYearButton.addEventListener("click", function () {
-      editField("birthYear", "Birth year");
+      editField("birthYear", t("birthYear", "Birth year"));
     });
 
     fitnessLevelButton.addEventListener("click", function () {
-      editField("fitnessLevel", "Fitness level", ["Beginner", "Intermediate", "Advanced"]);
+      editField("fitnessLevel", t("fitnessLevel", "Fitness level"), ["Beginner", "Intermediate", "Advanced"]);
     });
 
     goalButton.addEventListener("click", function () {
-      editField("mainGoal", "Main goal");
+      editField("mainGoal", t("mainGoal", "Main goal"));
     });
 
     emailToggle.addEventListener("change", function () {
@@ -1010,9 +1020,16 @@
       window.location.href = "profile.html";
     });
 
+    applyProfileTranslations();
+    window.addEventListener("wellora:languagechange", applyProfileTranslations);
+
     requireUser();
   </script>
   <script src="voice-control.js"></script>
+  <script src="legal-footer.js"></script>
+  <script src="wellora-guide.js"></script>
   <script src="/pwa.js"></script>
 </body>
 </html>
+
+

@@ -1,4 +1,4 @@
-const CACHE_NAME = "wellora-pwa-v4";
+const CACHE_NAME = "wellora-pwa-v6";
 const APP_SHELL_FILES = [
   "/",
   "/index.html",
@@ -12,6 +12,10 @@ const APP_SHELL_FILES = [
   "/onboarding.html",
   "/forgot-password.html",
   "/reset-password-sent.html",
+  "/privacy.html",
+  "/terms.html",
+  "/disclaimer.html",
+  "/emergency.html",
   "/completion.html",
   "/reminders.html",
   "/reports.html",
@@ -22,6 +26,9 @@ const APP_SHELL_FILES = [
   "/pwa.js",
   "/wellora-flow.js",
   "/voice-control.js",
+  "/translations.js",
+  "/legal-footer.js",
+  "/wellora-guide.js",
   "/supabase-config.js",
   "/reminder-service.js",
   "/image/wellora-logo-192.png",

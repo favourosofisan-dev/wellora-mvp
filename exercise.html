@@ -333,6 +333,23 @@
       gap: 14px;
     }
 
+    .translation-note {
+      display: none;
+      margin: 0;
+      padding: 12px 14px;
+      border-radius: 8px;
+      background: rgba(255, 247, 228, 0.96);
+      border: 1px solid rgba(237, 196, 122, 0.8);
+      color: #6d4f35;
+      font-size: 0.92rem;
+      line-height: 1.5;
+      font-weight: 700;
+    }
+
+    .translation-note.is-visible {
+      display: block;
+    }
+
     .safety-card {
       gap: 18px;
       background: linear-gradient(180deg, rgba(255, 247, 228, 0.96), rgba(255, 242, 219, 0.98));
@@ -344,17 +361,29 @@
       display: grid;
       gap: 10px;
       padding: 18px;
-      border-radius: 22px;
-      background: rgba(255, 251, 242, 0.85);
-      border: 1px solid rgba(235, 192, 113, 0.7);
+      border-radius: 8px;
+      background: rgba(255, 248, 235, 0.96);
+      border: 2px solid rgba(195, 91, 58, 0.38);
     }
 
     .safety-alert-title {
       margin: 0;
-      font-size: 1.18rem;
+      font-size: 1.24rem;
       line-height: 1.5;
       font-weight: 800;
-      color: #7a4317;
+      color: #7b321e;
+    }
+
+    .emergency-mini {
+      margin: 0;
+      padding: 14px 16px;
+      border-radius: 8px;
+      background: rgba(255, 239, 236, 0.98);
+      border: 1px solid rgba(190, 84, 62, 0.28);
+      color: #8e3e2d;
+      font-size: 1rem;
+      line-height: 1.55;
+      font-weight: 800;
     }
 
     .safety-checkin {
@@ -384,7 +413,7 @@
     .variation-button {
       min-height: 52px;
       padding: 12px 16px;
-      border-radius: 18px;
+      border-radius: 8px;
       border: 1px solid var(--border);
       background: rgba(255, 255, 255, 0.92);
       color: var(--accent);
@@ -1333,8 +1362,8 @@
               </svg>
             </button>
             <div class="header-copy">
-              <p class="eyebrow">Exercise</p>
-              <h1 class="header-title">Wellora Movement Guide</h1>
+              <p class="eyebrow" data-i18n="exerciseEyebrow">Exercise</p>
+              <h1 class="header-title" data-i18n="exerciseHeaderTitle">Wellora Movement Guide</h1>
             </div>
           </div>
 
@@ -1362,7 +1391,7 @@
                   <path d="M12 8v4l2.5 2.5"></path>
                 </svg>
                 <div class="meta-item-copy">
-                  <span class="meta-label">Duration</span>
+                  <span class="meta-label" data-i18n="duration">Duration</span>
                   <span class="meta-value" id="durationValue">0 seconds</span>
                 </div>
               </div>
@@ -1373,16 +1402,18 @@
                   <path d="M12 4v16"></path>
                 </svg>
                 <div class="meta-item-copy">
-                  <span class="meta-label">Exercise ID</span>
+                  <span class="meta-label" data-i18n="exerciseId">Exercise ID</span>
                   <span class="meta-value" id="exerciseIdValue">-</span>
                 </div>
               </div>
             </div>
           </article>
 
+          <p class="translation-note" id="translationNote" aria-live="polite"></p>
+
           <article class="section-card">
             <div class="section-head">
-              <h3 class="section-title" id="mediaTitle">Video Demo</h3>
+              <h3 class="section-title" id="mediaTitle" data-i18n="videoDemo">Video Demo</h3>
             </div>
 
             <div class="video-frame" id="videoContainer"></div>
@@ -1390,80 +1421,81 @@
 
           <article class="section-card duration-picker-card" aria-labelledby="durationPickerHeading">
             <div class="section-head">
-              <h3 class="section-title" id="durationPickerHeading">Set Your Time</h3>
+              <h3 class="section-title" id="durationPickerHeading" data-i18n="setYourTime">Set Your Time</h3>
             </div>
 
             <div class="duration-picker-shell">
-              <p class="duration-picker-intro" id="durationPickerIntro">Pick how many minutes you would like to do this exercise.</p>
+              <p class="duration-picker-intro" id="durationPickerIntro" data-i18n="durationPickerIntro">Pick how many minutes you would like to do this exercise.</p>
 
               <div class="duration-picker-controls">
                 <button class="duration-adjust-button" type="button" id="durationDecreaseButton" aria-label="Decrease minutes">-</button>
                 <div class="duration-picker-value" aria-live="polite" aria-atomic="true">
-                  <p class="duration-picker-label">Chosen Duration</p>
+                  <p class="duration-picker-label" data-i18n="chosenDuration">Chosen Duration</p>
                   <p class="duration-picker-minutes" id="durationPickerValue">5 min</p>
                 </div>
                 <button class="duration-adjust-button" type="button" id="durationIncreaseButton" aria-label="Increase minutes">+</button>
               </div>
 
-              <p class="duration-picker-note" id="durationPickerNote">You can choose from 1 to 15 minutes.</p>
+              <p class="duration-picker-note" id="durationPickerNote" data-i18n="durationPickerNote">You can choose from 1 to 15 minutes.</p>
             </div>
           </article>
 
           <article class="section-card timer-card" aria-labelledby="timerHeading">
             <div class="section-head">
-              <h3 class="section-title" id="timerHeading">Exercise Timer</h3>
+              <h3 class="section-title" id="timerHeading" data-i18n="exerciseTimer">Exercise Timer</h3>
             </div>
 
             <div class="timer-display">
               <div class="timer-readout">
-                <p class="timer-label" id="timerLabel">Time Remaining</p>
+                <p class="timer-label" id="timerLabel" data-i18n="timeRemaining">Time Remaining</p>
                 <p class="timer-value" id="timerValue">00:00</p>
               </div>
               <div class="timer-progress-bar" aria-hidden="true">
                 <div class="timer-progress-fill" id="timerProgressFill"></div>
               </div>
-              <p class="timer-help" id="timerHelp">Load an exercise to start the countdown.</p>
+              <p class="timer-help" id="timerHelp" data-i18n="timerHelpLoading">Load an exercise to start the countdown.</p>
             </div>
 
             <div class="timer-mode-switch" aria-label="Timer mode">
-              <button class="timer-mode-button is-active" type="button" id="countdownModeButton" aria-pressed="true">Countdown</button>
-              <button class="timer-mode-button" type="button" id="stopwatchModeButton" aria-pressed="false">Stopwatch</button>
+              <button class="timer-mode-button is-active" type="button" id="countdownModeButton" aria-pressed="true" data-i18n="countdown">Countdown</button>
+              <button class="timer-mode-button" type="button" id="stopwatchModeButton" aria-pressed="false" data-i18n="stopwatch">Stopwatch</button>
             </div>
 
             <div class="timer-controls">
-              <button class="timer-button primary" type="button" id="timerStartButton">Start</button>
-              <button class="timer-button" type="button" id="timerPauseButton" disabled>Pause</button>
-              <button class="timer-button" type="button" id="timerResetButton" disabled>Reset</button>
-              <button class="timer-button alert" type="button" id="timerStopAlarmButton" disabled>Stop</button>
+              <button class="timer-button primary" type="button" id="timerStartButton" data-i18n="start">Start</button>
+              <button class="timer-button" type="button" id="timerPauseButton" disabled data-i18n="pause">Pause</button>
+              <button class="timer-button" type="button" id="timerResetButton" disabled data-i18n="reset">Reset</button>
+              <button class="timer-button alert" type="button" id="timerStopAlarmButton" disabled data-i18n="stop">Stop</button>
             </div>
           </article>
 
           <article class="section-card safety-card" aria-labelledby="safetyHeading">
             <div class="section-head">
-              <h3 class="section-title" id="safetyHeading">Safety Check</h3>
+              <h3 class="section-title" id="safetyHeading" data-i18n="safetyCheck">Safety Check</h3>
             </div>
 
             <div class="safety-alert">
-              <p class="safety-alert-title">⚠️ Stop immediately if you feel dizzy, short of breath, or any discomfort.</p>
+              <p class="safety-alert-title" data-i18n="safetyAlert">Stop immediately if you experience dizziness, chest pain, severe shortness of breath, loss of consciousness, severe pain, or unusual discomfort.</p>
+              <p class="emergency-mini" data-i18n="emergencyMini">For medical emergencies, call emergency services immediately. Wellora does not provide emergency care.</p>
             </div>
 
             <div class="safety-checkin">
-              <p class="safety-question">Do you feel well enough to start?</p>
+              <p class="safety-question" data-i18n="readinessQuestion">Do you feel well enough to start?</p>
               <div class="safety-actions">
-                <button class="safety-button" type="button" id="readyYesButton">Yes, I'm ready</button>
-                <button class="safety-button no-choice" type="button" id="readyNoButton">No, not today</button>
+                <button class="safety-button" type="button" id="readyYesButton" data-i18n="readyYes">Yes, I'm ready</button>
+                <button class="safety-button no-choice" type="button" id="readyNoButton" data-i18n="readyNo">No, not today</button>
               </div>
-              <p class="safety-note" id="safetyCheckinNote">Please choose the option that feels safest for you today.</p>
+              <p class="safety-note" id="safetyCheckinNote" data-i18n="safetyNoteChoose">Please choose the option that feels safest for you today.</p>
             </div>
 
             <div class="safety-checkin">
-              <p class="safety-question">Choose the version that feels most comfortable.</p>
+              <p class="safety-question" data-i18n="variationQuestion">Choose the version that feels most comfortable.</p>
               <div class="variation-switch" role="group" aria-label="Exercise variation">
-                <button class="variation-button is-active" type="button" id="standingOptionButton">Standing</button>
-                <button class="variation-button" type="button" id="seatedOptionButton">Seated</button>
-                <button class="variation-button" type="button" id="lowImpactOptionButton">Low impact</button>
+                <button class="variation-button is-active" type="button" id="standingOptionButton" data-i18n="standing">Standing</button>
+                <button class="variation-button" type="button" id="seatedOptionButton" data-i18n="seated">Seated</button>
+                <button class="variation-button" type="button" id="lowImpactOptionButton" data-i18n="lowImpact">Low impact</button>
               </div>
-              <p class="variation-tip" id="variationTip">💡 Standing version: Move at a steady pace and keep support nearby if needed.</p>
+              <p class="variation-tip" id="variationTip" data-i18n="standingTip">Standing version: Move at a steady pace and keep support nearby if needed.</p>
             </div>
 
             <p class="contra-note" id="contraindicationNote" hidden></p>
@@ -1471,7 +1503,7 @@
 
           <article class="section-card">
             <div class="section-head">
-              <h3 class="section-title">Step-by-Step Instructions</h3>
+              <h3 class="section-title" data-i18n="stepsHeading">Step-by-Step Instructions</h3>
             </div>
 
             <div class="voice-coach-controls" aria-label="Voice coach controls">
@@ -1483,11 +1515,11 @@
                   <path d="M17 9a4 4 0 0 1 0 6"></path>
                   <path d="M19 6a8 8 0 0 1 0 12"></path>
                 </svg>
-                <span>Read Aloud</span>
+                <span data-i18n="readAloud">Read Aloud</span>
               </button>
-              <button class="voice-coach-button stop" type="button" id="voiceCoachStopButton" disabled>Stop</button>
+              <button class="voice-coach-button stop" type="button" id="voiceCoachStopButton" disabled data-i18n="stop">Stop</button>
             </div>
-            <p class="voice-coach-note" id="voiceCoachNote">Tap Read Aloud if you would like the exercise steps spoken clearly.</p>
+            <p class="voice-coach-note" id="voiceCoachNote" data-i18n="voiceCoachNote">Tap Read Aloud if you would like the exercise steps spoken clearly.</p>
             <p class="description" id="descriptionText"></p>
             <ol class="steps" id="stepsList"></ol>
           </article>
@@ -1501,7 +1533,7 @@
               <circle cx="12" cy="12" r="9"></circle>
               <path d="m8.5 12.5 2.4 2.4 4.8-5.3"></path>
             </svg>
-            <span id="completeButtonLabel">Complete</span>
+            <span id="completeButtonLabel" data-i18n="complete">Complete</span>
           </button>
         </footer>
       </div>
@@ -1563,6 +1595,9 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase-config.js"></script>
   <script src="wellora-flow.js"></script>
+  <script src="translations.js"></script>
+  <script src="legal-footer.js"></script>
+  <script src="wellora-guide.js"></script>
   <script>
     const supabaseClient = window.createWelloraSupabaseClient();
 
@@ -1622,6 +1657,7 @@
     const journalMicStatus = document.getElementById("journalMicStatus");
     const journalSaveButton = document.getElementById("journalSaveButton");
     const journalSkipButton = document.getElementById("journalSkipButton");
+    const translationNote = document.getElementById("translationNote");
 
     let currentUser = null;
     let currentExercise = null;
@@ -1647,6 +1683,25 @@
     let journalMicListening = false;
     let pendingCompletionAutoTriggered = false;
     const JournalSpeechRecognitionApi = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+    function t(key, fallback) {
+      return window.WelloraI18n ? window.WelloraI18n.t(key, fallback) : (fallback || key);
+    }
+
+    function updateTranslationNotice() {
+      const language = window.WelloraI18n ? window.WelloraI18n.getLanguage() : "en";
+      const notice = t("translationNotice", "");
+      translationNote.textContent = notice;
+      translationNote.classList.toggle("is-visible", language !== "en" && Boolean(notice));
+    }
+
+    window.WelloraI18n.applyTranslations(document);
+    updateTranslationNotice();
+    window.addEventListener("wellora:languagechange", function () {
+      window.WelloraI18n.applyTranslations(document);
+      updateTranslationNotice();
+      renderTimerState();
+    });
 
     renderVoiceCoachState();
 
@@ -1801,7 +1856,7 @@
       } else if (readinessChoice === "no") {
         safetyCheckinNote.textContent = "That is okay. Rest today and speak with a doctor if symptoms continue.";
       } else {
-        safetyCheckinNote.textContent = "Please choose the option that feels safest for you today.";
+        safetyCheckinNote.textContent = t("safetyNoteChoose", "Please choose the option that feels safest for you today.");
       }
     }
 
@@ -1811,11 +1866,11 @@
       lowImpactOptionButton.classList.toggle("is-active", selectedVariation === "low-impact");
 
       if (selectedVariation === "seated") {
-        variationTip.textContent = "💡 Seated version: Perform the exercise sitting on a sturdy chair.";
+        variationTip.textContent = t("seatedTip", "Seated version: Perform the exercise sitting on a sturdy chair.");
       } else if (selectedVariation === "low-impact") {
-        variationTip.textContent = "💡 Low impact: Reduce range of motion and go slower.";
+        variationTip.textContent = t("lowImpactTip", "Low impact version: Use a smaller range of motion and slow the pace.");
       } else {
-        variationTip.textContent = "💡 Standing version: Move at a steady pace and keep support nearby if needed.";
+        variationTip.textContent = t("standingTip", "Standing version: Move at a steady pace and keep support nearby if needed.");
       }
     }
 
@@ -1918,7 +1973,7 @@
 
       voiceCoachNote.textContent = voiceCoachReading
         ? "Reading the exercise steps aloud now."
-        : "Tap Read Aloud if you would like the exercise steps spoken clearly.";
+        : t("voiceCoachNote", "Tap Read Aloud if you would like the exercise steps spoken clearly.");
     }
 
     function stopVoiceCoach() {
@@ -2150,7 +2205,7 @@
     function renderTimerState() {
       const progressRatio = getTimerProgressRatio();
 
-      timerLabel.textContent = timerMode === "countdown" ? "Time Remaining" : "Elapsed Time";
+      timerLabel.textContent = timerMode === "countdown" ? t("timeRemaining", "Time Remaining") : "Elapsed Time";
       timerValue.textContent = formatClock(timerCurrentSeconds);
       timerProgressFill.style.width = String(progressRatio * 100) + "%";
 
@@ -2179,7 +2234,7 @@
       renderTimerModeButtons();
       updateTimerControls();
       completeButton.disabled = timerAlarmActive || isCompletingExercise || readinessChoice !== "yes";
-      completeButtonLabel.textContent = isCompletingExercise ? "Saving..." : "Complete";
+      completeButtonLabel.textContent = isCompletingExercise ? "Saving..." : t("complete", "Complete");
       renderDurationPicker();
       renderReadinessState();
       renderVariationState();
@@ -2862,3 +2917,7 @@
   <script src="/pwa.js"></script>
 </body>
 </html>
+
+
+
+

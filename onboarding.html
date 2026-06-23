@@ -78,6 +78,12 @@
       backdrop-filter: blur(8px);
     }
 
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
     .topbar-button {
       border: 0;
       background: transparent;
@@ -85,6 +91,119 @@
       font: inherit;
       cursor: pointer;
       padding: 6px 0;
+    }
+
+    .language-control {
+      display: grid;
+      gap: 5px;
+      min-width: 138px;
+      position: relative;
+    }
+
+    .language-control label {
+      color: var(--accent);
+      font-size: 0.7rem;
+      font-weight: 800;
+      line-height: 1.2;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding-left: 4px;
+    }
+
+    .language-control::after {
+      content: "";
+      position: absolute;
+      right: 14px;
+      bottom: 15px;
+      width: 8px;
+      height: 8px;
+      border-right: 2px solid var(--accent);
+      border-bottom: 2px solid var(--accent);
+      transform: rotate(45deg);
+      pointer-events: none;
+    }
+
+    .language-control select {
+      min-height: 46px;
+      border-radius: 999px;
+      border: 1px solid rgba(141, 72, 37, 0.18);
+      background: linear-gradient(180deg, rgba(255, 252, 248, 0.98), rgba(247, 238, 229, 0.96));
+      color: var(--text);
+      box-shadow: 0 8px 18px rgba(116, 89, 71, 0.08);
+      font: inherit;
+      font-size: 0.9rem;
+      font-weight: 800;
+      padding: 9px 36px 9px 16px;
+      appearance: none;
+      cursor: pointer;
+    }
+
+    .language-control select:hover,
+    .language-control select:focus-visible {
+      border-color: rgba(141, 72, 37, 0.36);
+      box-shadow: 0 10px 20px rgba(116, 89, 71, 0.12), 0 0 0 4px rgba(141, 72, 37, 0.08);
+      outline: 0;
+    }
+
+    .language-control option {
+      background: #fffaf6;
+      color: #2b2522;
+      font-weight: 700;
+    }
+
+    .translation-note,
+    .consent-error {
+      margin: 0;
+      padding: 12px 14px;
+      border-radius: 8px;
+      font-size: 0.92rem;
+      line-height: 1.5;
+      font-weight: 700;
+    }
+
+    .translation-note {
+      display: none;
+      background: rgba(255, 247, 228, 0.96);
+      border: 1px solid rgba(237, 196, 122, 0.8);
+      color: #6d4f35;
+    }
+
+    .translation-note.is-visible {
+      display: block;
+    }
+
+    .consent-card {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      padding: 16px 14px;
+      border-radius: 8px;
+      border: 1px solid rgba(141, 72, 37, 0.22);
+      background: rgba(255, 252, 248, 0.96);
+      box-shadow: 0 10px 24px rgba(137, 113, 95, 0.08);
+      color: #4b3d35;
+      font-size: 0.98rem;
+      line-height: 1.55;
+      font-weight: 700;
+    }
+
+    .consent-card input {
+      width: 24px;
+      height: 24px;
+      margin-top: 2px;
+      accent-color: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .consent-error {
+      display: none;
+      background: rgba(255, 239, 236, 0.98);
+      border: 1px solid rgba(190, 84, 62, 0.22);
+      color: #8e3e2d;
+    }
+
+    .consent-error.is-visible {
+      display: block;
     }
 
     .hero-image {
@@ -353,8 +472,22 @@
   <main class="page">
     <section class="screen" aria-label="Wellora onboarding">
       <header class="topbar">
-        <button class="topbar-button" type="button" id="backButton" aria-label="Go back">←</button>
-        <button class="topbar-button" type="button" id="skipButton">Skip</button>
+        <button class="topbar-button" type="button" id="backButton" aria-label="Go back">&larr;</button>
+        <div class="topbar-actions">
+          <div class="language-control">
+            <label for="languageSelect" data-i18n="languageLabel">Language</label>
+            <select id="languageSelect" aria-label="Language">
+              <option value="en">English</option>
+              <option value="yo">Yoruba</option>
+              <option value="ig">Igbo</option>
+              <option value="ha">Hausa</option>
+              <option value="es">Español</option>
+              <option value="fr">Français</option>
+              <option value="zh">中文</option>
+            </select>
+          </div>
+          <button class="topbar-button" type="button" id="skipButton" data-i18n="onboardingSkip">Skip</button>
+        </div>
       </header>
 
       <div class="hero-image">
@@ -367,37 +500,38 @@
           allowfullscreen
         ></iframe>
       </div>
-      <p class="hero-caption">Calm movement. Gentle strength.</p>
+      <p class="hero-caption" data-i18n="onboardingCaption">Calm movement. Gentle strength.</p>
+      <p class="translation-note" id="translationNote" aria-live="polite"></p>
 
       <section class="content">
-        <h1>Welcome to Wellora</h1>
-        <p class="intro">Gentle movement, designed for you.</p>
-        <p class="supporting">
+        <h1 data-i18n="onboardingTitle">Welcome to Wellora</h1>
+        <p class="intro" data-i18n="onboardingIntro">Gentle movement, designed for you.</p>
+        <p class="supporting" data-i18n="onboardingSupporting">
           We'll help you improve your balance, flexibility, and energy  at your own pace. No rush. No strain.
         </p>
       </section>
 
       <section class="benefits-section" aria-labelledby="benefitsHeading">
-        <h2 id="benefitsHeading">Benefits of consistent gentle movement for seniors</h2>
-        <p class="benefits-copy">
+        <h2 id="benefitsHeading" data-i18n="benefitsHeading">Benefits of consistent gentle movement for seniors</h2>
+        <p class="benefits-copy" data-i18n="benefitsCopy">
           Small, steady movement sessions can support stronger balance, easier mobility, and more confidence in everyday life.
         </p>
         <ul class="benefits-list">
-          <li>Helps reduce stiffness and keeps joints moving more comfortably.</li>
-          <li>Builds stability and strength for safer daily movement.</li>
-          <li>Supports circulation, mood, and steady energy over time.</li>
+          <li data-i18n="benefitOne">Helps reduce stiffness and keeps joints moving more comfortably.</li>
+          <li data-i18n="benefitTwo">Builds stability and strength for safer daily movement.</li>
+          <li data-i18n="benefitThree">Supports circulation, mood, and steady energy over time.</li>
         </ul>
       </section>
 
       <section class="goal-section" aria-labelledby="goalHeading">
-        <h2 id="goalHeading">What's your main goal today?</h2>
+        <h2 id="goalHeading" data-i18n="goalHeading">What's your main goal today?</h2>
 
         <div class="goal-list" id="goalList">
           <button class="goal-card is-selected" type="button" data-goal="Improve balance and stability">
             <span class="goal-icon" aria-hidden="true">
               <img src="image/balance and stability icon.png" alt="">
             </span>
-            <span class="goal-text">Improve balance and stability</span>
+            <span class="goal-text" data-i18n="goalBalance">Improve balance and stability</span>
             <span class="goal-check" aria-hidden="true">
               <svg viewBox="0 0 24 24">
                 <path d="M9.3 16.2 5.8 12.7l-1.4 1.4 4.9 4.9L19.6 8.7l-1.4-1.4Z"></path>
@@ -409,7 +543,7 @@
             <span class="goal-icon" aria-hidden="true">
               <img src="image/bosting metabolism.png" alt="">
             </span>
-            <span class="goal-text">Move more and feel stronger</span>
+            <span class="goal-text" data-i18n="goalStrength">Move more and feel stronger</span>
             <span class="goal-check" aria-hidden="true">
               <svg viewBox="0 0 24 24">
                 <path d="M9.3 16.2 5.8 12.7l-1.4 1.4 4.9 4.9L19.6 8.7l-1.4-1.4Z"></path>
@@ -421,7 +555,7 @@
             <span class="goal-icon" aria-hidden="true">
               <img src="image/sleep and mental wellbeing.png" alt="">
             </span>
-            <span class="goal-text">Sleep better and reduce stress</span>
+            <span class="goal-text" data-i18n="goalSleep">Sleep better and reduce stress</span>
             <span class="goal-check" aria-hidden="true">
               <svg viewBox="0 0 24 24">
                 <path d="M9.3 16.2 5.8 12.7l-1.4 1.4 4.9 4.9L19.6 8.7l-1.4-1.4Z"></path>
@@ -432,7 +566,12 @@
       </section>
 
       <div class="actions">
-        <button class="continue-button" type="button" id="continueButton">Continue</button>
+        <label class="consent-card" for="medicalConsent">
+          <input type="checkbox" id="medicalConsent" autocomplete="off">
+          <span data-i18n="consentText">I understand that Wellora is an educational wellness platform and does not provide medical diagnosis, treatment, or emergency services.</span>
+        </label>
+        <p class="consent-error" id="consentError" data-i18n="consentError">Please confirm the wellness and medical disclaimer before continuing.</p>
+        <button class="continue-button" type="button" id="continueButton" data-i18n="continueButton">Continue</button>
         <div class="home-indicator" aria-hidden="true"></div>
       </div>
     </section>
@@ -441,14 +580,44 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase-config.js"></script>
   <script src="wellora-flow.js"></script>
+  <script src="translations.js"></script>
+  <script src="legal-footer.js"></script>
+  <script src="wellora-guide.js"></script>
   <script>
     const supabaseClient = window.createWelloraSupabaseClient();
     const goalCards = document.querySelectorAll(".goal-card");
     const continueButton = document.getElementById("continueButton");
     const backButton = document.getElementById("backButton");
     const skipButton = document.getElementById("skipButton");
+    const languageSelect = document.getElementById("languageSelect");
+    const translationNote = document.getElementById("translationNote");
+    const medicalConsent = document.getElementById("medicalConsent");
+    const consentError = document.getElementById("consentError");
 
     let selectedGoal = document.querySelector(".goal-card.is-selected")?.dataset.goal || "";
+
+    function t(key, fallback) {
+      return window.WelloraI18n ? window.WelloraI18n.t(key, fallback) : (fallback || key);
+    }
+
+    function updateTranslationNotice() {
+      const language = window.WelloraI18n ? window.WelloraI18n.getLanguage() : "en";
+      const notice = t("translationNotice", "");
+      translationNote.textContent = notice;
+      translationNote.classList.toggle("is-visible", language !== "en" && Boolean(notice));
+    }
+
+    function hasMedicalConsent() {
+      if (medicalConsent.checked) {
+        consentError.classList.remove("is-visible");
+        return true;
+      }
+
+      consentError.textContent = t("consentError", "Please confirm the wellness and medical disclaimer before continuing.");
+      consentError.classList.add("is-visible");
+      medicalConsent.focus();
+      return false;
+    }
 
     async function getCurrentUser() {
       try {
@@ -487,6 +656,10 @@
     });
 
     continueButton.addEventListener("click", function () {
+      if (!hasMedicalConsent()) {
+        return;
+      }
+
       if (!selectedGoal) {
         window.alert("Please choose your main goal to continue.");
         return;
@@ -496,6 +669,10 @@
     });
 
     skipButton.addEventListener("click", function () {
+      if (!hasMedicalConsent()) {
+        return;
+      }
+
       finishOnboarding(selectedGoal || localStorage.getItem("welloraMainGoal") || "Balance and Stability");
     });
 
@@ -507,7 +684,20 @@
 
       window.location.href = "signup.html";
     });
+
+    medicalConsent.checked = false;
+    window.WelloraI18n.initLanguageSelector(languageSelect);
+    window.WelloraI18n.applyTranslations(document);
+    updateTranslationNotice();
+
+    window.addEventListener("wellora:languagechange", function () {
+      window.WelloraI18n.applyTranslations(document);
+      updateTranslationNotice();
+    });
   </script>
   <script src="/pwa.js"></script>
 </body>
 </html>
+
+
+
