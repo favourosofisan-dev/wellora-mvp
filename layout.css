@@ -464,3 +464,14 @@ body:has(.auth-card) .auth-card {
     overflow-x: hidden;
   }
 }
+
+.nav-icon-img {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  border-radius: 6px;
+  transition: transform 0.2s ease;
+}
+.nav-button:active .nav-icon-img {
+  transform: scale(0.9);
+}

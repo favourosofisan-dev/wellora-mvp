@@ -980,8 +980,41 @@ translations.zh = Object.assign({}, translations.en, {
     });
   }
 
+  function replaceNavIcons() {
+    const voiceBtn = document.getElementById("navVoiceButton");
+    const guideBtn = document.getElementById("navGuideButton");
+    const aiBtn = document.getElementById("navAiButton");
+    const profileBtn = document.getElementById("navProfileButton");
+
+    if (voiceBtn) {
+      const pill = voiceBtn.querySelector(".nav-pill");
+      if (pill && !pill.querySelector(".nav-icon-img")) {
+        pill.innerHTML = '<img src="image/voice-icon.png" alt="" class="nav-icon-img">';
+      }
+    }
+    if (guideBtn) {
+      const pill = guideBtn.querySelector(".nav-pill");
+      if (pill && !pill.querySelector(".nav-icon-img")) {
+        pill.innerHTML = '<img src="image/guide-icon.jpg" alt="" class="nav-icon-img">';
+      }
+    }
+    if (aiBtn) {
+      const pill = aiBtn.querySelector(".nav-pill");
+      if (pill && !pill.querySelector(".nav-icon-img")) {
+        pill.innerHTML = '<img src="image/ai-icon.png" alt="" class="nav-icon-img">';
+      }
+    }
+    if (profileBtn) {
+      const pill = profileBtn.querySelector(".nav-pill");
+      if (pill && !pill.querySelector(".nav-icon-img")) {
+        pill.innerHTML = '<img src="image/profile-icon.jpg" alt="" class="nav-icon-img">';
+      }
+    }
+  }
+
   function bootTranslations() {
     applyTranslations(document);
+    replaceNavIcons();
   }
 
   if (document.readyState === "loading") {
