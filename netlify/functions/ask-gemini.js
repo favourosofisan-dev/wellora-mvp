@@ -90,7 +90,7 @@ exports.handler = async (event) => {
       console.error(`Gemini API error status: ${response.status}. Response: ${errorText}`);
       return {
         statusCode: response.status || 502,
-        body: JSON.stringify({ error: 'Failed to communicate with the Gemini API.' })
+        body: JSON.stringify({ error: 'Failed to communicate with the Gemini API.', details: errorText })
       };
     }
 
@@ -120,7 +120,7 @@ exports.handler = async (event) => {
     console.error('Error handling Gemini request:', error);
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: 'Internal Server Error' })
+      body: JSON.stringify({ error: 'Internal Server Error', details: error.message })
     };
   }
 };

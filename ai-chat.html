@@ -347,6 +347,40 @@
       40% { transform: scale(1); }
     }
 
+    /* Recording status banner */
+    .recording-status {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: rgba(211, 47, 47, 0.08);
+      border: 1px solid rgba(211, 47, 47, 0.15);
+      border-radius: 12px;
+      padding: 8px 16px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #d32f2f;
+      margin: 8px 0;
+      width: 100%;
+      box-sizing: border-box;
+      animation: fadeIn 0.2s ease-out;
+    }
+    .recording-dot {
+      width: 10px;
+      height: 10px;
+      background-color: #d32f2f;
+      border-radius: 50%;
+      animation: recPulse 1s infinite alternate;
+    }
+    @keyframes recPulse {
+      from { opacity: 0.4; }
+      to { opacity: 1; }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
     /* Bottom Nav grid adjusted to 6 columns */
     .bottom-nav {
       position: sticky;
@@ -436,11 +470,28 @@
 
       .topbar {
         padding-top: calc(env(safe-area-inset-top, 0px) + 8px);
+        padding-bottom: 8px;
       }
 
       .bottom-nav {
         bottom: 0;
         padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 14px);
+      }
+
+      @media (max-width: 390px) {
+        .language-control {
+          min-width: 90px;
+        }
+        .language-control label {
+          display: none;
+        }
+        .brand {
+          font-size: 0.98rem;
+        }
+        .brand-mark {
+          width: 28px;
+          height: 28px;
+        }
       }
     }
   </style>
@@ -481,6 +532,12 @@
 
           <!-- Dynamic messages appear here -->
           <div id="messagesList" style="display: contents;"></div>
+        </div>
+
+        <!-- Recording status banner -->
+        <div class="recording-status" id="recordingStatus" style="display: none;">
+          <span class="recording-dot"></span>
+          <span id="recordingText">Listening... 0:00</span>
         </div>
 
         <!-- Input Section -->
@@ -690,7 +747,9 @@
         removeLoadingIndicator();
 
         if (!response.ok) {
-          throw new Error("HTTP error " + response.status);
+          const errData = await response.json().catch(() => ({}));
+          const detailMsg = errData.details || errData.error || ("HTTP error " + response.status);
+          throw new Error(detailMsg);
         }
 
         const data = await response.json();
@@ -707,7 +766,15 @@
       } catch (error) {
         console.error(error);
         removeLoadingIndicator();
-        appendMessageUI(t("aiError", "Sorry, I'm having trouble connecting right now. Please try again."), "model");
+        let displayError = t("aiError", "Sorry, I'm having trouble connecting right now. Please try again.");
+        if (error.message) {
+          if (window.location.protocol === "file:") {
+            displayError += ` (Error: Serverless functions cannot run directly from file:// links. Please run via Netlify dev or access your deployed site.)`;
+          } else {
+            displayError += ` (Detail: ${error.message})`;
+          }
+        }
+        appendMessageUI(displayError, "model");
       }
     }
 
@@ -724,18 +791,52 @@
       recognition.interimResults = false;
       recognition.maxAlternatives = 1;
 
+      let recognitionTimerId = null;
+      let recognitionStartTime = 0;
+
+      function stopTimer() {
+        if (recognitionTimerId) {
+          clearInterval(recognitionTimerId);
+          recognitionTimerId = null;
+        }
+        const banner = document.getElementById("recordingStatus");
+        if (banner) {
+          banner.style.display = "none";
+        }
+      }
+
       recognition.onstart = function () {
         micButton.classList.add("is-recording");
         micButton.setAttribute("aria-label", t("aiListening", "Listening..."));
+
+        const banner = document.getElementById("recordingStatus");
+        const text = document.getElementById("recordingText");
+        if (banner && text) {
+          text.textContent = "Listening... 0:00";
+          banner.style.display = "flex";
+        }
+
+        recognitionStartTime = Date.now();
+        if (recognitionTimerId) clearInterval(recognitionTimerId);
+        recognitionTimerId = setInterval(() => {
+          const elapsed = Math.floor((Date.now() - recognitionStartTime) / 1000);
+          const mins = Math.floor(elapsed / 60);
+          const secs = elapsed % 60;
+          if (text) {
+            text.textContent = `Listening... ${mins}:${secs < 10 ? "0" : ""}${secs}`;
+          }
+        }, 1000);
       };
 
       recognition.onerror = function (event) {
         console.error("Speech recognition error:", event.error);
+        stopTimer();
         micButton.classList.remove("is-recording");
         micButton.setAttribute("aria-label", "Start voice input");
       };
 
       recognition.onend = function () {
+        stopTimer();
         micButton.classList.remove("is-recording");
         micButton.setAttribute("aria-label", "Start voice input");
       };
