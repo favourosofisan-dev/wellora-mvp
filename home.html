@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -473,7 +474,7 @@
 
     .nav-list {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(6, minmax(0, 1fr));
       gap: 10px;
     }
 
@@ -552,6 +553,7 @@
     }
 
     @keyframes activeNavBob {
+
       0%,
       100% {
         transform: translateY(0);
@@ -619,6 +621,7 @@
     }
   </style>
 </head>
+
 <body>
   <main class="page">
     <section class="screen" aria-label="Wellora home screen">
@@ -643,7 +646,8 @@
               </select>
             </div>
 
-            <button class="icon-button" type="button" aria-label="Profile" id="profileButton" data-i18n-aria-label="profileNav">
+            <button class="icon-button" type="button" aria-label="Profile" id="profileButton"
+              data-i18n-aria-label="profileNav">
               <span class="avatar" aria-hidden="true">
                 <svg viewBox="0 0 24 24">
                   <path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"></path>
@@ -667,7 +671,8 @@
           <div class="featured-content">
             <span class="pill" id="featuredPill" data-i18n="recommended">Recommended</span>
             <h3 id="featuredTitle" data-i18n="loadingFeatured">Loading featured exercise...</h3>
-            <p id="featuredDescription" data-i18n="fetchingFeatured">Fetching today's guided movement from your library.</p>
+            <p id="featuredDescription" data-i18n="fetchingFeatured">Fetching today's guided movement from your library.
+            </p>
           </div>
         </button>
       </div>
@@ -682,18 +687,54 @@
             </span>
             <span data-i18n="homeNav">Home</span>
           </button>
-          <button class="nav-button" type="button" aria-label="Progress" id="progressButton" data-i18n-aria-label="progressNav">
+          <button class="nav-button" type="button" aria-label="Progress" id="progressButton"
+            data-i18n-aria-label="progressNav">
             <span class="nav-pill">
               <svg viewBox="0 0 24 24">
-                <path d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM9 17H7V10H9V17ZM13 17H11V7H13V17ZM17 17H15V13H17V17Z"></path>
+                <path
+                  d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM9 17H7V10H9V17ZM13 17H11V7H13V17ZM17 17H15V13H17V17Z">
+                </path>
               </svg>
             </span>
             <span data-i18n="progressNav">Progress</span>
           </button>
-          <button class="nav-button" type="button" aria-label="Profile" id="navProfileButton" data-i18n-aria-label="profileNav">
+          <button class="nav-button" type="button" aria-label="Voice Help" id="navVoiceButton">
             <span class="nav-pill">
               <svg viewBox="0 0 24 24">
-                <path d="M12 12C14.21 12 16 10.21 16 8C16 5.79 14.21 4 12 4C9.79 4 8 5.79 8 8C8 10.21 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V20H20V18C20 15.34 14.67 14 12 14Z"></path>
+                <path d="M12 15a3 3 0 0 0 3-3V7a3 3 0 1 0-6 0v5a3 3 0 0 0 3 3Z"></path>
+                <path d="M19 11a7 7 0 0 1-14 0"></path>
+                <path d="M12 18v3"></path>
+                <path d="M8 21h8"></path>
+              </svg>
+            </span>
+            <span>Voice</span>
+          </button>
+          <button class="nav-button" type="button" aria-label="Guide" id="navGuideButton">
+            <span class="nav-pill">
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z">
+                </path>
+              </svg>
+            </span>
+            <span>Guide</span>
+          </button>
+          <button class="nav-button" type="button" aria-label="Ask Wellora AI" id="navAiButton"
+            data-i18n-aria-label="aiNav">
+            <span class="nav-pill">
+              <svg viewBox="0 0 24 24">
+                <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-9 12-1.5-3.5L6 9l3.5-1.5L11 4l1.5 3.5L16 9l-3.5 1.5L11 14zm6-2-.75-1.75L14.5 9.5l1.75-.75L17 7l.75 1.75 1.75.75-1.75.75L17 12z"></path>
+              </svg>
+            </span>
+            <span data-i18n="aiNav">Ask Wellora AI</span>
+          </button>
+          <button class="nav-button" type="button" aria-label="Profile" id="navProfileButton"
+            data-i18n-aria-label="profileNav">
+            <span class="nav-pill">
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M12 12C14.21 12 16 10.21 16 8C16 5.79 14.21 4 12 4C9.79 4 8 5.79 8 8C8 10.21 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V20H20V18C20 15.34 14.67 14 12 14Z">
+                </path>
               </svg>
             </span>
             <span data-i18n="profileNav">Profile</span>
@@ -780,19 +821,19 @@
 
         return (
           '<button class="category-card" type="button" data-category="' + encodeURIComponent(category.category) + '">' +
-            '<span class="category-icon" aria-hidden="true">' +
-              '<img src="' + icon + '" alt="">' +
-            "</span>" +
-            "<h2>" + category.category + "</h2>" +
-            "<p>" + t("openCategory", "Open category") + "</p>" +
+          '<span class="category-icon" aria-hidden="true">' +
+          '<img src="' + icon + '" alt="">' +
+          "</span>" +
+          "<h2>" + category.category + "</h2>" +
+          "<p>" + t("openCategory", "Open category") + "</p>" +
           "</button>"
         );
       }).join("");
 
       categoryGrid.innerHTML = markup || (
         '<article class="category-card" aria-live="polite">' +
-          "<h2>" + t("noCategoriesTitle", "No categories available") + "</h2>" +
-          "<p>" + t("noCategoriesText", "Add exercises in Supabase to populate this screen.") + "</p>" +
+        "<h2>" + t("noCategoriesTitle", "No categories available") + "</h2>" +
+        "<p>" + t("noCategoriesText", "Add exercises in Supabase to populate this screen.") + "</p>" +
         "</article>"
       );
     }
@@ -892,6 +933,13 @@
       progressButton.addEventListener("click", function () {
         window.location.href = "progress.html";
       });
+
+      const navAiButton = document.getElementById("navAiButton");
+      if (navAiButton) {
+        navAiButton.addEventListener("click", function () {
+          window.location.href = "ai-chat.html";
+        });
+      }
     }
 
     supabaseClient.auth.onAuthStateChange(function (event, session) {
@@ -930,8 +978,8 @@
       } catch (error) {
         categoryGrid.innerHTML =
           '<article class="category-card" aria-live="polite">' +
-            "<h2>Couldn't load categories</h2>" +
-            "<p>" + (error.message || "Please check your Supabase setup.") + "</p>" +
+          "<h2>Couldn't load categories</h2>" +
+          "<p>" + (error.message || "Please check your Supabase setup.") + "</p>" +
           "</article>";
         featuredExerciseButton.dataset.exerciseId = "";
         featuredExerciseButton.dataset.category = "";
@@ -946,6 +994,5 @@
   <script src="voice-control.js"></script>
   <script src="/pwa.js"></script>
 </body>
+
 </html>
-
-

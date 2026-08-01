@@ -548,7 +548,7 @@
 
     .nav-list {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(6, minmax(0, 1fr));
       gap: 10px;
     }
 
@@ -856,6 +856,34 @@
               <span data-i18n="progressNav">Progress</span>
             </button>
 
+            <button class="nav-button" type="button" aria-label="Voice Help" id="navVoiceButton">
+              <span class="nav-pill">
+                <svg viewBox="0 0 24 24">
+                  <path d="M12 15a3 3 0 0 0 3-3V7a3 3 0 1 0-6 0v5a3 3 0 0 0 3 3Z"></path>
+                  <path d="M19 11a7 7 0 0 1-14 0"></path>
+                  <path d="M12 18v3"></path>
+                  <path d="M8 21h8"></path>
+                </svg>
+              </span>
+              <span>Voice</span>
+            </button>
+            <button class="nav-button" type="button" aria-label="Guide" id="navGuideButton">
+              <span class="nav-pill">
+                <svg viewBox="0 0 24 24">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"></path>
+                </svg>
+              </span>
+              <span>Guide</span>
+            </button>
+            <button class="nav-button" type="button" aria-label="Ask Wellora AI" id="navAiButton"
+              data-i18n-aria-label="aiNav">
+              <span class="nav-pill">
+                <svg viewBox="0 0 24 24">
+                  <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-9 12-1.5-3.5L6 9l3.5-1.5L11 4l1.5 3.5L16 9l-3.5 1.5L11 14zm6-2-.75-1.75L14.5 9.5l1.75-.75L17 7l.75 1.75 1.75.75-1.75.75L17 12z"></path>
+                </svg>
+              </span>
+              <span data-i18n="aiNav">Ask Wellora AI</span>
+            </button>
             <button class="nav-button" type="button" id="navProfileButton" aria-label="Profile" data-i18n-aria-label="profileNav">
               <span class="nav-pill">
                 <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -1342,6 +1370,13 @@
       navProfileButton.addEventListener("click", function () {
         window.location.href = "profile.html";
       });
+
+      const navAiButton = document.getElementById("navAiButton");
+      if (navAiButton) {
+        navAiButton.addEventListener("click", function () {
+          window.location.href = "ai-chat.html";
+        });
+      }
 
       scrollTopButton.addEventListener("click", function () {
         const scrollRegion = document.querySelector(".app > .main");

@@ -29,6 +29,8 @@
   let popupHideTimeoutId = null;
   let suppressNextToggle = false;
   let dragState = null;
+  let recordingTimerId = null;
+  let recordingStartTime = 0;
 
   function getCurrentPageName() {
     const path = window.location.pathname || "";
@@ -169,6 +171,20 @@
       "  .wellora-voice-button { width: 76px; height: 76px; }",
       "  .wellora-voice-button svg { width: 34px; height: 34px; }",
       "  .wellora-voice-label { min-width: 96px; font-size: 0.78rem; }",
+      "}",
+      ".nav-button.is-listening .nav-pill {",
+      "  background: #d32f2f !important;",
+      "  color: #fff !important;",
+      "  animation: welloraNavRecordPulse 1.4s ease-in-out infinite !important;",
+      "}",
+      ".nav-button.is-listening span:last-child {",
+      "  color: #d32f2f !important;",
+      "  font-weight: 800;",
+      "}",
+      "@keyframes welloraNavRecordPulse {",
+      "  0% { box-shadow: 0 0 0 0 rgba(211, 47, 47, 0.4); }",
+      "  70% { box-shadow: 0 0 0 10px rgba(211, 47, 47, 0); }",
+      "  100% { box-shadow: 0 0 0 0 rgba(211, 47, 47, 0); }",
       "}"
     ].join("\n");
 
@@ -360,62 +376,51 @@
   }
 
   function buildButton() {
-    dockElement = document.createElement("div");
-    dockElement.className = "wellora-voice-dock";
-    dockElement.addEventListener("pointerdown", handleDockPointerDown);
-    dockElement.addEventListener("pointermove", handleDockPointerMove);
-    dockElement.addEventListener("pointerup", handleDockPointerUp);
-    dockElement.addEventListener("pointercancel", handleDockPointerUp);
-
-    buttonElement = document.createElement("button");
-    buttonElement.type = "button";
-    buttonElement.className = "wellora-voice-button";
-    buttonElement.setAttribute("aria-label", "Start voice control");
-    buttonElement.setAttribute("aria-pressed", "false");
-    buttonElement.innerHTML =
-      '<svg viewBox="0 0 24 24" aria-hidden="true">' +
-        '<path d="M12 15a3 3 0 0 0 3-3V7a3 3 0 1 0-6 0v5a3 3 0 0 0 3 3Z"></path>' +
-        '<path d="M19 11a7 7 0 0 1-14 0"></path>' +
-        '<path d="M12 18v3"></path>' +
-        '<path d="M8 21h8"></path>' +
-      "</svg>";
-    buttonElement.addEventListener("click", function (event) {
-      if (suppressNextToggle) {
+    buttonElement = document.getElementById("navVoiceButton");
+    if (buttonElement) {
+      buttonElement.addEventListener("click", function (event) {
         event.preventDefault();
-        return;
-      }
+        toggleListening();
+      });
+    }
+  }
 
-      toggleListening();
-    });
-    buttonElement.addEventListener("pointerdown", handleDockPointerDown);
-    buttonElement.addEventListener("pointermove", handleDockPointerMove);
-    buttonElement.addEventListener("pointerup", handleDockPointerUp);
-    buttonElement.addEventListener("pointercancel", handleDockPointerUp);
-
-    labelElement = document.createElement("div");
-    labelElement.className = "wellora-voice-label";
-    labelElement.textContent = "Tap to record";
-    labelElement.addEventListener("pointerdown", handleDockPointerDown);
-    labelElement.addEventListener("pointermove", handleDockPointerMove);
-    labelElement.addEventListener("pointerup", handleDockPointerUp);
-    labelElement.addEventListener("pointercancel", handleDockPointerUp);
-
-    dockElement.appendChild(buttonElement);
-    dockElement.appendChild(labelElement);
-    document.body.appendChild(dockElement);
-    restoreDockPosition();
+  function updateRecordingTimer() {
+    if (!isListening || !buttonElement) return;
+    const textSpan = buttonElement.querySelector("span:last-child");
+    if (!textSpan) return;
+    
+    const elapsed = Math.floor((Date.now() - recordingStartTime) / 1000);
+    const mins = Math.floor(elapsed / 60);
+    const secs = elapsed % 60;
+    textSpan.textContent = mins + ":" + (secs < 10 ? "0" : "") + secs;
   }
 
   function setListeningState(nextListening) {
     isListening = nextListening;
+    
+    if (recordingTimerId) {
+      clearInterval(recordingTimerId);
+      recordingTimerId = null;
+    }
 
-    if (!buttonElement || !labelElement) {
+    if (!buttonElement) {
       return;
     }
 
+    buttonElement.classList.toggle("is-active", nextListening);
     buttonElement.classList.toggle("is-listening", nextListening);
-    labelElement.classList.toggle("is-listening", nextListening);
-    labelElement.textContent = nextListening ? "Recording" : "Tap to record";
+    
+    const textSpan = buttonElement.querySelector("span:last-child");
+    
+    if (nextListening) {
+      recordingStartTime = Date.now();
+      if (textSpan) textSpan.textContent = "0:00";
+      recordingTimerId = setInterval(updateRecordingTimer, 1000);
+    } else {
+      if (textSpan) textSpan.textContent = "Voice";
+    }
+    
     buttonElement.setAttribute(
       "aria-label",
       nextListening ? "Stop voice control listening" : "Start voice control"
@@ -995,7 +1000,6 @@
     updateVoiceContext();
 
     window.addEventListener("resize", function () {
-      restoreDockPosition();
       positionPopup();
     });
 

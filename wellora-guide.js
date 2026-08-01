@@ -241,20 +241,13 @@
   }
 
   function createGuideButton() {
-    if (document.querySelector(".wellora-guide-button")) {
-      return;
+    const navButton = document.getElementById("navGuideButton");
+    if (navButton) {
+      navButton.addEventListener("click", function (event) {
+        event.preventDefault();
+        openGuide(false);
+      });
     }
-
-    const text = getUiText();
-    const button = document.createElement("button");
-    button.className = "wellora-guide-button";
-    button.type = "button";
-    button.setAttribute("aria-label", text.replay);
-    button.textContent = text.label;
-    button.addEventListener("click", function () {
-      openGuide(false);
-    });
-    document.body.appendChild(button);
   }
 
   function ensureGuideShell() {
