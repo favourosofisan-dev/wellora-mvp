@@ -466,8 +466,8 @@ body:has(.auth-card) .auth-card {
 }
 
 .nav-icon-img {
-  width: 28px;
-  height: 28px;
+  width: 56px;
+  height: 56px;
   object-fit: contain;
   border-radius: 6px;
   transition: transform 0.2s ease;
