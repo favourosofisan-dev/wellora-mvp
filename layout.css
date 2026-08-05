@@ -475,3 +475,762 @@ body:has(.auth-card) .auth-card {
 .nav-button:active .nav-icon-img {
   transform: scale(0.9);
 }
+
+/* Shared high-contrast refresh: white canvas, black text, shorter cards. */
+:root {
+  --bg: #ffffff !important;
+  --panel: #ffffff !important;
+  --surface: #ffffff !important;
+  --surface-strong: #ffffff !important;
+  --text: #000000 !important;
+  --muted: #202020 !important;
+  --border: rgba(141, 72, 37, 0.16) !important;
+  --shadow: 0 8px 18px rgba(34, 24, 18, 0.08) !important;
+  --nav-shadow: 0 -6px 18px rgba(34, 24, 18, 0.08) !important;
+}
+
+html,
+body,
+.page,
+.screen,
+.shell,
+.shell > .app,
+.screen > .app-shell,
+.screen > .content,
+.shell > .app > .main {
+  background: #ffffff !important;
+  color: #000000 !important;
+}
+
+.site-header,
+.topbar,
+.screen > .header,
+.shell > .app > .header,
+.bottom-nav {
+  background: rgba(255, 255, 255, 0.96) !important;
+  color: #000000 !important;
+}
+
+p,
+li,
+label,
+small,
+span,
+h1,
+h2,
+h3,
+h4,
+.eyebrow,
+.screen-title,
+.header-title,
+.translation-note,
+.wellora-guide-title,
+.wellora-guide-body {
+  color: #000000 !important;
+}
+
+.brand,
+.brand span,
+.title-wrap,
+.title-wrap span,
+.language-control label,
+.wellora-guide-eyebrow,
+.wellora-guide-count,
+.legal-footer a,
+.legal-document a,
+.nav-button.active,
+.nav-button.active span,
+.nav-button.is-active,
+.nav-button.is-active span,
+.nav-button[aria-current="page"],
+.nav-button[aria-current="page"] span {
+  color: var(--accent, #8d4825) !important;
+}
+
+.primary-button,
+.primary-button span,
+.start-button,
+.start-button span,
+.play-button,
+.play-button span,
+.timer-button.primary,
+.timer-button.primary span,
+.voice-coach-button.primary,
+.voice-coach-button.primary span,
+.complete-button,
+.complete-button span,
+.continue-button,
+.continue-button span,
+.save-button,
+.save-button span,
+.send-btn,
+.send-btn span,
+.wellora-guide-primary,
+.wellora-guide-primary span {
+  color: #ffffff !important;
+}
+
+.screen,
+.shell {
+  border-color: rgba(141, 72, 37, 0.12) !important;
+  box-shadow: 0 10px 24px rgba(34, 24, 18, 0.08) !important;
+}
+
+.featured-card,
+.exercise-card,
+.stat-card,
+.activity-card,
+.reminder-card,
+.summary-card,
+.metric-card,
+.profile-card,
+.category-card,
+.option-card,
+.choice-card,
+.auth-card,
+.legal-document section,
+.legal-list,
+.wellora-guide-card,
+[class*="card"],
+[class*="tile"],
+[class*="panel"] {
+  background: #ffffff !important;
+  color: #000000 !important;
+  border-color: rgba(141, 72, 37, 0.16) !important;
+  box-shadow: 0 8px 18px rgba(34, 24, 18, 0.08) !important;
+}
+
+.featured-card,
+.exercise-card,
+.stat-card,
+.activity-card,
+.reminder-card,
+.summary-card,
+.metric-card,
+.profile-card,
+.category-card,
+.option-card,
+.choice-card,
+[class*="card"],
+[class*="tile"],
+[class*="panel"] {
+  padding-top: clamp(14px, 3.8vw, 18px) !important;
+  padding-bottom: clamp(14px, 3.8vw, 18px) !important;
+}
+
+.featured-card,
+.exercise-card,
+.activity-card,
+.reminder-card,
+.summary-card,
+.metric-card,
+.profile-card,
+.category-card,
+.option-card,
+.choice-card {
+  min-height: 88px !important;
+}
+
+.stat-card {
+  min-height: 82px !important;
+}
+
+.app-shell,
+.content,
+.shell > .app > .main {
+  gap: 14px !important;
+}
+
+.icon-button,
+.profile-button,
+.start-button,
+.play-button,
+.primary-button,
+.secondary-button,
+.wellora-guide-primary,
+.wellora-guide-secondary,
+.language-control select {
+  min-height: 46px !important;
+}
+
+.icon-button:not(.icon-button--back),
+.profile-button {
+  width: clamp(56px, 16vw, 72px) !important;
+  height: clamp(56px, 16vw, 72px) !important;
+}
+
+.icon-button svg,
+.profile-button svg,
+.play-button svg,
+.nav-button svg {
+  width: clamp(30px, 9vw, 40px) !important;
+  height: clamp(30px, 9vw, 40px) !important;
+}
+
+/* Requested compact timer/progress cards and clear nav icon states. */
+.duration-picker-card,
+.timer-card {
+  gap: 8px !important;
+  padding-top: 9px !important;
+  padding-bottom: 9px !important;
+  min-height: auto !important;
+}
+
+.duration-picker-card .section-head,
+.timer-card .section-head {
+  min-height: 0 !important;
+}
+
+.duration-picker-card .section-title,
+.timer-card .section-title {
+  font-size: 0.98rem !important;
+  line-height: 1.15 !important;
+}
+
+.duration-picker-shell,
+.timer-display {
+  gap: 7px !important;
+  padding: 9px 10px !important;
+  border-radius: 14px !important;
+}
+
+.duration-picker-intro,
+.duration-picker-note,
+.timer-help {
+  font-size: 0.84rem !important;
+  line-height: 1.25 !important;
+}
+
+.duration-picker-controls {
+  grid-template-columns: minmax(46px, 56px) 1fr minmax(46px, 56px) !important;
+  gap: 8px !important;
+}
+
+.duration-adjust-button {
+  min-height: 46px !important;
+  border-radius: 14px !important;
+  font-size: 1.65rem !important;
+}
+
+.duration-picker-value {
+  min-height: 54px !important;
+  padding: 8px 10px !important;
+  border-radius: 16px !important;
+}
+
+.duration-picker-value,
+.duration-picker-value p,
+.duration-picker-value span {
+  color: #ffffff !important;
+}
+
+.duration-picker-label,
+.timer-label {
+  font-size: 0.72rem !important;
+  line-height: 1.15 !important;
+  letter-spacing: 0.08em !important;
+}
+
+.duration-picker-minutes {
+  margin-top: 2px !important;
+  font-size: clamp(1.65rem, 7vw, 2.15rem) !important;
+  line-height: 1 !important;
+  letter-spacing: 0 !important;
+}
+
+.timer-readout {
+  min-height: 85px !important;
+  gap: 4px !important;
+  padding: 10px 12px !important;
+  border-radius: 16px !important;
+}
+
+.timer-value {
+  font-size: clamp(1.8rem, 8vw, 2.35rem) !important;
+  line-height: 1 !important;
+  letter-spacing: 0 !important;
+}
+
+.timer-progress-bar {
+  height: 6px !important;
+}
+
+.timer-mode-button,
+.timer-button {
+  min-height: 46px !important;
+  border-radius: 14px !important;
+}
+
+.app .main > .hero {
+  gap: 5px !important;
+  padding: 10px 12px !important;
+  min-height: auto !important;
+}
+
+.app .main > .hero .hero-title {
+  font-size: clamp(1rem, 4vw, 1.65rem) !important;
+  line-height: 1.05 !important;
+  letter-spacing: 0 !important;
+  max-width: none !important;
+}
+
+.app .main > .hero .hero-text {
+  font-size: 0.86rem !important;
+  line-height: 1.3 !important;
+}
+
+.summary-grid {
+  gap: 8px !important;
+}
+
+.summary-card {
+  gap: 6px !important;
+  padding: 8px 10px !important;
+  min-height: 78px !important;
+  border-radius: 14px !important;
+}
+
+.summary-head {
+  gap: 6px !important;
+}
+
+.summary-card .stat-icon {
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 10px !important;
+}
+
+.summary-card .stat-icon svg {
+  width: 24px !important;
+  height: 24px !important;
+}
+
+.summary-value {
+  font-size: clamp(1.15rem, 4.8vw, 1.55rem) !important;
+  line-height: 1 !important;
+  letter-spacing: 0 !important;
+}
+
+.summary-label {
+  margin-top: 0 !important;
+  font-size: 0.82rem !important;
+  line-height: 1.2 !important;
+}
+
+.summary-note {
+  min-height: 24px !important;
+  padding: 4px 8px !important;
+  border-radius: 10px !important;
+  font-size: 0.72rem !important;
+  line-height: 1.1 !important;
+}
+
+.streak-emoji {
+  font-size: 1.25rem !important;
+}
+
+.streak-days-badge {
+  right: 3px !important;
+  bottom: 3px !important;
+  min-width: 18px !important;
+  min-height: 18px !important;
+  padding: 0 4px !important;
+  font-size: 0.68rem !important;
+}
+
+/* AI chat composer and bottom nav polish for narrow mobile screens. */
+.chat-input-bar {
+  width: 100% !important;
+  max-width: 100% !important;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) 46px 46px !important;
+  align-items: center !important;
+  gap: 7px !important;
+  padding: 8px 8px calc(10px + env(safe-area-inset-bottom, 0px)) !important;
+  overflow: hidden !important;
+}
+
+.chat-input-bar .text-input {
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: 46px !important;
+  padding: 9px 12px !important;
+  border-radius: 999px !important;
+  font-size: 1rem !important;
+}
+
+.chat-input-bar .action-btn {
+  width: 46px !important;
+  min-width: 46px !important;
+  height: 46px !important;
+  min-height: 46px !important;
+  border-radius: 50% !important;
+}
+
+.chat-input-bar .action-btn svg {
+  width: 23px !important;
+  height: 23px !important;
+}
+
+.bottom-nav .nav-list {
+  grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+  gap: 4px !important;
+}
+
+.bottom-nav .nav-button {
+  min-width: 0 !important;
+  justify-content: stretch !important;
+  gap: 4px !important;
+  color: var(--accent, #8d4825) !important;
+  transition: color 0.2s ease, transform 0.2s ease !important;
+}
+
+.bottom-nav .nav-pill {
+  width: 100% !important;
+  height: 40px !important;
+  min-height: 40px !important;
+  border-radius: 12px !important;
+  color: inherit !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.bottom-nav .nav-button svg,
+.bottom-nav .nav-icon-img {
+  width: 32px !important;
+  height: 32px !important;
+  color: currentColor !important;
+}
+
+.bottom-nav .nav-button svg {
+  fill: currentColor !important;
+}
+
+.bottom-nav .nav-button span:last-child {
+  color: currentColor !important;
+  font-size: 0.7rem !important;
+  line-height: 1.1 !important;
+}
+
+.bottom-nav .nav-button:not(.is-active):not(.active):not([aria-current="page"]),
+.bottom-nav .nav-button:not(.is-active):not(.active):not([aria-current="page"]) span,
+.bottom-nav .nav-button:not(.is-active):not(.active):not([aria-current="page"]) svg,
+.bottom-nav .nav-button:not(.is-active):not(.active):not([aria-current="page"]) .nav-pill {
+  color: var(--accent, #8d4825) !important;
+}
+
+.bottom-nav .nav-button.is-active,
+.bottom-nav .nav-button.is-active span,
+.bottom-nav .nav-button.is-active svg,
+.bottom-nav .nav-button.active,
+.bottom-nav .nav-button.active span,
+.bottom-nav .nav-button.active svg,
+.bottom-nav .nav-button[aria-current="page"],
+.bottom-nav .nav-button[aria-current="page"] span,
+.bottom-nav .nav-button[aria-current="page"] svg {
+  color: var(--accent, #8d4825) !important;
+}
+
+.bottom-nav .nav-button.is-active .nav-pill,
+.bottom-nav .nav-button.active .nav-pill,
+.bottom-nav .nav-button[aria-current="page"] .nav-pill {
+  background: transparent !important;
+  box-shadow: none !important;
+  color: var(--accent, #8d4825) !important;
+}
+
+.bottom-nav .nav-button:not(.is-active):not(.active):not([aria-current="page"]) .nav-pill {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+@media (max-width: 360px) {
+  .chat-input-bar {
+    grid-template-columns: minmax(0, 1fr) 42px 42px !important;
+    gap: 6px !important;
+    padding-left: 6px !important;
+    padding-right: 6px !important;
+  }
+
+  .chat-input-bar .action-btn {
+    width: 42px !important;
+    min-width: 42px !important;
+    height: 42px !important;
+    min-height: 42px !important;
+  }
+
+  .chat-input-bar .text-input {
+    min-height: 42px !important;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+    font-size: 0.94rem !important;
+  }
+
+  .bottom-nav .nav-button svg,
+  .bottom-nav .nav-icon-img {
+    width: 32px !important;
+    height: 32px !important;
+  }
+}
+
+/* Home and progress page compact cards. */
+#heroTitle,
+.hero #heroTitle {
+  font-size: clamp(1.05rem, 5vw, 1.7rem) !important;
+  line-height: 1.05 !important;
+  letter-spacing: 0 !important;
+  max-width: 100% !important;
+}
+
+.category-grid {
+  gap: 10px !important;
+  margin-top: 18px !important;
+}
+
+.category-card {
+  min-height: 84px !important;
+  padding: 12px 10px !important;
+  border-radius: 14px !important;
+}
+
+.category-icon {
+  width: 42px !important;
+  height: 42px !important;
+}
+
+.category-icon img {
+  width: 28px !important;
+  height: 28px !important;
+}
+
+.category-card h2 {
+  margin-top: 8px !important;
+  font-size: 0.95rem !important;
+  line-height: 1.15 !important;
+}
+
+.category-card p {
+  margin-top: 4px !important;
+  font-size: 0.78rem !important;
+  line-height: 1.25 !important;
+}
+
+.activity-list {
+  gap: 10px !important;
+}
+
+.activity-card {
+  grid-template-columns: 78px minmax(0, 1fr) !important;
+  gap: 10px !important;
+  padding: 12px !important;
+  border-radius: 16px !important;
+  min-height: 0 !important;
+  align-items: start !important;
+  overflow: hidden !important;
+}
+
+.activity-icon {
+  width: 78px !important;
+  height: 78px !important;
+  min-width: 78px !important;
+  border-radius: 14px !important;
+  overflow: hidden !important;
+  align-self: start !important;
+}
+
+.activity-image {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center !important;
+}
+
+.activity-copy {
+  min-width: 0 !important;
+  overflow: hidden !important;
+}
+
+.activity-card svg {
+  width: 36px !important;
+  height: 36px !important;
+}
+
+.activity-title {
+  font-size: 0.98rem !important;
+  line-height: 1.2 !important;
+  overflow-wrap: anywhere !important;
+  word-break: normal !important;
+}
+
+.activity-date,
+.activity-meta {
+  font-size: 0.82rem !important;
+  line-height: 1.25 !important;
+  overflow-wrap: anywhere !important;
+}
+
+/* Exercise detail and category pick compacting. */
+.hero-card {
+  gap: 10px !important;
+  padding: 14px !important;
+  border-radius: 18px !important;
+  min-height: 0 !important;
+}
+
+.hero-card .exercise-name {
+  font-size: clamp(1.2rem, 5vw, 1.85rem) !important;
+  line-height: 1.05 !important;
+  letter-spacing: 0 !important;
+  max-width: none !important;
+}
+
+.hero-card .meta-row {
+  gap: 8px !important;
+}
+
+.hero-card .meta-pill,
+.hero-card .difficulty-pill {
+  min-height: 36px !important;
+  padding: 7px 11px !important;
+  border-radius: 12px !important;
+  font-size: 0.82rem !important;
+  line-height: 1.15 !important;
+}
+
+.hero-card .meta-grid {
+  gap: 8px !important;
+}
+
+.hero-card .meta-item {
+  min-height: 42px !important;
+  gap: 8px !important;
+  padding: 8px 10px !important;
+  border-radius: 14px !important;
+}
+
+.hero-card .meta-item svg {
+  width: 28px !important;
+  height: 28px !important;
+}
+
+.hero-card .meta-label {
+  font-size: 0.78rem !important;
+  line-height: 1.15 !important;
+}
+
+.hero-card .meta-value {
+  font-size: 0.88rem !important;
+  line-height: 1.2 !important;
+}
+
+.hero:not(:has(#heroTitle)) h2,
+#heroHeading {
+  font-size: clamp(1.3rem, 6vw, 1.8rem) !important;
+  line-height: 1.05 !important;
+  letter-spacing: 0 !important;
+  max-width: none !important;
+}
+
+.hero:not(:has(#heroTitle)) p,
+#heroDescription {
+  margin-top: 8px !important;
+  font-size: 0.84rem !important;
+  line-height: 1.25 !important;
+}
+
+.featured-card {
+  margin-top: 20px !important;
+  padding: 8px !important;
+  border-radius: 18px !important;
+  min-height: 0 !important;
+}
+
+.featured-image {
+  min-height: 112px !important;
+  border-radius: 14px !important;
+}
+
+.featured-body {
+  gap: 8px !important;
+  padding: 10px !important;
+}
+
+.feature-head {
+  gap: 8px !important;
+}
+
+.featured-body .eyebrow,
+.featured-card .eyebrow {
+  min-height: 20px !important;
+  padding: 0 8px !important;
+  border-radius: 999px !important;
+  font-size: 0.68rem !important;
+  line-height: 1 !important;
+  letter-spacing: 0.06em !important;
+}
+
+.featured-body h2,
+.featured-content h3 {
+  font-size: 0.82rem !important;
+  line-height: 1.15 !important;
+  letter-spacing: 0 !important;
+}
+
+.featured-body p,
+.featured-content p {
+  font-size: 0.74rem !important;
+  line-height: 1.25 !important;
+}
+
+.featured-card .play-button {
+  width: 46px !important;
+  height: 46px !important;
+  min-height: 46px !important;
+}
+
+.featured-card .play-button svg {
+  width: 24px !important;
+  height: 24px !important;
+}
+
+.exercise-list {
+  gap: 14px !important;
+  margin-top: 20px !important;
+}
+
+.exercise-card {
+  grid-template-columns: 62px minmax(0, 1fr) auto !important;
+  gap: 10px !important;
+  padding: 10px !important;
+  border-radius: 18px !important;
+}
+
+.exercise-thumb {
+  width: 62px !important;
+  height: 62px !important;
+  border-radius: 14px !important;
+}
+
+.exercise-content h3 {
+  font-size: 0.78rem !important;
+  line-height: 1.15 !important;
+  letter-spacing: 0 !important;
+}
+
+.exercise-content p {
+  font-size: 0.72rem !important;
+  line-height: 1.25 !important;
+}
+
+.exercise-meta {
+  gap: 6px !important;
+  margin-bottom: 5px !important;
+}
+
+.level,
+.meta {
+  min-height: 20px !important;
+  font-size: 0.66rem !important;
+  line-height: 1.1 !important;
+}
