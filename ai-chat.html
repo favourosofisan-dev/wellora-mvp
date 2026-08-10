@@ -396,7 +396,7 @@
 
     .nav-list {
       display: grid;
-      grid-template-columns: repeat(6, minmax(0, 1fr));
+      grid-template-columns: repeat(5, minmax(0, 1fr));
       gap: 10px;
     }
 
@@ -442,7 +442,9 @@
     }
 
     .nav-button span:last-child {
+      color: #000 !important;
       font-size: 0.82rem;
+      font-weight: 800;
       line-height: 1.2;
     }
 
@@ -560,18 +562,6 @@
             <span data-i18n="progressNav">Progress</span>
           </button>
 
-          <button class="nav-button" type="button" aria-label="Voice Help" id="navVoiceButton">
-            <span class="nav-pill">
-              <svg viewBox="0 0 24 24">
-                <path d="M12 15a3 3 0 0 0 3-3V7a3 3 0 1 0-6 0v5a3 3 0 0 0 3 3Z"></path>
-                <path d="M19 11a7 7 0 0 1-14 0"></path>
-                <path d="M12 18v3"></path>
-                <path d="M8 21h8"></path>
-              </svg>
-            </span>
-            <span>Voice</span>
-          </button>
-
           <button class="nav-button" type="button" aria-label="Guide" id="navGuideButton">
             <span class="nav-pill">
               <svg viewBox="0 0 24 24">
@@ -617,6 +607,7 @@
     const chatInput = document.getElementById("chatInput");
     const sendButton = document.getElementById("sendButton");
     const micButton = document.getElementById("micButton");
+    const requestTimeoutMs = 25000;
 
     // Navigation buttons
     const homeButton = document.getElementById("homeButton");
@@ -703,6 +694,7 @@
       if (!text) return;
 
       chatInput.value = "";
+      sendButton.disabled = true;
       
       // Append user message UI and history
       appendMessageUI(text, "user");
@@ -714,6 +706,10 @@
 
       // Show loader
       showLoadingIndicator();
+      const controller = new AbortController();
+      const timeoutId = window.setTimeout(function () {
+        controller.abort();
+      }, requestTimeoutMs);
 
       try {
         const response = await fetch("/.netlify/functions/ask-gemini", {
@@ -721,8 +717,10 @@
           headers: {
             "Content-Type": "application/json"
           },
-          body: JSON.stringify({ contents: chatHistory })
+          body: JSON.stringify({ contents: chatHistory }),
+          signal: controller.signal
         });
+        window.clearTimeout(timeoutId);
 
         removeLoadingIndicator();
 
@@ -745,9 +743,12 @@
 
       } catch (error) {
         console.error(error);
+        window.clearTimeout(timeoutId);
         removeLoadingIndicator();
         let displayError = t("aiError", "Sorry, I'm having trouble connecting right now. Please try again.");
-        if (error.message) {
+        if (error.name === "AbortError") {
+          displayError = "Wellora AI is taking too long to respond. Please check your connection and try again.";
+        } else if (error.message) {
           if (window.location.protocol === "file:") {
             displayError += ` (Error: Serverless functions cannot run directly from file:// links. Please run via Netlify dev or access your deployed site.)`;
           } else {
@@ -755,6 +756,8 @@
           }
         }
         appendMessageUI(displayError, "model");
+      } finally {
+        sendButton.disabled = false;
       }
     }
 
@@ -895,7 +898,8 @@
 
     init();
   </script>
-  <script src="voice-control.js"></script>
   <script src="/pwa.js"></script>
 </body>
 </html>
+
+

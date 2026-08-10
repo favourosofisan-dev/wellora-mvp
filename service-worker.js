@@ -25,7 +25,6 @@ const APP_SHELL_FILES = [
   "/manifest.json",
   "/pwa.js",
   "/wellora-flow.js",
-  "/voice-control.js",
   "/translations.js",
   "/legal-footer.js",
   "/wellora-guide.js",

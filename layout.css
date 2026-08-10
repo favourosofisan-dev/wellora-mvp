@@ -873,7 +873,7 @@ h4,
 }
 
 .bottom-nav .nav-list {
-  grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+  grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
   gap: 4px !important;
 }
 
@@ -942,6 +942,19 @@ h4,
 .bottom-nav .nav-button:not(.is-active):not(.active):not([aria-current="page"]) .nav-pill {
   background: transparent !important;
   box-shadow: none !important;
+}
+
+.bottom-nav .nav-button span:last-child {
+  color: #000 !important;
+  font-weight: 800 !important;
+}
+
+.bottom-nav .nav-button:not(.is-active):not(.active):not([aria-current="page"]) span:last-child,
+.bottom-nav .nav-button.is-active span:last-child,
+.bottom-nav .nav-button.active span:last-child,
+.bottom-nav .nav-button[aria-current="page"] span:last-child {
+  color: #000 !important;
+  font-weight: 800 !important;
 }
 
 @media (max-width: 360px) {

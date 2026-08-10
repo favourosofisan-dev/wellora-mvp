@@ -32,10 +32,26 @@ CONVERSATIONAL TONE AND STYLE:
 - Encourage healthy habits and recommend consulting healthcare professionals when appropriate.
 - Always be respectful, encouraging, and supportive.`;
 
+const responseHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers': 'Content-Type',
+  'Access-Control-Allow-Methods': 'POST, OPTIONS',
+  'Content-Type': 'application/json'
+};
+
 exports.handler = async (event) => {
+  if (event.httpMethod === 'OPTIONS') {
+    return {
+      statusCode: 204,
+      headers: responseHeaders,
+      body: ''
+    };
+  }
+
   if (event.httpMethod !== 'POST') {
     return {
       statusCode: 405,
+      headers: responseHeaders,
       body: JSON.stringify({ error: 'Method Not Allowed' })
     };
   }
@@ -46,6 +62,7 @@ exports.handler = async (event) => {
       console.error('GEMINI_API_KEY environment variable is not set.');
       return {
         statusCode: 500,
+        headers: responseHeaders,
         body: JSON.stringify({ error: 'Server configuration error. API key is missing.' })
       };
     }
@@ -54,11 +71,13 @@ exports.handler = async (event) => {
     if (!contents || !Array.isArray(contents)) {
       return {
         statusCode: 400,
+        headers: responseHeaders,
         body: JSON.stringify({ error: 'Invalid request body. "contents" array is required.' })
       };
     }
 
-    const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+    const modelName = process.env.GEMINI_MODEL || 'gemini-3.5-flash';
+    const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(modelName)}:generateContent?key=${apiKey}`;
 
     const payload = {
       contents: contents,
@@ -70,9 +89,6 @@ exports.handler = async (event) => {
         ]
       },
       generationConfig: {
-        temperature: 0.4,
-        topK: 32,
-        topP: 1,
         maxOutputTokens: 1024
       }
     };
@@ -90,6 +106,7 @@ exports.handler = async (event) => {
       console.error(`Gemini API error status: ${response.status}. Response: ${errorText}`);
       return {
         statusCode: response.status || 502,
+        headers: responseHeaders,
         body: JSON.stringify({ error: 'Failed to communicate with the Gemini API.', details: errorText })
       };
     }
@@ -104,15 +121,14 @@ exports.handler = async (event) => {
       console.error('Unexpected Gemini API response structure:', JSON.stringify(data));
       return {
         statusCode: 500,
+        headers: responseHeaders,
         body: JSON.stringify({ error: 'Received an empty or malformed reply from the AI model.' })
       };
     }
 
     return {
       statusCode: 200,
-      headers: {
-        'Content-Type': 'application/json'
-      },
+      headers: responseHeaders,
       body: JSON.stringify({ reply: replyText })
     };
 
@@ -120,6 +136,7 @@ exports.handler = async (event) => {
     console.error('Error handling Gemini request:', error);
     return {
       statusCode: 500,
+      headers: responseHeaders,
       body: JSON.stringify({ error: 'Internal Server Error', details: error.message })
     };
   }

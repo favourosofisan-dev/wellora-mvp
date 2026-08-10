@@ -131,8 +131,8 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 16px;
-      padding: 22px 22px 10px;
+      gap: 8px;
+      padding: 11px 16px 5px;
       position: sticky;
       top: 0;
       z-index: 20;
@@ -143,14 +143,14 @@
     .header-group {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 8px;
       min-width: 0;
     }
 
     .icon-button {
-      width: 104px;
-      min-width: 104px;
-      height: 104px;
+      width: 52px;
+      min-width: 52px;
+      height: 52px;
       border-radius: 50%;
       border: 1px solid rgba(159, 138, 123, 0.45);
       background: #e0d6cc;
@@ -172,7 +172,16 @@
       box-shadow: 0 12px 24px rgba(143, 108, 84, 0.14);
     }
 
-    .icon-button svg,
+    .icon-button svg {
+      width: 24px;
+      height: 24px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.9;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
     .meta-item svg,
     .video-placeholder svg,
     .complete-button svg {
@@ -191,7 +200,7 @@
 
     .eyebrow {
       margin: 0;
-      font-size: 0.95rem;
+      font-size: 0.75rem;
       line-height: 1.4;
       color: var(--muted);
       font-weight: 700;
@@ -200,8 +209,8 @@
     }
 
     .header-title {
-      margin: 4px 0 0;
-      font-size: 1.35rem;
+      margin: 2px 0 0;
+      font-size: 1rem;
       line-height: 1.2;
       font-weight: 800;
       letter-spacing: -0.03em;
@@ -734,7 +743,6 @@
       position: relative;
     }
 
-    .video-frame iframe,
     .video-frame video,
     .video-frame img {
       width: 100%;
@@ -745,6 +753,11 @@
 
     .video-frame img {
       object-fit: cover;
+    }
+
+    .video-frame video {
+      background: #1d1d1d;
+      object-fit: contain;
     }
 
     .video-placeholder {
@@ -1130,6 +1143,24 @@
       background: linear-gradient(180deg, #8f4e2b 0%, #793f21 100%);
       color: #fffaf5;
       border-color: transparent;
+    }
+
+    .journal-mood-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .journal-mood-icon {
+      width: 24px;
+      height: 24px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex-shrink: 0;
     }
 
     .journal-mic-button {
@@ -1548,10 +1579,45 @@
           <div>
             <p class="journal-field-label">Choose your mood</p>
             <div class="journal-mood-grid" id="journalMoodGrid" role="group" aria-label="Mood choices">
-              <button class="journal-mood-button" type="button" data-mood="Good">🙂 Good</button>
-              <button class="journal-mood-button" type="button" data-mood="Okay">😐 Okay</button>
-              <button class="journal-mood-button" type="button" data-mood="Sore">😣 Sore</button>
-              <button class="journal-mood-button" type="button" data-mood="Tired">😴 Tired</button>
+              <button class="journal-mood-button" type="button" data-mood="Good">
+                <svg class="journal-mood-icon" viewBox="0 0 24 24" aria-hidden="true">
+                  <circle cx="12" cy="12" r="9"></circle>
+                  <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
+                  <path d="M9 9h.01"></path>
+                  <path d="M15 9h.01"></path>
+                </svg>
+                <span>Good</span>
+              </button>
+              <button class="journal-mood-button" type="button" data-mood="Okay">
+                <svg class="journal-mood-icon" viewBox="0 0 24 24" aria-hidden="true">
+                  <circle cx="12" cy="12" r="9"></circle>
+                  <path d="M8 14h8"></path>
+                  <path d="M9 9h.01"></path>
+                  <path d="M15 9h.01"></path>
+                </svg>
+                <span>Okay</span>
+              </button>
+              <button class="journal-mood-button" type="button" data-mood="Sore">
+                <svg class="journal-mood-icon" viewBox="0 0 24 24" aria-hidden="true">
+                  <circle cx="12" cy="12" r="9"></circle>
+                  <path d="M8.5 15.5s1.2-1.5 3.5-1.5 3.5 1.5 3.5 1.5"></path>
+                  <path d="M9 9h.01"></path>
+                  <path d="M15 9h.01"></path>
+                </svg>
+                <span>Sore</span>
+              </button>
+              <button class="journal-mood-button" type="button" data-mood="Tired">
+                <svg class="journal-mood-icon" viewBox="0 0 24 24" aria-hidden="true">
+                  <circle cx="12" cy="12" r="9"></circle>
+                  <path d="M8 15h8"></path>
+                  <path d="M8 9h2"></path>
+                  <path d="M14 9h2"></path>
+                  <path d="M17 5l2-2"></path>
+                  <path d="M19 3h2"></path>
+                  <path d="M19 3v2"></path>
+                </svg>
+                <span>Tired</span>
+              </button>
             </div>
           </div>
 
@@ -1600,6 +1666,8 @@
   <script src="wellora-guide.js"></script>
   <script>
     const supabaseClient = window.createWelloraSupabaseClient();
+    const EXERCISE_VIDEO_BUCKET = "exerciuse media videos";
+    const EXERCISE_VIDEO_SIGNED_URL_SECONDS = 60 * 60;
 
     const params = new URLSearchParams(window.location.search);
     const rawExerciseId = params.get("id");
@@ -1681,6 +1749,7 @@
     let selectedJournalMood = "";
     let journalRecognition = null;
     let journalMicListening = false;
+    let mediaRenderRequestId = 0;
     let pendingCompletionAutoTriggered = false;
     const JournalSpeechRecognitionApi = window.SpeechRecognition || window.webkitSpeechRecognition;
 
@@ -2337,62 +2406,6 @@
         .replace(/'/g, "&#39;");
     }
 
-    function extractVideoEmbedUrl(url) {
-      if (!url) {
-        return "";
-      }
-
-      const normalizedValue = String(url).trim();
-
-      if (!normalizedValue) {
-        return "";
-      }
-
-      const iframeMatch = normalizedValue.match(/<iframe[^>]+src=["']([^"']+)["']/i);
-      const candidateUrl = iframeMatch && iframeMatch[1] ? iframeMatch[1] : normalizedValue;
-
-      try {
-        const parsedUrl = new URL(candidateUrl);
-        const host = parsedUrl.hostname.replace(/^www\./, "");
-        const pathSegments = parsedUrl.pathname.split("/").filter(Boolean);
-
-        if (
-          host === "youtube.com" ||
-          host === "m.youtube.com" ||
-          host === "youtube-nocookie.com"
-        ) {
-          const directEmbedMatch = parsedUrl.pathname.match(/^\/embed\/([^/?#]+)/i);
-
-          if (directEmbedMatch && directEmbedMatch[1]) {
-            return "https://www.youtube.com/embed/" + encodeURIComponent(directEmbedMatch[1]);
-          }
-
-          const videoId = parsedUrl.searchParams.get("v");
-          if (videoId) {
-            return "https://www.youtube.com/embed/" + encodeURIComponent(videoId);
-          }
-
-          if ((pathSegments[0] === "shorts" || pathSegments[0] === "live") && pathSegments[1]) {
-            return "https://www.youtube.com/embed/" + encodeURIComponent(pathSegments[1]);
-          }
-        }
-
-        if (host === "youtu.be") {
-          const videoId = pathSegments[0];
-          return videoId ? "https://www.youtube.com/embed/" + encodeURIComponent(videoId) : "";
-        }
-
-        if (host === "vimeo.com" || host === "player.vimeo.com") {
-          const videoId = pathSegments[pathSegments[0] === "video" ? 1 : 0];
-          return videoId ? "https://player.vimeo.com/video/" + encodeURIComponent(videoId) : "";
-        }
-      } catch (error) {
-        return "";
-      }
-
-      return "";
-    }
-
     function isImageUrl(url) {
       return /\.(png|jpe?g|gif|webp|avif|svg)(?:[?#]|$)/i.test(String(url || "").trim());
     }
@@ -2454,39 +2467,130 @@
       return [normalized];
     }
 
-    function renderMedia(videoUrl, imageUrl, exerciseTitle) {
-      const safeTitle = escapeHtml(exerciseTitle || "exercise");
-      const normalizedVideoUrl = String(videoUrl || "").trim();
+    function renderVideoPlaceholder(title, text, includeSpinner) {
+      videoContainer.innerHTML =
+        '<div class="video-placeholder">' +
+          (includeSpinner
+            ? '<div class="spinner" aria-hidden="true"></div>'
+            : '<div class="play-badge" aria-hidden="true">' +
+                '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7Z"></path></svg>' +
+              "</div>") +
+          '<div class="video-copy">' +
+            '<p class="video-title">' + escapeHtml(title) + "</p>" +
+            '<p class="video-text">' + escapeHtml(text) + "</p>" +
+          "</div>" +
+        "</div>";
+    }
+
+    function normalizeStoragePath(path) {
+      const normalizedPath = String(path || "").trim().replace(/^\/+/, "");
+
+      if (!normalizedPath) {
+        return "";
+      }
+
+      return normalizedPath;
+    }
+
+    async function getExerciseVideoUrl(storagePath) {
+      const normalizedPath = normalizeStoragePath(storagePath);
+
+      if (!normalizedPath) {
+        return "";
+      }
+
+      const storageBucket = supabaseClient.storage.from(EXERCISE_VIDEO_BUCKET);
+      const getPublicVideoUrl = function () {
+        const { data: publicData } = storageBucket.getPublicUrl(normalizedPath);
+        return publicData && publicData.publicUrl ? publicData.publicUrl : "";
+      };
+
+      try {
+        const { data: bucketData } = await supabaseClient.storage.getBucket(EXERCISE_VIDEO_BUCKET);
+
+        if (bucketData && bucketData.public) {
+          return getPublicVideoUrl();
+        }
+      } catch (error) {
+        // Some clients cannot read bucket metadata; continue with the private-safe URL path.
+      }
+
+      const { data: signedData, error: signedError } = await storageBucket.createSignedUrl(
+        normalizedPath,
+        EXERCISE_VIDEO_SIGNED_URL_SECONDS
+      );
+
+      if (!signedError && signedData && signedData.signedUrl) {
+        return signedData.signedUrl;
+      }
+
+      return getPublicVideoUrl();
+    }
+
+    async function renderMedia(videoUrl, imageUrl, exerciseTitle) {
+      const requestId = ++mediaRenderRequestId;
+      const normalizedVideoPath = normalizeStoragePath(videoUrl);
       const normalizedImageUrl = String(imageUrl || "").trim();
-      const embedUrl = extractVideoEmbedUrl(normalizedVideoUrl);
 
-      if (embedUrl) {
+      if (normalizedVideoPath && !isImageUrl(normalizedVideoPath)) {
         mediaTitle.textContent = "Video Demo";
-        videoContainer.innerHTML =
-          '<iframe src="' + embedUrl + '" title="' + safeTitle + ' video demonstration" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>';
+        renderVideoPlaceholder("Loading video demonstration", "Preparing this exercise video from Supabase Storage.", true);
+
+        try {
+          const playableVideoUrl = await getExerciseVideoUrl(normalizedVideoPath);
+
+          if (requestId !== mediaRenderRequestId) {
+            return;
+          }
+
+          if (!playableVideoUrl) {
+            throw new Error("Video URL could not be generated.");
+          }
+
+          const videoElement = document.createElement("video");
+          const sourceElement = document.createElement("source");
+
+          videoElement.controls = true;
+          videoElement.playsInline = true;
+          videoElement.preload = "metadata";
+          videoElement.setAttribute("width", "100%");
+          videoElement.title = (exerciseTitle || "exercise") + " video demonstration";
+
+          sourceElement.src = playableVideoUrl;
+          sourceElement.type = "video/mp4";
+          videoElement.appendChild(sourceElement);
+          videoElement.appendChild(document.createTextNode("Your browser does not support the video tag."));
+          videoElement.addEventListener("error", function handleVideoError() {
+            if (requestId !== mediaRenderRequestId) {
+              return;
+            }
+
+            renderVideoPlaceholder(
+              "Video unavailable",
+              "We couldn't load this exercise video right now. You can still follow the steps below.",
+              false
+            );
+          }, { once: true });
+
+          videoContainer.replaceChildren(videoElement);
+        } catch (error) {
+          if (requestId !== mediaRenderRequestId) {
+            return;
+          }
+
+          renderVideoPlaceholder(
+            "Video unavailable",
+            "We couldn't load this exercise video right now. You can still follow the steps below.",
+            false
+          );
+        }
+
         return;
       }
 
-      if (normalizedVideoUrl && !isImageUrl(normalizedVideoUrl)) {
-        mediaTitle.textContent = "Video Demo";
-        const safeUrl = escapeHtml(normalizedVideoUrl);
-        videoContainer.innerHTML =
-          '<div class="video-placeholder">' +
-            '<div class="play-badge" aria-hidden="true">' +
-              '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7Z"></path></svg>' +
-            "</div>" +
-            '<div class="video-copy">' +
-              '<p class="video-title">Open video demonstration</p>' +
-              '<p class="video-text">A guided movement video is available for this exercise.</p>' +
-            "</div>" +
-            '<a class="video-link" href="' + safeUrl + '" target="_blank" rel="noopener noreferrer">Play Video</a>' +
-          "</div>";
-        return;
-      }
-
-      if (normalizedImageUrl || isImageUrl(normalizedVideoUrl)) {
+      if (normalizedImageUrl || isImageUrl(normalizedVideoPath)) {
         mediaTitle.textContent = "Exercise Image";
-        const imageUrlToRender = normalizedImageUrl || normalizedVideoUrl;
+        const imageUrlToRender = normalizedImageUrl || normalizedVideoPath;
         const imageElement = document.createElement("img");
 
         imageElement.src = imageUrlToRender;
@@ -2494,16 +2598,11 @@
         imageElement.loading = "lazy";
         imageElement.addEventListener("error", function handleMediaImageError() {
           mediaTitle.textContent = "Video Demo";
-          videoContainer.innerHTML =
-            '<div class="video-placeholder">' +
-              '<div class="play-badge" aria-hidden="true">' +
-                '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7Z"></path></svg>' +
-              "</div>" +
-              '<div class="video-copy">' +
-                '<p class="video-title">Image unavailable</p>' +
-                '<p class="video-text">This exercise image could not be loaded from Supabase, but you can still follow the instructions below.</p>' +
-              "</div>" +
-            "</div>";
+          renderVideoPlaceholder(
+            "Image unavailable",
+            "This exercise image could not be loaded, but you can still follow the instructions below.",
+            false
+          );
         }, { once: true });
 
         videoContainer.replaceChildren(imageElement);
@@ -2511,16 +2610,11 @@
       }
 
       mediaTitle.textContent = "Video Demo";
-      videoContainer.innerHTML =
-        '<div class="video-placeholder">' +
-          '<div class="play-badge" aria-hidden="true">' +
-            '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7Z"></path></svg>' +
-          "</div>" +
-          '<div class="video-copy">' +
-            '<p class="video-title">Guided media coming soon</p>' +
-            '<p class="video-text">This exercise does not have a video yet, but the step-by-step instructions below are ready to follow.</p>' +
-          "</div>" +
-        "</div>";
+      renderVideoPlaceholder(
+        "Guided media coming soon",
+        "This exercise does not have a video yet, but the step-by-step instructions below are ready to follow.",
+        false
+      );
     }
 
     function renderExercise(exercise) {
@@ -2913,10 +3007,10 @@
 
     init();
   </script>
-  <script src="voice-control.js"></script>
   <script src="/pwa.js"></script>
 </body>
 </html>
+
 
 
 
