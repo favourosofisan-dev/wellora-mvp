@@ -1398,12 +1398,6 @@
             </div>
           </div>
 
-          <button class="icon-button" type="button" id="profileButton" aria-label="Open profile">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"></path>
-              <path d="M4 20a8 8 0 0 1 16 0"></path>
-            </svg>
-          </button>
         </header>
 
         <section class="main">
@@ -1678,7 +1672,6 @@
     const appContent = document.getElementById("appContent");
     const loadingScreen = document.getElementById("loadingScreen");
     const backButton = document.getElementById("backButton");
-    const profileButton = document.getElementById("profileButton");
     const exerciseName = document.getElementById("exerciseName");
     const categoryPill = document.getElementById("categoryPill");
     const difficultyPill = document.getElementById("difficultyPill");
@@ -2790,10 +2783,6 @@
       window.location.href = lastCategory
         ? "category.html?category=" + encodeURIComponent(lastCategory)
         : "category.html";
-    });
-
-    profileButton.addEventListener("click", function () {
-      window.location.href = "profile.html";
     });
 
     completeButton.addEventListener("click", function () {

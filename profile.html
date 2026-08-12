@@ -491,7 +491,7 @@
 
     .nav-list {
       display: grid;
-      grid-template-columns: repeat(5, minmax(0, 1fr));
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 10px;
     }
 
@@ -723,6 +723,18 @@
                 </svg>
               </span>
             </button>
+
+            <button class="detail-row" type="button" id="caregiverButton">
+              <div class="detail-content">
+                <p class="detail-label">Caregiver phone</p>
+                <p class="detail-value" id="caregiverPhoneValue">Not set</p>
+              </div>
+              <span class="detail-arrow" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="m9 6 6 6-6 6"></path>
+                </svg>
+              </span>
+            </button>
           </div>
         </section>
 
@@ -809,14 +821,6 @@
             </span>
             <span data-i18n="aiNav">Ask Wellora AI</span>
           </button>
-          <button class="nav-button is-active" type="button" id="profileNavButton" aria-label="Profile" data-i18n-aria-label="profileNav">
-            <span class="nav-pill">
-              <svg viewBox="0 0 24 24">
-                <path d="M12 12C14.21 12 16 10.21 16 8C16 5.79 14.21 4 12 4C9.79 4 8 5.79 8 8C8 10.21 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V20H20V18C20 15.34 14.67 14 12 14Z"></path>
-              </svg>
-            </span>
-            <span data-i18n="profileNav">Profile</span>
-          </button>
         </div>
       </nav>
     </section>
@@ -836,7 +840,8 @@
       fitnessLevel: "Beginner",
       mainGoal: "Balance & Stability",
       emailReminders: true,
-      largeText: false
+      largeText: false,
+      caregiverPhone: ""
     };
 
     function readProfile() {
@@ -880,6 +885,8 @@
     const birthYearButton = document.getElementById("birthYearButton");
     const fitnessLevelButton = document.getElementById("fitnessLevelButton");
     const goalButton = document.getElementById("goalButton");
+    const caregiverButton = document.getElementById("caregiverButton");
+    const caregiverPhoneValue = document.getElementById("caregiverPhoneValue");
     const goalIcons = {
       "Balance & Stability": "image/balance and stability icon.png",
       "Balance and Stability": "image/balance and stability icon.png",
@@ -897,7 +904,6 @@
     const reportsButton = document.getElementById("reportsButton");
     const homeButton = document.getElementById("homeButton");
     const progressButton = document.getElementById("progressButton");
-    const profileNavButton = document.getElementById("profileNavButton");
 
     function t(key, fallback) {
       return window.WelloraI18n ? window.WelloraI18n.t(key, fallback) : (fallback || key);
@@ -918,6 +924,7 @@
       goalIcon.src = goalIcons[profile.mainGoal] || "image/wellora logo.png";
       emailToggle.checked = Boolean(profile.emailReminders);
       textToggle.checked = Boolean(profile.largeText);
+      caregiverPhoneValue.textContent = profile.caregiverPhone && profile.caregiverPhone.length ? profile.caregiverPhone : "Not set";
       document.body.classList.toggle("large-text", Boolean(profile.largeText));
     }
 
@@ -948,6 +955,21 @@
       const message = options && options.length
         ? label + " (" + options.join(", ") + ")"
         : label;
+
+      // Special-case caregiverPhone to show nicer prompt
+      if (field === "caregiverPhone") {
+        const nextValue = window.prompt("Enter caregiver phone (include country code, e.g. +441234567890)", currentValue || "");
+
+        if (!nextValue) {
+          return;
+        }
+
+        profile[field] = nextValue.trim();
+        saveProfile(profile);
+        renderProfile();
+        return;
+      }
+
       const nextValue = window.prompt(message, currentValue);
 
       if (!nextValue) {
@@ -974,6 +996,10 @@
         saveProfile(profile);
         renderProfile();
       }
+    });
+
+    caregiverButton.addEventListener("click", function () {
+      editField("caregiverPhone", "Caregiver phone");
     });
 
     editDetailsButton.addEventListener("click", function () {
@@ -1029,10 +1055,6 @@
 
     progressButton.addEventListener("click", function () {
       window.location.href = "progress.html";
-    });
-
-    profileNavButton.addEventListener("click", function () {
-      window.location.href = "profile.html";
     });
 
     const navAiButton = document.getElementById("navAiButton");

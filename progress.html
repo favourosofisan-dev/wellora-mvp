@@ -761,12 +761,6 @@
             </div>
           </div>
 
-          <button class="icon-button" type="button" id="profileButton" aria-label="Open profile" data-i18n-aria-label="profileNav">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"></path>
-              <path d="M4 20a8 8 0 0 1 16 0"></path>
-            </svg>
-          </button>
         </header>
 
         <section class="main">
@@ -853,6 +847,14 @@
               </span>
               <span data-i18n="progressNav">Progress</span>
             </button>
+            <button class="nav-button" type="button" id="navProfileButton" aria-label="Profile" data-i18n-aria-label="profileNav">
+              <span class="nav-pill">
+                <svg class="nav-icon-img" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm-6 10a6 6 0 0 1 12 0H6z"></path>
+                </svg>
+              </span>
+              <span data-i18n="profileNav">Profile</span>
+            </button>
             <button class="nav-button" type="button" aria-label="Guide" id="navGuideButton">
               <span class="nav-pill">
                 <svg viewBox="0 0 24 24">
@@ -869,14 +871,6 @@
                 </svg>
               </span>
               <span data-i18n="aiNav">Ask Wellora AI</span>
-            </button>
-            <button class="nav-button" type="button" id="navProfileButton" aria-label="Profile" data-i18n-aria-label="profileNav">
-              <span class="nav-pill">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M12 12C14.21 12 16 10.21 16 8C16 5.79 14.21 4 12 4C9.79 4 8 5.79 8 8C8 10.21 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V20H20V18C20 15.34 14.67 14 12 14Z"></path>
-                </svg>
-              </span>
-              <span data-i18n="profileNav">Profile</span>
             </button>
           </div>
         </nav>
@@ -901,10 +895,8 @@
     const app = document.getElementById("app");
     const loadingScreen = document.getElementById("loadingScreen");
     const backButton = document.getElementById("backButton");
-    const profileButton = document.getElementById("profileButton");
     const homeButton = document.getElementById("homeButton");
     const progressButton = document.getElementById("progressButton");
-    const navProfileButton = document.getElementById("navProfileButton");
     const scrollTopButton = document.getElementById("scrollTopButton");
     const exerciseCount = document.getElementById("exerciseCount");
     const streakCount = document.getElementById("streakCount");
@@ -1346,20 +1338,12 @@
         });
       }
 
-      profileButton.addEventListener("click", function () {
-        window.location.href = "profile.html";
-      });
-
       homeButton.addEventListener("click", function () {
         window.location.href = "home.html";
       });
 
       progressButton.addEventListener("click", function () {
         window.location.href = "progress.html";
-      });
-
-      navProfileButton.addEventListener("click", function () {
-        window.location.href = "profile.html";
       });
 
       const navAiButton = document.getElementById("navAiButton");
