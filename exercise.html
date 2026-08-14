@@ -1053,6 +1053,13 @@
       z-index: 20;
     }
 
+    .safety-overlay {
+      align-items: start;
+      padding-top: max(24px, env(safe-area-inset-top, 0px));
+      padding-bottom: max(24px, env(safe-area-inset-bottom, 0px));
+      overflow: auto;
+    }
+
     .journal-modal {
       width: min(100%, 520px);
       max-height: calc(100vh - 36px);
@@ -1064,6 +1071,12 @@
       padding: 22px 18px 18px;
       display: grid;
       gap: 18px;
+    }
+
+    .safety-modal {
+      width: min(100%, 520px);
+      max-height: none;
+      margin: auto 0;
     }
 
     .journal-head {
@@ -1189,6 +1202,12 @@
 
     .journal-action-button.secondary {
       color: #6b5b51;
+    }
+
+    .safety-modal-actions {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
     }
 
     .hidden {
@@ -1494,38 +1513,6 @@
             </div>
           </article>
 
-          <article class="section-card safety-card" aria-labelledby="safetyHeading">
-            <div class="section-head">
-              <h3 class="section-title" id="safetyHeading" data-i18n="safetyCheck">Safety Check</h3>
-            </div>
-
-            <div class="safety-alert">
-              <p class="safety-alert-title" data-i18n="safetyAlert">Stop immediately if you experience dizziness, chest pain, severe shortness of breath, loss of consciousness, severe pain, or unusual discomfort.</p>
-              <p class="emergency-mini" data-i18n="emergencyMini">For medical emergencies, call emergency services immediately. Wellora does not provide emergency care.</p>
-            </div>
-
-            <div class="safety-checkin">
-              <p class="safety-question" data-i18n="readinessQuestion">Do you feel well enough to start?</p>
-              <div class="safety-actions">
-                <button class="safety-button" type="button" id="readyYesButton" data-i18n="readyYes">Yes, I'm ready</button>
-                <button class="safety-button no-choice" type="button" id="readyNoButton" data-i18n="readyNo">No, not today</button>
-              </div>
-              <p class="safety-note" id="safetyCheckinNote" data-i18n="safetyNoteChoose">Please choose the option that feels safest for you today.</p>
-            </div>
-
-            <div class="safety-checkin">
-              <p class="safety-question" data-i18n="variationQuestion">Choose the version that feels most comfortable.</p>
-              <div class="variation-switch" role="group" aria-label="Exercise variation">
-                <button class="variation-button is-active" type="button" id="standingOptionButton" data-i18n="standing">Standing</button>
-                <button class="variation-button" type="button" id="seatedOptionButton" data-i18n="seated">Seated</button>
-                <button class="variation-button" type="button" id="lowImpactOptionButton" data-i18n="lowImpact">Low impact</button>
-              </div>
-              <p class="variation-tip" id="variationTip" data-i18n="standingTip">Standing version: Move at a steady pace and keep support nearby if needed.</p>
-            </div>
-
-            <p class="contra-note" id="contraindicationNote" hidden></p>
-          </article>
-
           <article class="section-card">
             <div class="section-head">
               <h3 class="section-title" data-i18n="stepsHeading">Step-by-Step Instructions</h3>
@@ -1562,6 +1549,45 @@
           </button>
         </footer>
       </div>
+
+      <section class="journal-overlay safety-overlay hidden" id="safetyOverlay" aria-hidden="true">
+        <article class="journal-modal safety-modal safety-card" role="dialog" aria-modal="true" aria-labelledby="safetyHeading">
+          <div class="section-head">
+            <h3 class="section-title" id="safetyHeading" data-i18n="safetyCheck">Safety Check</h3>
+          </div>
+
+          <div class="safety-alert">
+            <p class="safety-alert-title" data-i18n="safetyAlert">Stop immediately if you experience dizziness, chest pain, severe shortness of breath, loss of consciousness, severe pain, or unusual discomfort.</p>
+            <p class="emergency-mini" data-i18n="emergencyMini">For medical emergencies, call emergency services immediately. Wellora does not provide emergency care.</p>
+          </div>
+
+          <div class="safety-checkin">
+            <p class="safety-question" data-i18n="readinessQuestion">Do you feel well enough to start?</p>
+            <div class="safety-actions">
+              <button class="safety-button" type="button" id="readyYesButton" data-i18n="readyYes">Yes, I'm ready</button>
+              <button class="safety-button no-choice" type="button" id="readyNoButton" data-i18n="readyNo">No, not today</button>
+            </div>
+            <p class="safety-note" id="safetyCheckinNote" data-i18n="safetyNoteChoose">Please choose the option that feels safest for you today.</p>
+          </div>
+
+          <div class="safety-checkin">
+            <p class="safety-question" data-i18n="variationQuestion">Choose the version that feels most comfortable.</p>
+            <div class="variation-switch" role="group" aria-label="Exercise variation">
+              <button class="variation-button" type="button" id="standingOptionButton" data-i18n="standing">Standing</button>
+              <button class="variation-button" type="button" id="seatedOptionButton" data-i18n="seated">Seated</button>
+              <button class="variation-button" type="button" id="lowImpactOptionButton" data-i18n="lowImpact">Low impact</button>
+            </div>
+            <p class="variation-tip" id="variationTip">Please choose a movement version before starting.</p>
+          </div>
+
+          <p class="contra-note" id="contraindicationNote" hidden></p>
+
+          <div class="safety-modal-actions">
+            <button class="journal-action-button secondary" type="button" id="safetyCancelButton">Cancel</button>
+            <button class="journal-action-button primary" type="button" id="safetyContinueButton" disabled>Continue</button>
+          </div>
+        </article>
+      </section>
 
       <section class="journal-overlay hidden" id="journalOverlay" aria-hidden="true">
         <div class="journal-modal" role="dialog" aria-modal="true" aria-labelledby="journalModalTitle">
@@ -1699,6 +1725,7 @@
     const durationPickerNote = document.getElementById("durationPickerNote");
     const durationDecreaseButton = document.getElementById("durationDecreaseButton");
     const durationIncreaseButton = document.getElementById("durationIncreaseButton");
+    const safetyOverlay = document.getElementById("safetyOverlay");
     const readyYesButton = document.getElementById("readyYesButton");
     const readyNoButton = document.getElementById("readyNoButton");
     const safetyCheckinNote = document.getElementById("safetyCheckinNote");
@@ -1707,6 +1734,8 @@
     const lowImpactOptionButton = document.getElementById("lowImpactOptionButton");
     const variationTip = document.getElementById("variationTip");
     const contraindicationNote = document.getElementById("contraindicationNote");
+    const safetyCancelButton = document.getElementById("safetyCancelButton");
+    const safetyContinueButton = document.getElementById("safetyContinueButton");
     const voiceCoachButton = document.getElementById("voiceCoachButton");
     const voiceCoachStopButton = document.getElementById("voiceCoachStopButton");
     const voiceCoachNote = document.getElementById("voiceCoachNote");
@@ -1734,7 +1763,8 @@
     let voiceCoachReading = false;
     let availableSpeechVoices = [];
     let readinessChoice = "unknown";
-    let selectedVariation = "standing";
+    let selectedVariation = "";
+    let pendingTimerStartAfterSafety = false;
     const defaultExerciseDurationSeconds = 5 * 60;
     const minDurationMinutes = 1;
     const maxDurationMinutes = 15;
@@ -1920,6 +1950,8 @@
       } else {
         safetyCheckinNote.textContent = t("safetyNoteChoose", "Please choose the option that feels safest for you today.");
       }
+
+      renderSafetyContinueState();
     }
 
     function renderVariationState() {
@@ -1931,9 +1963,50 @@
         variationTip.textContent = t("seatedTip", "Seated version: Perform the exercise sitting on a sturdy chair.");
       } else if (selectedVariation === "low-impact") {
         variationTip.textContent = t("lowImpactTip", "Low impact version: Use a smaller range of motion and slow the pace.");
-      } else {
+      } else if (selectedVariation === "standing") {
         variationTip.textContent = t("standingTip", "Standing version: Move at a steady pace and keep support nearby if needed.");
+      } else {
+        variationTip.textContent = "Please choose a movement version before starting.";
       }
+
+      renderSafetyContinueState();
+    }
+
+    function safetyCheckComplete() {
+      return readinessChoice === "yes" && Boolean(selectedVariation);
+    }
+
+    function renderSafetyContinueState() {
+      safetyContinueButton.disabled = readinessChoice === "unknown" || (readinessChoice === "yes" && !selectedVariation);
+      safetyContinueButton.textContent = readinessChoice === "no" ? "Rest today" : "Continue";
+    }
+
+    function openSafetyModal(startAfterSafety) {
+      pendingTimerStartAfterSafety = Boolean(startAfterSafety);
+      safetyOverlay.classList.remove("hidden");
+      safetyOverlay.setAttribute("aria-hidden", "false");
+      renderReadinessState();
+      renderVariationState();
+      window.setTimeout(function () {
+        if (readinessChoice === "unknown") {
+          readyYesButton.focus();
+          return;
+        }
+
+        if (!selectedVariation) {
+          standingOptionButton.focus();
+          return;
+        }
+
+        safetyContinueButton.focus();
+      }, 30);
+    }
+
+    function closeSafetyModal() {
+      pendingTimerStartAfterSafety = false;
+      safetyOverlay.classList.add("hidden");
+      safetyOverlay.setAttribute("aria-hidden", "true");
+      timerStartButton.focus();
     }
 
     function setReadinessChoice(choice) {
@@ -1947,7 +2020,7 @@
     }
 
     function setVariationChoice(choice) {
-      if (choice !== "standing" && choice !== "seated" && choice !== "low-impact") {
+      if (choice !== "standing" && choice !== "seated" && choice !== "low-impact" && choice !== "") {
         return;
       }
 
@@ -2221,7 +2294,7 @@
 
     function updateTimerControls() {
       const hasDuration = timerTotalSeconds > 0;
-      const readyToExercise = readinessChoice === "yes";
+      const cannotStartAfterSafety = readinessChoice === "no";
 
       if (timerAlarmActive) {
         timerStartButton.disabled = true;
@@ -2232,11 +2305,11 @@
       }
 
       if (timerMode === "countdown") {
-        timerStartButton.disabled = !readyToExercise || !hasDuration || timerRunning || timerCurrentSeconds <= 0;
+        timerStartButton.disabled = cannotStartAfterSafety || !hasDuration || timerRunning || timerCurrentSeconds <= 0;
         timerPauseButton.disabled = !hasDuration || !timerRunning;
         timerResetButton.disabled = !hasDuration || (timerCurrentSeconds === timerTotalSeconds && !timerRunning);
       } else {
-        timerStartButton.disabled = !readyToExercise || timerRunning;
+        timerStartButton.disabled = cannotStartAfterSafety || timerRunning;
         timerPauseButton.disabled = !timerRunning;
         timerResetButton.disabled = !hasDuration ? timerCurrentSeconds === 0 && !timerRunning : timerCurrentSeconds === 0 && !timerRunning;
       }
@@ -2275,8 +2348,8 @@
         timerHelp.textContent = "Time is up. Press Stop to silence the alarm and save this exercise.";
       } else if (readinessChoice === "no") {
         timerHelp.textContent = "Take today to rest. You can come back when you feel ready.";
-      } else if (readinessChoice !== "yes") {
-        timerHelp.textContent = "Please complete the safety check before starting.";
+      } else if (!safetyCheckComplete()) {
+        timerHelp.textContent = "Press Start to complete the safety check before the timer begins.";
       } else if (timerRunning) {
         timerHelp.textContent = timerMode === "countdown"
           ? "Timer is running. Move at a steady pace."
@@ -2295,7 +2368,7 @@
 
       renderTimerModeButtons();
       updateTimerControls();
-      completeButton.disabled = timerAlarmActive || isCompletingExercise || readinessChoice !== "yes";
+      completeButton.disabled = timerAlarmActive || isCompletingExercise || !safetyCheckComplete();
       completeButtonLabel.textContent = isCompletingExercise ? "Saving..." : t("complete", "Complete");
       renderDurationPicker();
       renderReadinessState();
@@ -2325,6 +2398,12 @@
       }
 
       if (timerAlarmActive) {
+        renderTimerState();
+        return;
+      }
+
+      if (!safetyCheckComplete()) {
+        openSafetyModal(true);
         renderTimerState();
         return;
       }
@@ -2649,7 +2728,7 @@
 
       renderMedia(exercise.video_url, exercise.image_url, exerciseTitle);
       setReadinessChoice("unknown");
-      setVariationChoice("standing");
+      setVariationChoice("");
       setSelectedDurationMinutes(defaultMinutes);
     }
 
@@ -2761,7 +2840,7 @@
     }
 
     function completeExercise(autoTriggered) {
-      if (isCompletingExercise || !journalOverlay.classList.contains("hidden")) {
+      if (isCompletingExercise || !journalOverlay.classList.contains("hidden") || !safetyOverlay.classList.contains("hidden")) {
         return;
       }
 
@@ -2825,6 +2904,26 @@
       }
 
       setSelectedDurationMinutes(selectedDurationMinutes + 1);
+    });
+
+    safetyCancelButton.addEventListener("click", function () {
+      closeSafetyModal();
+      renderTimerState();
+    });
+
+    safetyContinueButton.addEventListener("click", function () {
+      if (readinessChoice === "unknown" || (readinessChoice === "yes" && !selectedVariation)) {
+        renderSafetyContinueState();
+        return;
+      }
+
+      const shouldStartTimer = pendingTimerStartAfterSafety && readinessChoice === "yes";
+      closeSafetyModal();
+      renderTimerState();
+
+      if (shouldStartTimer) {
+        startTimer();
+      }
     });
 
     readyYesButton.addEventListener("click", function () {
@@ -2999,8 +3098,3 @@
   <script src="/pwa.js"></script>
 </body>
 </html>
-
-
-
-
-
