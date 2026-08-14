@@ -248,19 +248,22 @@
       margin: 0;
       font-size: clamp(2rem, 7vw, 3.35rem);
       line-height: 0.98;
-      letter-spacing: -0.07em;
+      letter-spacing: 0;
       font-weight: 800;
-      max-width: 12ch;
+      max-width: 100%;
+      overflow-wrap: anywhere;
     }
 
     .meta-row {
       display: flex;
       flex-wrap: wrap;
       gap: 12px;
+      min-width: 0;
     }
 
     .meta-pill,
     .difficulty-pill {
+      max-width: 100%;
       min-height: 48px;
       padding: 10px 16px;
       border-radius: 18px;
@@ -270,6 +273,8 @@
       font-size: 1rem;
       line-height: 1.3;
       font-weight: 800;
+      overflow-wrap: anywhere;
+      text-align: center;
     }
 
     .meta-pill {
@@ -455,6 +460,7 @@
     }
 
     .safety-note,
+    .safety-guide-message,
     .variation-tip,
     .contra-note {
       margin: 0;
@@ -465,6 +471,14 @@
 
     .safety-note {
       color: #7a4f20;
+    }
+
+    .safety-guide-message {
+      padding: 12px 14px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(233, 194, 120, 0.68);
+      color: #7b321e;
     }
 
     .variation-tip {
@@ -1581,10 +1595,11 @@
           </div>
 
           <p class="contra-note" id="contraindicationNote" hidden></p>
+          <p class="safety-guide-message" id="safetyGuideMessage" hidden aria-live="polite"></p>
 
           <div class="safety-modal-actions">
             <button class="journal-action-button secondary" type="button" id="safetyCancelButton">Cancel</button>
-            <button class="journal-action-button primary" type="button" id="safetyContinueButton" disabled>Continue</button>
+            <button class="journal-action-button primary" type="button" id="safetyContinueButton">Continue</button>
           </div>
         </article>
       </section>
@@ -1734,6 +1749,7 @@
     const lowImpactOptionButton = document.getElementById("lowImpactOptionButton");
     const variationTip = document.getElementById("variationTip");
     const contraindicationNote = document.getElementById("contraindicationNote");
+    const safetyGuideMessage = document.getElementById("safetyGuideMessage");
     const safetyCancelButton = document.getElementById("safetyCancelButton");
     const safetyContinueButton = document.getElementById("safetyContinueButton");
     const voiceCoachButton = document.getElementById("voiceCoachButton");
@@ -1780,11 +1796,226 @@
       return window.WelloraI18n ? window.WelloraI18n.t(key, fallback) : (fallback || key);
     }
 
+    function getLanguage() {
+      return window.WelloraI18n ? window.WelloraI18n.getLanguage() : "en";
+    }
+
+    function getLocalizedMapValue(map, value) {
+      const label = String(value || "").trim();
+      const language = getLanguage();
+
+      if (!label || !map[label]) {
+        return label;
+      }
+
+      return map[label][language] || map[label].en || label;
+    }
+
+    const categoryLabels = {
+      "Balance and Stability": {
+        en: "Balance and Stability",
+        yo: "Iwontunwonsi ati idurosinsin",
+        ig: "Nguzozi na nkwusi ike",
+        ha: "Daidaito da kwanciyar jiki",
+        es: "Equilibrio y estabilidad",
+        fr: "Equilibre et stabilite",
+        zh: "平衡与稳定"
+      },
+      "Flexibility": {
+        en: "Flexibility",
+        yo: "Irorun ara",
+        ig: "Mgbanwe ahu",
+        ha: "Sassauci",
+        es: "Flexibilidad",
+        fr: "Souplesse",
+        zh: "柔韧性"
+      },
+      "Weight Control and Metabolism": {
+        en: "Weight Control and Metabolism",
+        yo: "Itoju iwuwo ati sisun agbara",
+        ig: "Njikwa ibu na metabolism",
+        ha: "Kula da nauyi da metabolism",
+        es: "Control de peso y metabolismo",
+        fr: "Controle du poids et metabolisme",
+        zh: "体重管理与代谢"
+      },
+      "Boosting Metabolism": {
+        en: "Boosting Metabolism",
+        yo: "Imudara sisun agbara",
+        ig: "Ikwalite metabolism",
+        ha: "Kara kuzarin metabolism",
+        es: "Impulso del metabolismo",
+        fr: "Stimuler le metabolisme",
+        zh: "促进代谢"
+      },
+      "Sexual Health": {
+        en: "Sexual Health",
+        yo: "Ilera ibalopo",
+        ig: "Ahuiike mmeko nwoke na nwanyi",
+        ha: "Lafiyar jima'i",
+        es: "Salud sexual",
+        fr: "Sante sexuelle",
+        zh: "性健康"
+      },
+      "Mobility and Flexibility": {
+        en: "Mobility and Flexibility",
+        yo: "Gbigbe ara ati irorun",
+        ig: "Mmeghari na mgbanwe ahu",
+        ha: "Motsi da sassauci",
+        es: "Movilidad y flexibilidad",
+        fr: "Mobilite et souplesse",
+        zh: "活动能力与柔韧性"
+      },
+      "Sleep and Mental Wellbeing": {
+        en: "Sleep and Mental Wellbeing",
+        yo: "Oorun ati alafia okan",
+        ig: "Ura na ahuiike uche",
+        ha: "Barci da lafiyar tunani",
+        es: "Sueno y bienestar mental",
+        fr: "Sommeil et bien-etre mental",
+        zh: "睡眠与心理健康"
+      },
+      "Energy Levels": {
+        en: "Energy Levels",
+        yo: "Ipele agbara",
+        ig: "Ogo ume",
+        ha: "Matakin kuzari",
+        es: "Niveles de energia",
+        fr: "Niveaux d'energie",
+        zh: "精力水平"
+      },
+      "Cognitive Function": {
+        en: "Cognitive Function",
+        yo: "Ise opolo",
+        ig: "Oru uche",
+        ha: "Aikin kwakwalwa",
+        es: "Funcion cognitiva",
+        fr: "Fonction cognitive",
+        zh: "认知功能"
+      }
+    };
+
+    const difficultyLabels = {
+      Beginner: {
+        en: "Beginner",
+        yo: "Olubere",
+        ig: "Onye mbido",
+        ha: "Mai farawa",
+        es: "Principiante",
+        fr: "Debutant",
+        zh: "初级"
+      },
+      Intermediate: {
+        en: "Intermediate",
+        yo: "Aarin",
+        ig: "Etiti",
+        ha: "Matsakaici",
+        es: "Intermedio",
+        fr: "Intermediaire",
+        zh: "中级"
+      },
+      Advanced: {
+        en: "Advanced",
+        yo: "To ti ni iriri",
+        ig: "Di elu",
+        ha: "Na gaba",
+        es: "Avanzado",
+        fr: "Avance",
+        zh: "高级"
+      },
+      "All levels": {
+        en: "All levels",
+        yo: "Gbogbo ipele",
+        ig: "Ogo niile",
+        ha: "Duk matakai",
+        es: "Todos los niveles",
+        fr: "Tous niveaux",
+        zh: "所有级别"
+      },
+      "Not provided": {
+        en: "Not provided",
+        yo: "Ko si",
+        ig: "Adighi",
+        ha: "Babu",
+        es: "No indicado",
+        fr: "Non indique",
+        zh: "未提供"
+      },
+      Unavailable: {
+        en: "Unavailable",
+        yo: "Ko si ni bayi",
+        ig: "Adighi ugbu a",
+        ha: "Babu yanzu",
+        es: "No disponible",
+        fr: "Indisponible",
+        zh: "不可用"
+      }
+    };
+
+    function localizeCategory(value) {
+      return getLocalizedMapValue(categoryLabels, value);
+    }
+
+    function localizeDifficulty(value) {
+      return getLocalizedMapValue(difficultyLabels, value);
+    }
+
+    const safetyPopupCopy = {
+      cancel: {
+        en: "Cancel",
+        yo: "Fagile",
+        ig: "Kagbuo",
+        ha: "Soke",
+        es: "Cancelar",
+        fr: "Annuler",
+        zh: "取消"
+      },
+      continue: {
+        en: "Continue",
+        yo: "Tesiwaju",
+        ig: "Gaa n'ihu",
+        ha: "Ci gaba",
+        es: "Continuar",
+        fr: "Continuer",
+        zh: "继续"
+      },
+      restToday: {
+        en: "Rest today",
+        yo: "Sinmi loni",
+        ig: "Zuo ike taa",
+        ha: "Huta yau",
+        es: "Descansar hoy",
+        fr: "Se reposer aujourd'hui",
+        zh: "今天休息"
+      },
+      chooseReadiness: {
+        en: "Please choose Yes or No before continuing.",
+        yo: "Jowo yan Bee ni tabi Rara ki o to tesiwaju.",
+        ig: "Biko họrọ Ee ma obu Mba tupu iga n'ihu.",
+        ha: "Da fatan zaɓi Ee ko A'a kafin ci gaba.",
+        es: "Elige Si o No antes de continuar.",
+        fr: "Choisissez Oui ou Non avant de continuer.",
+        zh: "继续前请选择是或否。"
+      },
+      chooseVariation: {
+        en: "Please choose Standing, Seated, or Low impact before starting the timer.",
+        yo: "Jowo yan Duro, Joko, tabi Rorun ki aago to bere.",
+        ig: "Biko họrọ Iguzo, Inọdụ ala, ma obu Mmetuta nta tupu ngụ oge amalite.",
+        ha: "Da fatan zaɓi Tsaye, Zaune, ko Motsi mai sauki kafin agogo ya fara.",
+        es: "Elige De pie, Sentado o Bajo impacto antes de iniciar el temporizador.",
+        fr: "Choisissez Debout, Assis ou Impact doux avant de lancer le minuteur.",
+        zh: "开始计时前请选择站立、坐姿或低冲击。"
+      }
+    };
+
+    function safetyText(key) {
+      const language = getLanguage();
+      return (safetyPopupCopy[key] && (safetyPopupCopy[key][language] || safetyPopupCopy[key].en)) || key;
+    }
+
     function updateTranslationNotice() {
-      const language = window.WelloraI18n ? window.WelloraI18n.getLanguage() : "en";
-      const notice = t("translationNotice", "");
-      translationNote.textContent = notice;
-      translationNote.classList.toggle("is-visible", language !== "en" && Boolean(notice));
+      translationNote.textContent = "";
+      translationNote.classList.remove("is-visible");
     }
 
     window.WelloraI18n.applyTranslations(document);
@@ -1792,6 +2023,10 @@
     window.addEventListener("wellora:languagechange", function () {
       window.WelloraI18n.applyTranslations(document);
       updateTranslationNotice();
+      if (currentExercise) {
+        categoryPill.textContent = localizeCategory(currentExercise.category || "General");
+        renderDifficultyBadge(currentExercise.difficulty);
+      }
       renderTimerState();
     });
 
@@ -1927,7 +2162,7 @@
       const label = String(difficulty || "Not provided").trim();
       const normalized = label.toLowerCase();
 
-      difficultyPill.textContent = label || "Not provided";
+      difficultyPill.textContent = localizeDifficulty(label || "Not provided");
       difficultyPill.className = "difficulty-pill";
 
       if (normalized === "beginner") {
@@ -1977,14 +2212,29 @@
     }
 
     function renderSafetyContinueState() {
-      safetyContinueButton.disabled = readinessChoice === "unknown" || (readinessChoice === "yes" && !selectedVariation);
-      safetyContinueButton.textContent = readinessChoice === "no" ? "Rest today" : "Continue";
+      safetyCancelButton.textContent = safetyText("cancel");
+      safetyContinueButton.textContent = readinessChoice === "no" ? safetyText("restToday") : safetyText("continue");
+      safetyContinueButton.setAttribute(
+        "aria-disabled",
+        readinessChoice === "unknown" || (readinessChoice === "yes" && !selectedVariation) ? "true" : "false"
+      );
+    }
+
+    function showSafetyGuide(message) {
+      safetyGuideMessage.textContent = message;
+      safetyGuideMessage.hidden = false;
+    }
+
+    function clearSafetyGuide() {
+      safetyGuideMessage.textContent = "";
+      safetyGuideMessage.hidden = true;
     }
 
     function openSafetyModal(startAfterSafety) {
       pendingTimerStartAfterSafety = Boolean(startAfterSafety);
       safetyOverlay.classList.remove("hidden");
       safetyOverlay.setAttribute("aria-hidden", "false");
+      clearSafetyGuide();
       renderReadinessState();
       renderVariationState();
       window.setTimeout(function () {
@@ -2703,7 +2953,7 @@
 
       document.title = exerciseTitle + " | Wellora";
       exerciseName.textContent = exerciseTitle;
-      categoryPill.textContent = category;
+      categoryPill.textContent = localizeCategory(category);
       renderDifficultyBadge(difficulty);
       durationValue.textContent = duration;
       exerciseIdValue.textContent = exercise.id;
@@ -2912,7 +3162,14 @@
     });
 
     safetyContinueButton.addEventListener("click", function () {
-      if (readinessChoice === "unknown" || (readinessChoice === "yes" && !selectedVariation)) {
+      if (readinessChoice === "unknown") {
+        showSafetyGuide(safetyText("chooseReadiness"));
+        renderSafetyContinueState();
+        return;
+      }
+
+      if (readinessChoice === "yes" && !selectedVariation) {
+        showSafetyGuide(safetyText("chooseVariation"));
         renderSafetyContinueState();
         return;
       }
@@ -2927,24 +3184,29 @@
     });
 
     readyYesButton.addEventListener("click", function () {
+      clearSafetyGuide();
       setReadinessChoice("yes");
     });
 
     readyNoButton.addEventListener("click", function () {
+      clearSafetyGuide();
       pauseTimer();
       stopVoiceCoach();
       setReadinessChoice("no");
     });
 
     standingOptionButton.addEventListener("click", function () {
+      clearSafetyGuide();
       setVariationChoice("standing");
     });
 
     seatedOptionButton.addEventListener("click", function () {
+      clearSafetyGuide();
       setVariationChoice("seated");
     });
 
     lowImpactOptionButton.addEventListener("click", function () {
+      clearSafetyGuide();
       setVariationChoice("low-impact");
     });
 
@@ -3082,8 +3344,8 @@
         isCompletingExercise = false;
         showApp();
         exerciseName.textContent = "Exercise unavailable";
-        categoryPill.textContent = "Unavailable";
-        difficultyPill.textContent = "Unavailable";
+        categoryPill.textContent = localizeDifficulty("Unavailable");
+        difficultyPill.textContent = localizeDifficulty("Unavailable");
         durationValue.textContent = "Not available";
         exerciseIdValue.textContent = rawExerciseId || "-";
         descriptionText.textContent = "We couldn't load this exercise right now.";

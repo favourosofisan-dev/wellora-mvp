@@ -719,10 +719,12 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase-config.js"></script>
   <script src="wellora-flow.js"></script>
+  <script src="translations.js"></script>
   <script>
     const supabaseClient = window.createWelloraSupabaseClient();
     const params = new URLSearchParams(window.location.search);
     const category = params.get("category") || "Balance and Stability";
+    let cachedExercises = [];
 
     const screenTitle = document.getElementById("screenTitle");
     const screenIcon = document.getElementById("screenIcon");
@@ -801,6 +803,18 @@
       return String(Math.max(1, Math.round(totalSeconds / 60)));
     }
 
+    function localizeCategory(value) {
+      return window.WelloraI18n && window.WelloraI18n.localizeCategory
+        ? window.WelloraI18n.localizeCategory(value)
+        : String(value || "");
+    }
+
+    function localizeDifficulty(value) {
+      return window.WelloraI18n && window.WelloraI18n.localizeDifficulty
+        ? window.WelloraI18n.localizeDifficulty(value)
+        : String(value || "");
+    }
+
     function getThumbClass(index) {
       const classes = ["thumb-heeltoe", "thumb-singleleg", "thumb-seated", "thumb-wallpush"];
       return classes[index % classes.length];
@@ -866,7 +880,7 @@
         description: "Sessions in this category are now coming from Supabase."
       };
 
-      screenTitle.textContent = category;
+      screenTitle.textContent = localizeCategory(category);
       screenIcon.src = categoryIcons[category] || "image/wellora logo.png";
       heroHeading.textContent = copy.headline;
       heroDescription.textContent = exercises.length
@@ -916,7 +930,7 @@
             renderThumbImage(exercise.image_url, exercise.exercise_name || "Exercise", getThumbClass(index)) +
             '<div class="exercise-content">' +
               '<div class="exercise-meta">' +
-                '<span class="' + levelClass + '">' + difficulty + "</span>" +
+                '<span class="' + levelClass + '">' + localizeDifficulty(difficulty) + "</span>" +
                 '<span class="meta" aria-label="' + formatMinutes(exercise.duration_seconds) + ' minutes">' +
                   '<svg viewBox="0 0 24 24">' +
                     '<circle cx="12" cy="12" r="8"></circle>' +
@@ -1021,9 +1035,10 @@
 
       try {
         const exercises = await loadExercisesForCategory();
-        renderHeader(exercises);
-        renderFeatured(exercises);
-        renderExercises(exercises);
+        cachedExercises = exercises;
+        renderHeader(cachedExercises);
+        renderFeatured(cachedExercises);
+        renderExercises(cachedExercises);
       } catch (error) {
         renderHeader([]);
         featuredTitle.textContent = "Couldn't load this category";
@@ -1038,15 +1053,19 @@
       }
     }
 
+    window.addEventListener("wellora:languagechange", function () {
+      window.WelloraI18n.applyTranslations(document);
+      renderHeader(cachedExercises);
+      renderFeatured(cachedExercises);
+      renderExercises(cachedExercises);
+    });
+
     init();
   </script>
-    <script src="translations.js"></script>
   <script src="legal-footer.js"></script>
   <script src="wellora-guide.js"></script>
   <script src="/pwa.js"></script>
 </body>
 </html>
-
-
 
 

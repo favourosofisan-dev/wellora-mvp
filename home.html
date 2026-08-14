@@ -767,6 +767,12 @@
       return window.WelloraI18n ? window.WelloraI18n.t(key, fallback) : (fallback || key);
     }
 
+    function localizeCategory(value) {
+      return window.WelloraI18n && window.WelloraI18n.localizeCategory
+        ? window.WelloraI18n.localizeCategory(value)
+        : String(value || "");
+    }
+
     function updateTranslationNotice() {
       const language = window.WelloraI18n ? window.WelloraI18n.getLanguage() : "en";
       const notice = t("translationNotice", "");
@@ -793,7 +799,7 @@
           '<span class="category-icon" aria-hidden="true">' +
           '<img src="' + icon + '" alt="">' +
           "</span>" +
-          "<h2>" + category.category + "</h2>" +
+          "<h2>" + localizeCategory(category.category) + "</h2>" +
           "<p>" + t("openCategory", "Open category") + "</p>" +
           "</button>"
         );
@@ -823,9 +829,9 @@
       featuredTitle.textContent = featuredExercise.exercise_name || "Featured exercise";
       featuredDescription.textContent =
         formatMinutes(featuredExercise.duration_seconds) +
-        " in " +
-        (featuredExercise.category || "your movement library");
-      featuredPill.textContent = featuredExercise.category || "Recommended";
+        " min · " +
+        (featuredExercise.category ? localizeCategory(featuredExercise.category) : t("recommended", "Recommended"));
+      featuredPill.textContent = featuredExercise.category ? localizeCategory(featuredExercise.category) : t("recommended", "Recommended");
     }
 
     async function requireUser() {

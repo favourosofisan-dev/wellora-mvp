@@ -85,7 +85,7 @@ const translations = {
   },
   yo: {
     languageLabel: "Ede",
-    translationNotice: "Awọn itumọ Yoruba wa n bọ. Awọn ọrọ adaṣe kan le ṣi han ni Gẹẹsi.",
+    translationNotice: "",
     homeEyebrow: "Loni ni Wellora",
     homeTitle: "Ibi alafia rẹ",
     homeTextReady: "Yan ẹka kan ki o bẹrẹ adaṣe rọrùn ti a ṣe fun ilosiwaju rẹ.",
@@ -169,7 +169,7 @@ const translations = {
   },
   ig: {
     languageLabel: "Asụsụ",
-    translationNotice: "Nsụgharị Igbo ka na-aga n'ihu. Ụfọdụ ọdịnaya mmega ahụ nwere ike ịdị na Bekee.",
+    translationNotice: "",
     homeEyebrow: "Taa na Wellora",
     homeTitle: "Ebe udo na ahụike gị",
     homeTextReady: "Họrọ otu ngalaba wee malite mmega dị nro maka ịga n'ihu gị.",
@@ -253,7 +253,7 @@ const translations = {
   },
   ha: {
     languageLabel: "Harshe",
-    translationNotice: "Fassarar Hausa tana kan aiki. Wasu bayanan motsa jiki za su iya kasancewa da Turanci.",
+    translationNotice: "",
     homeEyebrow: "Yau a Wellora",
     homeTitle: "Wurin lafiyarka",
     homeTextReady: "Zaɓi rukuni ka fara motsa jiki mai sauƙi wanda ya dace da kai.",
@@ -531,7 +531,7 @@ Object.assign(translations.ha, {
 
 translations.es = Object.assign({}, translations.en, {
   languageLabel: "Idioma",
-  translationNotice: "Las traducciones del contenido de ejercicios estan en progreso. Algunos nombres, descripciones y pasos pueden aparecer en ingles.",
+  translationNotice: "",
   homeEyebrow: "Hoy en Wellora",
   homeTitle: "Tu espacio de bienestar",
   homeTextReady: "Elige una categoria y empieza una rutina suave para mantener tu impulso.",
@@ -661,7 +661,7 @@ translations.es = Object.assign({}, translations.en, {
 
 translations.fr = Object.assign({}, translations.en, {
   languageLabel: "Langue",
-  translationNotice: "Les traductions du contenu des exercices sont en cours. Certains noms, descriptions et etapes peuvent rester en anglais.",
+  translationNotice: "",
   homeEyebrow: "Aujourd'hui dans Wellora",
   homeTitle: "Votre espace bien-etre",
   homeTextReady: "Choisissez une categorie et commencez une routine douce pour garder votre elan.",
@@ -791,7 +791,7 @@ translations.fr = Object.assign({}, translations.en, {
 
 translations.zh = Object.assign({}, translations.en, {
   languageLabel: "语言",
-  translationNotice: "练习内容翻译仍在进行中。部分练习名称、说明和步骤可能仍显示为英文。",
+  translationNotice: "",
   homeEyebrow: "今日 Wellora",
   homeTitle: "您的健康空间",
   homeTextReady: "选择一个类别，开始温和的日常练习。",
@@ -1005,6 +1005,112 @@ translations.zh = Object.assign({}, translations.en, {
     }
   }
 
+  const dynamicLabels = {
+    categories: {
+      "Balance and Stability": {
+        en: "Balance and Stability",
+        yo: "Iwontunwonsi ati idurosinsin",
+        ig: "Nguzozi na nkwusi ike",
+        ha: "Daidaito da kwanciyar jiki",
+        es: "Equilibrio y estabilidad",
+        fr: "Equilibre et stabilite",
+        zh: "平衡与稳定"
+      },
+      "Flexibility": {
+        en: "Flexibility",
+        yo: "Irorun ara",
+        ig: "Mgbanwe ahu",
+        ha: "Sassauci",
+        es: "Flexibilidad",
+        fr: "Souplesse",
+        zh: "柔韧性"
+      },
+      "Weight Control and Metabolism": {
+        en: "Weight Control and Metabolism",
+        yo: "Itoju iwuwo ati sisun agbara",
+        ig: "Njikwa ibu na metabolism",
+        ha: "Kula da nauyi da metabolism",
+        es: "Control de peso y metabolismo",
+        fr: "Controle du poids et metabolisme",
+        zh: "体重管理与代谢"
+      },
+      "Boosting Metabolism": {
+        en: "Boosting Metabolism",
+        yo: "Imudara sisun agbara",
+        ig: "Ikwalite metabolism",
+        ha: "Kara kuzarin metabolism",
+        es: "Impulso del metabolismo",
+        fr: "Stimuler le metabolisme",
+        zh: "促进代谢"
+      },
+      "Sexual Health": {
+        en: "Sexual Health",
+        yo: "Ilera ibalopo",
+        ig: "Ahuiike mmeko nwoke na nwanyi",
+        ha: "Lafiyar jima'i",
+        es: "Salud sexual",
+        fr: "Sante sexuelle",
+        zh: "性健康"
+      },
+      "Mobility and Flexibility": {
+        en: "Mobility and Flexibility",
+        yo: "Gbigbe ara ati irorun",
+        ig: "Mmeghari na mgbanwe ahu",
+        ha: "Motsi da sassauci",
+        es: "Movilidad y flexibilidad",
+        fr: "Mobilite et souplesse",
+        zh: "活动能力与柔韧性"
+      },
+      "Sleep and Mental Wellbeing": {
+        en: "Sleep and Mental Wellbeing",
+        yo: "Oorun ati alafia okan",
+        ig: "Ura na ahuiike uche",
+        ha: "Barci da lafiyar tunani",
+        es: "Sueno y bienestar mental",
+        fr: "Sommeil et bien-etre mental",
+        zh: "睡眠与心理健康"
+      },
+      "Energy Levels": {
+        en: "Energy Levels",
+        yo: "Ipele agbara",
+        ig: "Ogo ume",
+        ha: "Matakin kuzari",
+        es: "Niveles de energia",
+        fr: "Niveaux d'energie",
+        zh: "精力水平"
+      },
+      "Cognitive Function": {
+        en: "Cognitive Function",
+        yo: "Ise opolo",
+        ig: "Oru uche",
+        ha: "Aikin kwakwalwa",
+        es: "Funcion cognitiva",
+        fr: "Fonction cognitive",
+        zh: "认知功能"
+      }
+    },
+    difficulties: {
+      Beginner: { en: "Beginner", yo: "Olubere", ig: "Onye mbido", ha: "Mai farawa", es: "Principiante", fr: "Debutant", zh: "初级" },
+      Intermediate: { en: "Intermediate", yo: "Aarin", ig: "Etiti", ha: "Matsakaici", es: "Intermedio", fr: "Intermediaire", zh: "中级" },
+      Advanced: { en: "Advanced", yo: "To ti ni iriri", ig: "Di elu", ha: "Na gaba", es: "Avanzado", fr: "Avance", zh: "高级" },
+      "All levels": { en: "All levels", yo: "Gbogbo ipele", ig: "Ogo niile", ha: "Duk matakai", es: "Todos los niveles", fr: "Tous niveaux", zh: "所有级别" },
+      "Not provided": { en: "Not provided", yo: "Ko si", ig: "Adighi", ha: "Babu", es: "No indicado", fr: "Non indique", zh: "未提供" },
+      Unavailable: { en: "Unavailable", yo: "Ko si ni bayi", ig: "Adighi ugbu a", ha: "Babu yanzu", es: "No disponible", fr: "Indisponible", zh: "不可用" }
+    }
+  };
+
+  function localizeDynamicLabel(group, value) {
+    const label = String(value || "").trim();
+    const labels = dynamicLabels[group] || {};
+    const entry = labels[label];
+
+    if (!entry) {
+      return label;
+    }
+
+    return entry[getLanguage()] || entry.en || label;
+  }
+
   function bootTranslations() {
     applyTranslations(document);
     replaceNavIcons();
@@ -1022,6 +1128,12 @@ translations.zh = Object.assign({}, translations.en, {
     setLanguage: setLanguage,
     t: translate,
     applyTranslations: applyTranslations,
-    initLanguageSelector: initLanguageSelector
+    initLanguageSelector: initLanguageSelector,
+    localizeCategory: function (value) {
+      return localizeDynamicLabel("categories", value);
+    },
+    localizeDifficulty: function (value) {
+      return localizeDynamicLabel("difficulties", value);
+    }
   };
 })();
