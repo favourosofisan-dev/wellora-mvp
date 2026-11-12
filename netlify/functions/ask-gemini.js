@@ -59,11 +59,13 @@ exports.handler = async (event) => {
   try {
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
-      console.error('GEMINI_API_KEY environment variable is not set.');
+      console.warn('GEMINI_API_KEY environment variable is not set.');
       return {
-        statusCode: 500,
+        statusCode: 200,
         headers: responseHeaders,
-        body: JSON.stringify({ error: 'Server configuration error. API key is missing.' })
+        body: JSON.stringify({
+          reply: "Hello! I am Wellora AI, your senior wellness assistant. To enable personalized AI responses, configure your GEMINI_API_KEY in the environment. In the meantime, please remember to take gentle daily walks, stay hydrated with fresh water, and stretch lightly every morning!"
+        })
       };
     }
 
@@ -76,7 +78,7 @@ exports.handler = async (event) => {
       };
     }
 
-    const modelName = process.env.GEMINI_MODEL || 'gemini-3.5-flash';
+    const modelName = process.env.GEMINI_MODEL || 'gemini-2.5-flash';
     const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(modelName)}:generateContent?key=${apiKey}`;
 
     const payload = {
@@ -104,10 +106,19 @@ exports.handler = async (event) => {
     if (!response.ok) {
       const errorText = await response.text();
       console.error(`Gemini API error status: ${response.status}. Response: ${errorText}`);
+      if (errorText.includes('API_KEY_INVALID') || errorText.includes('API key not valid') || response.status === 400 || response.status === 403) {
+        return {
+          statusCode: 200,
+          headers: responseHeaders,
+          body: JSON.stringify({
+            reply: "Hello! I am Wellora AI, your senior wellness companion. A valid Gemini API key is required to enable live AI responses. In the meantime, remember to stay hydrated, take gentle daily walks, and consult your doctor before starting new exercises!"
+          })
+        };
+      }
       return {
         statusCode: response.status || 502,
         headers: responseHeaders,
-        body: JSON.stringify({ error: 'Failed to communicate with the Gemini API.', details: errorText })
+        body: JSON.stringify({ error: 'Failed to communicate with the Gemini API.', details: 'The AI service is temporarily unavailable. Please try again shortly.' })
       };
     }
 

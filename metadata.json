@@ -1,0 +1,8 @@
+{
+  "name": "Wellora",
+  "description": "Senior wellness progressive web application for gentle exercise, fall prevention, nutrition, and health guidance.",
+  "requestFramePermissions": [],
+  "capabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

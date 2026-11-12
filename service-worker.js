@@ -20,7 +20,7 @@ const APP_SHELL_FILES = [
   "/reminders.html",
   "/reports.html",
   "/splash.html",
-  "/styles.css",
+  "/ai-chat.html",
   "/layout.css",
   "/manifest.json",
   "/pwa.js",

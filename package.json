@@ -4,9 +4,10 @@
   "private": true,
   "description": "Wellora senior wellness progressive web application",
   "scripts": {
-    "dev": "vite --host 0.0.0.0",
+    "dev": "vite --host 0.0.0.0 --port 3000",
     "build": "vite build",
-    "preview": "vite preview --host 0.0.0.0"
+    "preview": "vite preview --host 0.0.0.0 --port 3000",
+    "lint": "node --check *.js netlify/functions/*.js"
   },
   "devDependencies": {
     "vite": "^7.1.7"
