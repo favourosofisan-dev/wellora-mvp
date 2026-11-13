@@ -61,7 +61,8 @@
     }
 
     .screen {
-      width: min(100%, 390px);
+      width: min(100%, 820px);
+      max-width: 820px;
       min-height: 100vh;
       height: calc(100vh - env(safe-area-inset-top, 0px) - 18px);
       max-height: calc(100vh - env(safe-area-inset-top, 0px) - 18px);
@@ -99,33 +100,36 @@
     .topbar-actions {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
+      min-width: 0;
+      max-width: 100%;
     }
 
     .language-control {
       display: grid;
-      gap: 5px;
-      min-width: 138px;
+      gap: 2px;
+      min-width: 0;
+      max-width: 108px;
       position: relative;
     }
 
     .language-control label {
       color: #8d4825;
-      font-size: 0.7rem;
+      font-size: 0.62rem;
       font-weight: 800;
-      line-height: 1.2;
-      letter-spacing: 0.08em;
+      line-height: 1.1;
+      letter-spacing: 0.05em;
       text-transform: uppercase;
-      padding-left: 4px;
+      padding-left: 2px;
     }
 
     .language-control::after {
       content: "";
       position: absolute;
-      right: 14px;
-      bottom: 15px;
-      width: 8px;
-      height: 8px;
+      right: 9px;
+      bottom: 14px;
+      width: 6px;
+      height: 6px;
       border-right: 2px solid #8d4825;
       border-bottom: 2px solid #8d4825;
       transform: rotate(45deg);
@@ -133,18 +137,23 @@
     }
 
     .language-control select {
-      min-height: 46px;
-      border-radius: 999px;
+      width: 100%;
+      max-width: 108px;
+      min-height: 36px;
+      border-radius: 11px;
       border: 1px solid rgba(141, 72, 37, 0.18);
       background: linear-gradient(180deg, rgba(255, 252, 248, 0.98), rgba(247, 238, 229, 0.96));
       color: var(--text);
-      box-shadow: 0 8px 18px rgba(116, 89, 71, 0.08);
+      box-shadow: 0 2px 8px rgba(116, 89, 71, 0.06);
       font: inherit;
-      font-size: 0.9rem;
+      font-size: 0.8rem;
       font-weight: 800;
-      padding: 9px 36px 9px 16px;
+      padding: 5px 22px 5px 9px;
       appearance: none;
       cursor: pointer;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
     }
 
     .language-control select:hover,
@@ -238,223 +247,70 @@
     }
 
     .eyebrow {
-      margin: 0 0 10px;
+      margin: 0 0 6px;
       color: var(--accent);
-      font-size: 0.82rem;
+      font-size: 0.78rem;
       line-height: 1.2;
       font-weight: 800;
-      letter-spacing: 0.14em;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
     }
 
     .hero h1 {
       margin: 0;
-      font-size: 2.65rem;
-      line-height: 0.98;
-      letter-spacing: -0.07em;
+      font-size: clamp(1.65rem, 4.5vw, 2.2rem);
+      line-height: 1.08;
+      letter-spacing: -0.04em;
       font-weight: 800;
     }
 
     .hero p {
-      margin: 12px 0 0;
+      margin: 8px 0 0;
       color: var(--muted);
-      font-size: 1rem;
-      line-height: 1.7;
-      max-width: 300px;
+      font-size: 0.96rem;
+      line-height: 1.5;
+      max-width: 42ch;
     }
 
     .category-grid {
-      margin-top: 28px;
+      margin-top: 16px;
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 14px 12px;
+      grid-template-columns: 1fr;
+      gap: 10px;
     }
 
     .category-card {
-      background: rgba(255, 255, 255, 0.86);
+      background: #ffffff;
       border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 18px 14px 16px;
+      border-radius: 15px;
+      padding: 12px 14px;
       box-shadow: var(--shadow);
       text-align: left;
       cursor: pointer;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
-      min-height: 112px;
+      min-height: 66px;
     }
 
     .category-card:hover,
     .category-card:focus-visible {
-      transform: translateY(-2px);
-      box-shadow: 0 18px 34px rgba(129, 95, 74, 0.14);
-    }
-
-    .category-icon {
-      width: 56px;
-      height: 56px;
-      border-radius: 50%;
-      background: #f5eee7;
-      display: grid;
-      place-items: center;
-      margin-bottom: 14px;
-    }
-
-    .category-icon img {
-      width: 36px;
-      height: 36px;
-      object-fit: contain;
+      transform: translateY(-1px);
+      box-shadow: 0 10px 24px rgba(129, 95, 74, 0.12);
     }
 
     .category-card h2 {
       margin: 0;
-      font-size: 0.98rem;
+      font-size: 1rem;
       line-height: 1.25;
-      letter-spacing: -0.03em;
+      letter-spacing: -0.02em;
       font-weight: 800;
       color: #332b27;
     }
 
     .category-card p {
-      margin: 6px 0 0;
-      font-size: 0.72rem;
-      color: #a08f84;
-      font-weight: 700;
-    }
-
-    .featured-card {
-      margin-top: 28px;
-      border: 0;
-      width: 100%;
-      border-radius: 24px;
-      overflow: hidden;
-      position: relative;
-      min-height: 180px;
-      cursor: pointer;
-      background: linear-gradient(145deg, #fff0e6 0%, #f8ede4 45%, #f3e7de 100%);
-      box-shadow: 0 18px 34px rgba(141, 77, 44, 0.12);
-      padding: 24px 20px;
-      display: flex;
-      align-items: stretch;
-      text-align: left;
-      border: 1px solid rgba(221, 195, 176, 0.75);
-      gap: 12px;
-      isolation: isolate;
-    }
-
-    .featured-card::before {
-      content: "";
-      position: absolute;
-      width: 148px;
-      height: 148px;
-      right: -34px;
-      top: -28px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(255, 255, 255, 0.9) 0%, rgba(255, 240, 230, 0.18) 72%, transparent 73%);
-      z-index: 0;
-    }
-
-    .featured-card::after {
-      content: "";
-      position: absolute;
-      width: 112px;
-      height: 112px;
-      left: -26px;
-      bottom: -34px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(244, 221, 206, 0.95) 0%, rgba(244, 221, 206, 0.22) 70%, transparent 71%);
-      z-index: 0;
-    }
-
-    .featured-content {
-      position: relative;
-      z-index: 1;
-      color: #3e2d24;
-      display: grid;
-      gap: 12px;
-      width: 100%;
-      align-content: start;
-    }
-
-    .pill {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      justify-self: start;
-      gap: 8px;
-      min-height: 48px;
-      padding: 10px 16px;
-      border-radius: 999px;
-      background: rgba(141, 72, 37, 0.92);
-      color: #fff7f1;
-      font-size: 0.72rem;
-      font-weight: 800;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      box-shadow: 0 10px 18px rgba(141, 72, 37, 0.16);
-    }
-
-    .pill::before {
-      content: "\2728";
-      font-size: 0.95rem;
-      line-height: 1;
-    }
-
-    .pill.is-beginner,
-    .pill[data-level="beginner"],
-    .pill[data-difficulty="beginner"] {
-      background: #5ea66b;
-      color: #ffffff;
-    }
-
-    .pill.is-intermediate,
-    .pill[data-level="intermediate"],
-    .pill[data-difficulty="intermediate"] {
-      background: #de7d3a;
-      color: #ffffff;
-    }
-
-    .featured-content h3 {
-      margin: 0;
-      font-size: 1.4rem;
-      line-height: 1.18;
-      letter-spacing: -0.04em;
-      font-weight: 800;
-      color: #4c3429;
-    }
-
-    .featured-content p {
-      margin: 0;
-      font-size: 0.95rem;
-      color: #7d685c;
-      line-height: 1.6;
-      max-width: 26ch;
-    }
-
-    .featured-card button,
-    .featured-card .button,
-    .featured-card .primary-button,
-    .featured-card .secondary-button {
-      width: 100%;
-      min-height: 48px;
-      border-radius: 18px;
-      background: #8d4d2c;
-      color: #ffffff;
-      padding: 14px;
-      border: 0;
-      font-weight: 800;
-      box-shadow: 0 12px 22px rgba(141, 77, 44, 0.16);
-    }
-
-    @media (max-width: 640px) {
-      .featured-card {
-        padding: 24px 20px;
-      }
-
-      .featured-card button,
-      .featured-card .button,
-      .featured-card .primary-button,
-      .featured-card .secondary-button {
-        width: 100%;
-      }
+      margin: 2px 0 0;
+      font-size: 0.84rem;
+      color: #6f6058;
+      font-weight: 500;
     }
 
     .bottom-nav {
@@ -465,8 +321,7 @@
       background: rgba(255, 252, 248, 0.98);
       border-top: 1px solid rgba(228, 215, 205, 0.92);
       box-shadow: var(--nav-shadow);
-      padding: 10px 10px 14px;
-      animation: navRise 0.45s ease-out;
+      padding: 6px 8px 10px;
       margin-top: auto;
       z-index: 30;
       pointer-events: auto;
@@ -475,7 +330,7 @@
     .nav-list {
       display: grid;
       grid-template-columns: repeat(5, minmax(0, 1fr));
-      gap: 10px;
+      gap: 4px;
     }
 
     .nav-button {
@@ -483,87 +338,20 @@
       background: transparent;
       display: grid;
       justify-items: center;
-      gap: 6px;
+      gap: 4px;
       justify-content: center;
       min-height: 44px;
       cursor: pointer;
-      color: #9a887d;
+      color: #000000;
       width: 100%;
-      transition: transform 0.2s ease, color 0.2s ease;
-    }
-
-    .nav-button svg {
-      width: 48px;
-      height: 48px;
-      fill: currentColor;
       transition: transform 0.2s ease;
     }
 
-    .nav-button.is-active {
-      color: var(--accent);
-    }
-
     .nav-button span:last-child {
-      color: #000 !important;
-      font-size: 0.82rem;
+      color: #000000 !important;
+      font-size: 0.78rem;
       font-weight: 800;
-      line-height: 1.2;
-    }
-
-    .nav-pill {
-      width: 100%;
-      min-height: 42px;
-      border-radius: 12px;
-      display: grid;
-      place-items: center;
-      background: transparent;
-      transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .nav-button.is-active .nav-pill {
-      background: var(--accent);
-      color: #fff7f1;
-      animation: activeNavBob 3s ease-in-out infinite;
-      box-shadow: 0 8px 16px rgba(141, 72, 37, 0.18);
-    }
-
-    .nav-button:hover,
-    .nav-button:focus-visible {
-      transform: translateY(-1px);
-    }
-
-    .nav-button:hover .nav-pill,
-    .nav-button:focus-visible .nav-pill {
-      transform: translateY(-2px);
-    }
-
-    .nav-button:hover svg,
-    .nav-button:focus-visible svg {
-      transform: scale(1.05);
-    }
-
-    @keyframes navRise {
-      from {
-        opacity: 0;
-        transform: translateY(10px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes activeNavBob {
-
-      0%,
-      100% {
-        transform: translateY(0);
-      }
-
-      50% {
-        transform: translateY(-2px);
-      }
+      line-height: 1.15;
     }
 
     @media (max-width: 767px) {
@@ -582,7 +370,7 @@
       }
 
       .app-shell {
-        padding: 0 18px calc(env(safe-area-inset-bottom, 0px) + 132px);
+        padding: 0 14px calc(env(safe-area-inset-bottom, 0px) + 116px);
       }
 
       .topbar {
@@ -592,33 +380,7 @@
 
       .bottom-nav {
         bottom: 0;
-        padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 14px);
-      }
-    }
-
-    @media (min-width: 480px) {
-      .screen {
-        width: 400px;
-        height: calc(100vh - 36px);
-        max-height: calc(100vh - 36px);
-      }
-
-      .app-shell {
-        padding: 20px 20px 108px;
-      }
-
-      .hero h1 {
-        font-size: 2.85rem;
-      }
-    }
-
-    @media (min-width: 768px) {
-      .page {
-        padding: 18px;
-      }
-
-      .screen {
-        width: 414px;
+        padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 10px);
       }
     }
   </style>
@@ -647,7 +409,6 @@
                 <option value="zh">中文</option>
               </select>
             </div>
-
           </div>
         </header>
 
@@ -659,56 +420,58 @@
         </section>
 
         <section class="category-grid" id="categoryGrid" aria-label="Wellness categories"></section>
-
-        <button class="featured-card" type="button" id="featuredExerciseButton" data-exercise-id="">
-          <div class="featured-content">
-            <span class="pill" id="featuredPill" data-i18n="recommended">Recommended</span>
-            <h3 id="featuredTitle" data-i18n="loadingFeatured">Loading featured exercise...</h3>
-            <p id="featuredDescription" data-i18n="fetchingFeatured">Fetching today's guided movement from your library.
-            </p>
-          </div>
-        </button>
       </div>
 
       <nav class="bottom-nav" aria-label="Primary navigation">
         <div class="nav-list">
           <button class="nav-button is-active" type="button" aria-label="Home" data-i18n-aria-label="homeNav">
             <span class="nav-pill">
-              <img class="nav-icon-img" src="image/wellora home icon.jpeg" alt="" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+              </svg>
             </span>
             <span data-i18n="homeNav">Home</span>
           </button>
-          <button class="nav-button" type="button" aria-label="Progress" id="progressButton"
-            data-i18n-aria-label="progressNav">
+          <button class="nav-button" type="button" aria-label="Progress" id="progressButton" data-i18n-aria-label="progressNav">
             <span class="nav-pill">
-              <img class="nav-icon-img" src="image/wellora progress icon.jpeg" alt="" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="18" height="18" rx="4"></rect>
+                <path d="M8 15v-3"></path>
+                <path d="M12 15V8"></path>
+                <path d="M16 15v-5"></path>
+              </svg>
             </span>
             <span data-i18n="progressNav">Progress</span>
           </button>
           <button class="nav-button" type="button" id="navProfileButton" aria-label="Profile" data-i18n-aria-label="profileNav">
             <span class="nav-pill">
-              <img class="nav-icon-img" src="image/profile-icon.jpg" alt="" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
             </span>
             <span data-i18n="profileNav">Profile</span>
           </button>
           <button class="nav-button" type="button" aria-label="Guide" id="navGuideButton">
             <span class="nav-pill">
-              <svg viewBox="0 0 24 24">
-                <path
-                  d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z">
-                </path>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="9"></circle>
+                <path d="M9.5 9.5a2.5 2.5 0 0 1 4.9.7c0 1.7-2.4 2.3-2.4 3.3"></path>
+                <line x1="12" y1="17" x2="12.01" y2="17"></line>
               </svg>
             </span>
             <span>Guide</span>
           </button>
-          <button class="nav-button" type="button" aria-label="Ask Wellora AI" id="navAiButton"
-            data-i18n-aria-label="aiNav">
+          <button class="nav-button" type="button" aria-label="Ask Wellora AI" id="navAiButton" data-i18n-aria-label="aiNav">
             <span class="nav-pill">
-              <svg viewBox="0 0 24 24">
-                <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-9 12-1.5-3.5L6 9l3.5-1.5L11 4l1.5 3.5L16 9l-3.5 1.5L11 14zm6-2-.75-1.75L14.5 9.5l1.75-.75L17 7l.75 1.75 1.75.75-1.75.75L17 12z"></path>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                <path d="M8 9h8"></path>
+                <path d="M8 13h5"></path>
               </svg>
             </span>
-            <span data-i18n="aiNav">Ask Wellora AI</span>
+            <span data-i18n="aiNav">Wellora AI</span>
           </button>
         </div>
       </nav>
@@ -725,42 +488,62 @@
     const supabaseClient = window.createWelloraSupabaseClient();
 
     const categoryGrid = document.getElementById("categoryGrid");
-    const featuredExerciseButton = document.getElementById("featuredExerciseButton");
-    const featuredTitle = document.getElementById("featuredTitle");
-    const featuredDescription = document.getElementById("featuredDescription");
-    const featuredPill = document.getElementById("featuredPill");
     const heroTitle = document.getElementById("heroTitle");
     const heroText = document.getElementById("heroText");
     const progressButton = document.getElementById("progressButton");
     const languageSelect = document.getElementById("languageSelect");
     const translationNote = document.getElementById("translationNote");
-    const categoryIcons = {
-      "Balance and Stability": "image/balance and stability icon.png",
-      "Flexibility": "image/flexibility.png",
-      "Weight Control and Metabolism": "image/weight and control metabolism.png",
-      "Boosting Metabolism": "image/bosting metabolism.png",
-      "Sexual Health": "image/sexual health.png",
-      "Mobility and Flexibility": "image/mobility and flexibility.png",
-      "Sleep and Mental Wellbeing": "image/sleep and mental wellbeing.png",
-      "Energy Levels": "image/energy levels.png",
-      "Cognitive Function": "image/cognitive function.png"
+    const categoryConfigs = {
+      "Balance and Stability": {
+        chipClass: "icon-chip--emerald",
+        subtitle: "Gentle chair & standing routines",
+        svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"></path><path d="m4 7 8-4 8 4"></path><path d="M4 17l4-9"></path><path d="M20 17l-4-9"></path><path d="M2 17h4a2 2 0 0 0 2-2V9"></path><path d="M16 9v6a2 2 0 0 0 2 2h4"></path></svg>'
+      },
+      "Flexibility": {
+        chipClass: "icon-chip--coral",
+        subtitle: "Safe daily stretches & ease",
+        svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="2.5"></circle><path d="m9 20 3-6 3 6"></path><path d="m6 11 6-3 6 3"></path></svg>'
+      },
+      "Mobility and Flexibility": {
+        chipClass: "icon-chip--coral",
+        subtitle: "Smooth movement & posture",
+        svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="2.5"></circle><path d="m9 20 3-6 3 6"></path><path d="m6 11 6-3 6 3"></path></svg>'
+      },
+      "Sleep and Mental Wellbeing": {
+        chipClass: "icon-chip--indigo",
+        subtitle: "Calming breaths & peaceful rest",
+        svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path><path d="M19 3v4"></path><path d="M21 5h-4"></path></svg>'
+      },
+      "Energy Levels": {
+        chipClass: "icon-chip--amber",
+        subtitle: "Light cardio & renewed pep",
+        svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg>'
+      },
+      "Boosting Metabolism": {
+        chipClass: "icon-chip--amber",
+        subtitle: "Active circulation & warmth",
+        svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>'
+      },
+      "Weight Control and Metabolism": {
+        chipClass: "icon-chip--amber",
+        subtitle: "Healthy habits & steady pace",
+        svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.42 4.58a5.4 5.4 0 0 0-7.65 0l-.77.78-.77-.78a5.4 5.4 0 0 0-7.65 7.65l.77.78L12 21.23l7.65-7.65.77-.78a5.4 5.4 0 0 0 0-7.65Z"></path></svg>'
+      },
+      "Cognitive Function": {
+        chipClass: "icon-chip--violet",
+        subtitle: "Mental clarity & focus",
+        svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"></path><path d="M9 18h6"></path><path d="M10 22h4"></path></svg>'
+      },
+      "Sexual Health": {
+        chipClass: "icon-chip--terracotta",
+        subtitle: "Pelvic strength & comfort",
+        svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg>'
+      }
     };
     let cachedCategories = [];
-    let cachedExercises = [];
 
     function redirectToLogin() {
       window.location.href = "login.html";
-    }
-
-    function formatMinutes(seconds) {
-      const totalSeconds = Number(seconds);
-
-      if (!Number.isFinite(totalSeconds) || totalSeconds <= 0) {
-        return "a guided routine";
-      }
-
-      const minutes = Math.max(1, Math.round(totalSeconds / 60));
-      return minutes + "-minute routine";
     }
 
     function t(key, fallback) {
@@ -782,7 +565,7 @@
 
     function renderHomeCopy() {
       heroTitle.textContent = t("homeTitle", "Your Wellness Sanctuary");
-      heroText.textContent = cachedExercises.length
+      heroText.textContent = cachedCategories.length
         ? t("homeTextReady", "Choose a category and start a gentle routine designed to keep your momentum going.")
         : t("homeTextEmpty", "Your home screen is ready. Add your first exercise to begin building a calm daily routine.");
       updateTranslationNotice();
@@ -792,15 +575,23 @@
       const uniqueCategories = [...new Map(categories.map(item => [item.category, item])).values()];
 
       const markup = uniqueCategories.map(function (category) {
-        const icon = categoryIcons[category.category] || "image/wellora logo.png";
+        const catName = category.category;
+        const config = categoryConfigs[catName] || {
+          chipClass: "icon-chip--terracotta",
+          subtitle: t("openCategory", "Explore gentle routines"),
+          svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg>'
+        };
 
         return (
-          '<button class="category-card" type="button" data-category="' + encodeURIComponent(category.category) + '">' +
-          '<span class="category-icon" aria-hidden="true">' +
-          '<img src="' + icon + '" alt="">' +
-          "</span>" +
-          "<h2>" + localizeCategory(category.category) + "</h2>" +
-          "<p>" + t("openCategory", "Open category") + "</p>" +
+          '<button class="category-card" type="button" data-category="' + encodeURIComponent(catName) + '">' +
+          '<div class="icon-chip ' + config.chipClass + '" aria-hidden="true">' +
+          config.svg +
+          "</div>" +
+          '<div class="category-info">' +
+          '<h2 class="category-title">' + localizeCategory(catName) + "</h2>" +
+          '<p class="category-subtitle">' + config.subtitle + "</p>" +
+          "</div>" +
+          '<svg class="category-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg>' +
           "</button>"
         );
       }).join("");
@@ -811,27 +602,6 @@
         "<p>" + t("noCategoriesText", "Add exercises in Supabase to populate this screen.") + "</p>" +
         "</article>"
       );
-    }
-
-    function renderFeatured(exercises) {
-      if (!exercises.length) {
-        featuredExerciseButton.dataset.exerciseId = "";
-        featuredExerciseButton.dataset.category = "";
-        featuredTitle.textContent = t("noFeaturedTitle", "No featured exercise yet");
-        featuredDescription.textContent = t("noFeaturedText", "Add an exercise in Supabase and it will appear here.");
-        featuredPill.textContent = t("libraryEmpty", "Library Empty");
-        return;
-      }
-
-      const featuredExercise = exercises[0];
-      featuredExerciseButton.dataset.exerciseId = String(featuredExercise.id);
-      featuredExerciseButton.dataset.category = featuredExercise.category || "";
-      featuredTitle.textContent = featuredExercise.exercise_name || "Featured exercise";
-      featuredDescription.textContent =
-        formatMinutes(featuredExercise.duration_seconds) +
-        " min · " +
-        (featuredExercise.category ? localizeCategory(featuredExercise.category) : t("recommended", "Recommended"));
-      featuredPill.textContent = featuredExercise.category ? localizeCategory(featuredExercise.category) : t("recommended", "Recommended");
     }
 
     async function requireUser() {
@@ -857,20 +627,6 @@
       return data || [];
     }
 
-    async function loadExercises() {
-      const { data, error } = await supabaseClient
-        .from("EXERCISES")
-        .select("id, exercise_name, category, duration_seconds")
-        .order("category", { ascending: true })
-        .order("exercise_name", { ascending: true });
-
-      if (error) {
-        throw error;
-      }
-
-      return data || [];
-    }
-
     function attachNavigation() {
       categoryGrid.addEventListener("click", function (event) {
         const button = event.target.closest(".category-card");
@@ -881,20 +637,6 @@
 
         window.WelloraFlow.rememberLastCategory(decodeURIComponent(button.dataset.category));
         window.location.href = "category.html?category=" + button.dataset.category;
-      });
-
-      featuredExerciseButton.addEventListener("click", function () {
-        const targetExerciseId = featuredExerciseButton.dataset.exerciseId;
-
-        if (!targetExerciseId) {
-          return;
-        }
-
-        if (featuredExerciseButton.dataset.category) {
-          window.WelloraFlow.rememberLastCategory(featuredExerciseButton.dataset.category);
-        }
-
-        window.location.href = "exercise.html?id=" + encodeURIComponent(targetExerciseId);
       });
 
       progressButton.addEventListener("click", function () {
@@ -932,7 +674,6 @@
         window.WelloraI18n.applyTranslations(document);
         renderHomeCopy();
         renderCategories(cachedCategories);
-        renderFeatured(cachedExercises);
       });
 
       const user = await requireUser();
@@ -943,23 +684,15 @@
 
       try {
         const categories = await loadCategories();
-        const exercises = await loadExercises();
         cachedCategories = categories;
-        cachedExercises = exercises;
         renderHomeCopy();
         renderCategories(cachedCategories);
-        renderFeatured(cachedExercises);
       } catch (error) {
         categoryGrid.innerHTML =
           '<article class="category-card" aria-live="polite">' +
           "<h2>Couldn't load categories</h2>" +
           "<p>" + (error.message || "Please check your Supabase setup.") + "</p>" +
           "</article>";
-        featuredExerciseButton.dataset.exerciseId = "";
-        featuredExerciseButton.dataset.category = "";
-        featuredTitle.textContent = t("backendUnavailable", "Backend unavailable");
-        featuredDescription.textContent = t("backendUnavailableText", "We couldn't load exercises from Supabase right now.");
-        featuredPill.textContent = t("connectionError", "Connection Error");
       }
     }
 

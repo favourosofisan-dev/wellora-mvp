@@ -193,7 +193,19 @@
     return sessionStorage.getItem("welloraLastCategory") || "";
   }
 
+  function getTextScale() {
+    return "normal";
+  }
+
+  function applyTextScale() {
+    if (document.body) {
+      document.body.classList.remove("text-scale-normal", "text-scale-large", "text-scale-xlarge");
+    }
+  }
+
   window.WelloraFlow = {
+    applyTextScale: applyTextScale,
+    getTextScale: getTextScale,
     clearAuthIntent: clearAuthIntent,
     consumeAuthIntent: consumeAuthIntent,
     getLastCategory: getLastCategory,

@@ -19,7 +19,7 @@ body {
   --mobile-safe-top: env(safe-area-inset-top, 0px);
   --mobile-safe-bottom: env(safe-area-inset-bottom, 0px);
   --mobile-viewport-height: 100vh;
-  --mobile-nav-lift: 18px;
+  --mobile-nav-lift: 0px;
 }
 
 @supports (height: 100svh) {
@@ -465,785 +465,596 @@ body:has(.auth-card) .auth-card {
   }
 }
 
-.nav-icon-img {
-  width: 56px;
-  height: 56px;
-  object-fit: contain;
-  border-radius: 6px;
-  transition: transform 0.2s ease;
-}
-.nav-button:active .nav-icon-img {
-  transform: scale(0.9);
-}
 
-/* Shared high-contrast refresh: white canvas, black text, shorter cards. */
+/* ==========================================================================
+   Wellora Modern Senior-Friendly Design System
+   - Vibrant Semantic Category Colors
+   - Sleek Vector Icon Chips & Ergonomic Touch Targets (54px+)
+   - Clean, High-Contrast Typography & Dynamic Senior Sizing
+   - Responsive Canvas for Mobile & Tablet/Desktop
+   ========================================================================== */
+
 :root {
-  --bg: #ffffff !important;
-  --panel: #ffffff !important;
-  --surface: #ffffff !important;
-  --surface-strong: #ffffff !important;
-  --text: #000000 !important;
-  --muted: #202020 !important;
-  --border: rgba(141, 72, 37, 0.16) !important;
-  --shadow: 0 8px 18px rgba(34, 24, 18, 0.08) !important;
-  --nav-shadow: 0 -6px 18px rgba(34, 24, 18, 0.08) !important;
+  --font-base: 16px;
+  
+  /* Primary Warm Terracotta Brand */
+  --accent: #b44312;
+  --accent-hover: #9a3412;
+  --accent-light: #fff7ed;
+  --accent-border: #fed7aa;
+
+  /* Vibrant Category Color Themes */
+  /* 1. Balance & Stability (Fall Prevention): Eucalyptus Emerald */
+  --emerald-accent: #059669;
+  --emerald-bg: #ecfdf5;
+  --emerald-border: #a7f3d0;
+  --emerald-text: #065f46;
+
+  /* 2. Mobility & Flexibility: Sunrise Coral */
+  --coral-accent: #ea580c;
+  --coral-bg: #fff7ed;
+  --coral-border: #fed7aa;
+  --coral-text: #9a3412;
+
+  /* 3. Sleep & Mental Wellbeing: Twilight Indigo */
+  --indigo-accent: #4f46e5;
+  --indigo-bg: #eef2ff;
+  --indigo-border: #c7d2fe;
+  --indigo-text: #3730a3;
+
+  /* 4. Energy & Cardio Vitality: Sunburst Amber */
+  --amber-accent: #d97706;
+  --amber-bg: #fffbeb;
+  --amber-border: #fde68a;
+  --amber-text: #92400e;
+
+  /* 5. Cognitive Function & Clarity: Royal Violet */
+  --violet-accent: #7c3aed;
+  --violet-bg: #faf5ff;
+  --violet-border: #ddd6fe;
+  --violet-text: #5b21b6;
+
+  /* Neutral Canvas & Surfaces */
+  --bg: #fcfbf9;
+  --surface: #ffffff;
+  --surface-muted: #f7f4ef;
+  --border: #ebdcd0;
+  --text: #1a1512;
+  --muted: #52443a;
+
+  --shadow-sm: 0 2px 8px rgba(60, 40, 25, 0.05);
+  --shadow: 0 8px 24px rgba(60, 40, 25, 0.07);
+  --shadow-lg: 0 16px 36px rgba(60, 40, 25, 0.1);
+  --nav-shadow: 0 -4px 20px rgba(60, 40, 25, 0.08);
 }
 
-html,
-body,
-.page,
-.screen,
-.shell,
-.shell > .app,
-.screen > .app-shell,
-.screen > .content,
-.shell > .app > .main {
-  background: #ffffff !important;
-  color: #000000 !important;
+html {
+  font-size: var(--font-base);
 }
 
-.site-header,
-.topbar,
-.screen > .header,
-.shell > .app > .header,
-.bottom-nav {
-  background: rgba(255, 255, 255, 0.96) !important;
-  color: #000000 !important;
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
 }
 
-p,
-li,
-label,
-small,
-span,
-h1,
-h2,
-h3,
-h4,
-.eyebrow,
-.screen-title,
-.header-title,
-.translation-note,
-.wellora-guide-title,
-.wellora-guide-body {
-  color: #000000 !important;
-}
-
-.brand,
-.brand span,
-.title-wrap,
-.title-wrap span,
-.language-control label,
-.wellora-guide-eyebrow,
-.wellora-guide-count,
-.legal-footer a,
-.legal-document a,
-.nav-button.active,
-.nav-button.active span,
-.nav-button.is-active,
-.nav-button.is-active span,
-.nav-button[aria-current="page"],
-.nav-button[aria-current="page"] span {
-  color: var(--accent, #8d4825) !important;
-}
-
-.primary-button,
-.primary-button span,
-.start-button,
-.start-button span,
-.play-button,
-.play-button span,
-.timer-button.primary,
-.timer-button.primary span,
-.voice-coach-button.primary,
-.voice-coach-button.primary span,
-.complete-button,
-.complete-button span,
-.continue-button,
-.continue-button span,
-.save-button,
-.save-button span,
-.send-btn,
-.send-btn span,
-.wellora-guide-primary,
-.wellora-guide-primary span {
-  color: #ffffff !important;
+/* Responsive Desktop & Tablet Container */
+.page {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding: 12px;
+  background: radial-gradient(circle at 90% 8%, rgba(234, 88, 12, 0.08), transparent 40%), var(--bg);
 }
 
 .screen,
 .shell {
-  border-color: rgba(141, 72, 37, 0.12) !important;
-  box-shadow: 0 10px 24px rgba(34, 24, 18, 0.08) !important;
-}
-
-.featured-card,
-.exercise-card,
-.stat-card,
-.activity-card,
-.reminder-card,
-.summary-card,
-.metric-card,
-.profile-card,
-.category-card,
-.option-card,
-.choice-card,
-.auth-card,
-.legal-document section,
-.legal-list,
-.wellora-guide-card,
-[class*="card"],
-[class*="tile"],
-[class*="panel"] {
+  width: min(100%, 820px) !important;
+  max-width: 820px !important;
+  margin: 0 auto;
+  border-radius: 24px !important;
   background: #ffffff !important;
-  color: #000000 !important;
-  border-color: rgba(141, 72, 37, 0.16) !important;
-  box-shadow: 0 8px 18px rgba(34, 24, 18, 0.08) !important;
+  border: 1px solid var(--border) !important;
+  box-shadow: 0 16px 44px rgba(60, 40, 25, 0.08) !important;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
-.featured-card,
-.exercise-card,
-.stat-card,
-.activity-card,
-.reminder-card,
-.summary-card,
-.metric-card,
-.profile-card,
-.category-card,
-.option-card,
-.choice-card,
-[class*="card"],
-[class*="tile"],
-[class*="panel"] {
-  padding-top: clamp(14px, 3.8vw, 18px) !important;
-  padding-bottom: clamp(14px, 3.8vw, 18px) !important;
+@media (max-width: 767px) {
+  .page {
+    padding: 0 !important;
+  }
+  .screen,
+  .shell {
+    width: 100% !important;
+    max-width: 100% !important;
+    border-radius: 0 !important;
+    border: 0 !important;
+    box-shadow: none !important;
+  }
 }
 
-.featured-card,
-.exercise-card,
-.activity-card,
-.reminder-card,
-.summary-card,
-.metric-card,
-.profile-card,
-.category-card,
-.option-card,
-.choice-card {
-  min-height: 88px !important;
+
+/* Modern Vector Icon Chips (Squircle) */
+.icon-chip {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
+  border-radius: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.stat-card {
-  min-height: 82px !important;
+.icon-chip svg {
+  width: 22px;
+  height: 22px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
-.app-shell,
-.content,
-.shell > .app > .main {
-  gap: 14px !important;
+.icon-chip--emerald,
+.icon-chip--coral,
+.icon-chip--indigo,
+.icon-chip--amber,
+.icon-chip--violet,
+.icon-chip--terracotta,
+.icon-chip--whatsapp {
+  background: #f5eee7 !important;
+  color: var(--accent) !important;
+  border: 1px solid #e6d7cb !important;
 }
 
-.icon-button,
-.profile-button,
-.start-button,
-.play-button,
-.primary-button,
-.secondary-button,
-.wellora-guide-primary,
-.wellora-guide-secondary,
-.language-control select {
-  min-height: 46px !important;
-}
-
-.icon-button:not(.icon-button--back),
-.profile-button {
-  width: clamp(56px, 16vw, 72px) !important;
-  height: clamp(56px, 16vw, 72px) !important;
-}
-
-.icon-button svg,
-.profile-button svg,
-.play-button svg,
-.nav-button svg {
-  width: clamp(30px, 9vw, 40px) !important;
-  height: clamp(30px, 9vw, 40px) !important;
-}
-
-/* Requested compact timer/progress cards and clear nav icon states. */
-.duration-picker-card,
-.timer-card {
-  gap: 8px !important;
-  padding-top: 9px !important;
-  padding-bottom: 9px !important;
-  min-height: auto !important;
-}
-
-.duration-picker-card .section-head,
-.timer-card .section-head {
-  min-height: 0 !important;
-}
-
-.duration-picker-card .section-title,
-.timer-card .section-title {
-  font-size: 0.98rem !important;
-  line-height: 1.15 !important;
-}
-
-.duration-picker-shell,
-.timer-display {
-  gap: 7px !important;
-  padding: 9px 10px !important;
-  border-radius: 14px !important;
-}
-
-.duration-picker-intro,
-.duration-picker-note,
-.timer-help {
-  font-size: 0.84rem !important;
-  line-height: 1.25 !important;
-}
-
-.duration-picker-controls {
-  grid-template-columns: minmax(46px, 56px) 1fr minmax(46px, 56px) !important;
-  gap: 8px !important;
-}
-
-.duration-adjust-button {
-  min-height: 46px !important;
-  border-radius: 14px !important;
-  font-size: 1.65rem !important;
-}
-
-.duration-picker-value {
-  min-height: 54px !important;
-  padding: 8px 10px !important;
-  border-radius: 16px !important;
-}
-
-.duration-picker-value,
-.duration-picker-value p,
-.duration-picker-value span {
-  color: #ffffff !important;
-}
-
-.duration-picker-label,
-.timer-label {
-  font-size: 0.72rem !important;
-  line-height: 1.15 !important;
-  letter-spacing: 0.08em !important;
-}
-
-.duration-picker-minutes {
-  margin-top: 2px !important;
-  font-size: clamp(1.65rem, 7vw, 2.15rem) !important;
-  line-height: 1 !important;
-  letter-spacing: 0 !important;
-}
-
-.timer-readout {
-  min-height: 85px !important;
-  gap: 4px !important;
-  padding: 10px 12px !important;
-  border-radius: 16px !important;
-}
-
-.timer-value {
-  font-size: clamp(1.8rem, 8vw, 2.35rem) !important;
-  line-height: 1 !important;
-  letter-spacing: 0 !important;
-}
-
-.timer-progress-bar {
-  height: 6px !important;
-}
-
-.timer-mode-button,
-.timer-button {
-  min-height: 46px !important;
-  border-radius: 14px !important;
-}
-
-.app .main > .hero {
-  gap: 5px !important;
-  padding: 10px 12px !important;
-  min-height: auto !important;
-}
-
-.app .main > .hero .hero-title {
-  font-size: clamp(1rem, 4vw, 1.65rem) !important;
-  line-height: 1.05 !important;
-  letter-spacing: 0 !important;
-  max-width: none !important;
-}
-
-.app .main > .hero .hero-text {
-  font-size: 0.86rem !important;
-  line-height: 1.3 !important;
-}
-
-.summary-grid {
-  gap: 8px !important;
-}
-
-.summary-card {
-  gap: 6px !important;
-  padding: 8px 10px !important;
-  min-height: 78px !important;
-  border-radius: 14px !important;
-}
-
-.summary-head {
-  gap: 6px !important;
-}
-
-.summary-card .stat-icon {
-  width: 40px !important;
-  height: 40px !important;
-  border-radius: 10px !important;
-}
-
-.summary-card .stat-icon svg {
-  width: 24px !important;
-  height: 24px !important;
-}
-
-.summary-value {
-  font-size: clamp(1.15rem, 4.8vw, 1.55rem) !important;
-  line-height: 1 !important;
-  letter-spacing: 0 !important;
-}
-
-.summary-label {
-  margin-top: 0 !important;
-  font-size: 0.82rem !important;
-  line-height: 1.2 !important;
-}
-
-.summary-note {
-  min-height: 24px !important;
-  padding: 4px 8px !important;
-  border-radius: 10px !important;
-  font-size: 0.72rem !important;
-  line-height: 1.1 !important;
-}
-
-.streak-emoji {
-  font-size: 1.25rem !important;
-}
-
-.streak-days-badge {
-  right: 3px !important;
-  bottom: 3px !important;
-  min-width: 18px !important;
-  min-height: 18px !important;
-  padding: 0 4px !important;
-  font-size: 0.68rem !important;
-}
-
-/* AI chat composer and bottom nav polish for narrow mobile screens. */
-.chat-input-bar {
-  width: 100% !important;
-  max-width: 100% !important;
-  display: grid !important;
-  grid-template-columns: minmax(0, 1fr) 46px 46px !important;
-  align-items: center !important;
-  gap: 7px !important;
-  padding: 8px 8px calc(10px + env(safe-area-inset-bottom, 0px)) !important;
-  overflow: hidden !important;
-}
-
-.chat-input-bar .text-input {
-  width: 100% !important;
-  min-width: 0 !important;
-  min-height: 46px !important;
-  padding: 9px 12px !important;
-  border-radius: 999px !important;
-  font-size: 1rem !important;
-}
-
-.chat-input-bar .action-btn {
+/* Unified Back Button */
+.topbar .icon-button,
+.header .icon-button,
+.icon-button--back {
   width: 46px !important;
   min-width: 46px !important;
   height: 46px !important;
-  min-height: 46px !important;
-  border-radius: 50% !important;
+  border-radius: 14px !important;
+  background: #ffffff !important;
+  border: 1.5px solid #e6d7cb !important;
+  color: var(--accent) !important;
+  display: grid !important;
+  place-items: center !important;
+  box-shadow: 0 3px 10px rgba(60, 40, 25, 0.07) !important;
+  padding: 0 !important;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease !important;
 }
 
-.chat-input-bar .action-btn svg {
-  width: 23px !important;
-  height: 23px !important;
+.topbar .icon-button:hover,
+.header .icon-button:hover,
+.icon-button--back:hover {
+  background: #fff9f4 !important;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px rgba(60, 40, 25, 0.12) !important;
 }
 
-.bottom-nav .nav-list {
-  grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
-  gap: 4px !important;
+.topbar .icon-button svg,
+.header .icon-button svg,
+.icon-button--back svg {
+  width: 22px !important;
+  height: 22px !important;
+  stroke: currentColor !important;
+  fill: none !important;
+  stroke-width: 2.3 !important;
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
 }
 
-.bottom-nav .nav-button {
-  min-width: 0 !important;
-  justify-content: stretch !important;
-  gap: 4px !important;
-  color: var(--accent, #8d4825) !important;
-  transition: color 0.2s ease, transform 0.2s ease !important;
-}
-
-.bottom-nav .nav-pill {
-  width: 100% !important;
-  height: 40px !important;
-  min-height: 40px !important;
-  border-radius: 12px !important;
-  color: inherit !important;
-  background: transparent !important;
-  box-shadow: none !important;
-}
-
-.bottom-nav .nav-button svg,
-.bottom-nav .nav-icon-img {
-  width: 32px !important;
-  height: 32px !important;
-  color: currentColor !important;
-}
-
-.bottom-nav .nav-button svg {
-  fill: currentColor !important;
-}
-
-.bottom-nav .nav-button span:last-child {
-  color: currentColor !important;
-  font-size: 0.7rem !important;
-  line-height: 1.1 !important;
-}
-
-.bottom-nav .nav-button:not(.is-active):not(.active):not([aria-current="page"]),
-.bottom-nav .nav-button:not(.is-active):not(.active):not([aria-current="page"]) span,
-.bottom-nav .nav-button:not(.is-active):not(.active):not([aria-current="page"]) svg,
-.bottom-nav .nav-button:not(.is-active):not(.active):not([aria-current="page"]) .nav-pill {
-  color: var(--accent, #8d4825) !important;
-}
-
-.bottom-nav .nav-button.is-active,
-.bottom-nav .nav-button.is-active span,
-.bottom-nav .nav-button.is-active svg,
-.bottom-nav .nav-button.active,
-.bottom-nav .nav-button.active span,
-.bottom-nav .nav-button.active svg,
-.bottom-nav .nav-button[aria-current="page"],
-.bottom-nav .nav-button[aria-current="page"] span,
-.bottom-nav .nav-button[aria-current="page"] svg {
-  color: var(--accent, #8d4825) !important;
-}
-
-.bottom-nav .nav-button.is-active .nav-pill,
-.bottom-nav .nav-button.active .nav-pill,
-.bottom-nav .nav-button[aria-current="page"] .nav-pill {
-  background: transparent !important;
-  box-shadow: none !important;
-  color: var(--accent, #8d4825) !important;
-}
-
-.bottom-nav .nav-button:not(.is-active):not(.active):not([aria-current="page"]) .nav-pill {
-  background: transparent !important;
-  box-shadow: none !important;
-}
-
-.bottom-nav .nav-button span:last-child {
-  color: #000 !important;
-  font-weight: 800 !important;
-}
-
-.bottom-nav .nav-button:not(.is-active):not(.active):not([aria-current="page"]) span:last-child,
-.bottom-nav .nav-button.is-active span:last-child,
-.bottom-nav .nav-button.active span:last-child,
-.bottom-nav .nav-button[aria-current="page"] span:last-child {
-  color: #000 !important;
-  font-weight: 800 !important;
-}
-
-@media (max-width: 360px) {
-  .chat-input-bar {
-    grid-template-columns: minmax(0, 1fr) 42px 42px !important;
-    gap: 6px !important;
-    padding-left: 6px !important;
-    padding-right: 6px !important;
-  }
-
-  .chat-input-bar .action-btn {
-    width: 42px !important;
-    min-width: 42px !important;
-    height: 42px !important;
-    min-height: 42px !important;
-  }
-
-  .chat-input-bar .text-input {
-    min-height: 42px !important;
-    padding-left: 10px !important;
-    padding-right: 10px !important;
-    font-size: 0.94rem !important;
-  }
-
-  .bottom-nav .nav-button svg,
-  .bottom-nav .nav-icon-img {
-    width: 32px !important;
-    height: 32px !important;
-  }
-}
-
-/* Home and progress page compact cards. */
-#heroTitle,
-.hero #heroTitle {
-  font-size: clamp(1.05rem, 5vw, 1.7rem) !important;
-  line-height: 1.05 !important;
-  letter-spacing: 0 !important;
-  max-width: 100% !important;
-}
-
+/* Compact Modern Category Cards (Horizontal rectangular rows) */
 .category-grid {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
   gap: 10px !important;
-  margin-top: 18px !important;
+  margin-top: 16px !important;
 }
 
 .category-card {
-  min-height: 84px !important;
-  padding: 12px 10px !important;
-  border-radius: 14px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  padding: 12px 14px !important;
+  min-height: 66px !important;
+  border-radius: 15px !important;
+  background: #ffffff !important;
+  border: 1px solid #eddcd0 !important;
+  box-shadow: 0 2px 10px rgba(60, 40, 25, 0.04) !important;
+  text-align: left !important;
+  cursor: pointer !important;
+  text-decoration: none !important;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease !important;
 }
 
-.category-icon {
-  width: 42px !important;
-  height: 42px !important;
+.category-card:hover,
+.category-card:focus-visible {
+  transform: translateY(-1px) !important;
+  box-shadow: 0 8px 20px rgba(60, 40, 25, 0.09) !important;
+  border-color: var(--accent-border) !important;
 }
 
-.category-icon img {
-  width: 28px !important;
-  height: 28px !important;
+.category-card:active {
+  transform: scale(0.985) !important;
 }
 
-.category-card h2 {
-  margin-top: 8px !important;
-  font-size: 0.95rem !important;
-  line-height: 1.15 !important;
+.category-info {
+  flex: 1;
+  min-width: 0;
 }
 
-.category-card p {
-  margin-top: 4px !important;
-  font-size: 0.78rem !important;
+.category-card h2,
+.category-card .category-title {
+  margin: 0 !important;
+  font-size: 1rem !important;
+  font-weight: 800 !important;
+  color: var(--text) !important;
   line-height: 1.25 !important;
 }
 
-.activity-list {
-  gap: 10px !important;
+.category-card p,
+.category-card .category-subtitle {
+  margin: 2px 0 0 !important;
+  font-size: 0.84rem !important;
+  color: var(--muted) !important;
+  line-height: 1.3 !important;
+  font-weight: 500 !important;
 }
 
-.activity-card {
-  grid-template-columns: 78px minmax(0, 1fr) !important;
-  gap: 10px !important;
-  padding: 12px !important;
-  border-radius: 16px !important;
-  min-height: 0 !important;
-  align-items: start !important;
-  overflow: hidden !important;
+.category-chevron {
+  color: #b5a396;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  transition: transform 0.2s ease, color 0.2s ease;
 }
 
-.activity-icon {
-  width: 78px !important;
-  height: 78px !important;
-  min-width: 78px !important;
+.category-card:hover .category-chevron {
+  color: var(--accent);
+  transform: translateX(3px);
+}
+
+/* Compact WhatsApp Share Card */
+.whatsapp-share-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 16px;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+}
+
+.whatsapp-share-info {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  min-width: 0;
+  flex: 1;
+}
+
+.whatsapp-share-title {
+  margin: 0;
+  font-size: 0.96rem;
+  font-weight: 800;
+  color: var(--text);
+  line-height: 1.25;
+}
+
+.whatsapp-share-subtitle {
+  margin: 2px 0 0;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--muted);
+  line-height: 1.3;
+}
+
+.whatsapp-share-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.whatsapp-action-btn {
+  min-height: 44px;
+  padding: 10px 15px;
+  border-radius: 12px;
+  border: 1.5px solid #d7c5b7;
+  background: #f7f1eb;
+  color: var(--text);
+  font-size: 0.88rem;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  cursor: pointer;
+  box-shadow: none;
+  transition: transform 0.15s ease, background-color 0.15s ease;
+}
+
+.whatsapp-action-btn:hover {
+  background: #efe5dc;
+  transform: translateY(-1px);
+}
+
+.whatsapp-action-btn svg {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex-shrink: 0;
+}
+
+/* Ergonomic Primary Buttons (52px+) */
+.primary-button,
+.start-button,
+.complete-button,
+.continue-button,
+.save-button {
+  min-height: 52px !important;
+  padding: 12px 22px !important;
   border-radius: 14px !important;
-  overflow: hidden !important;
-  align-self: start !important;
+  background: linear-gradient(180deg, #b44312 0%, #9a3412 100%) !important;
+  color: #ffffff !important;
+  font-size: 1rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.01em !important;
+  border: 0 !important;
+  box-shadow: 0 6px 18px rgba(180, 67, 18, 0.22) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 10px !important;
+  cursor: pointer !important;
+  text-decoration: none !important;
+  transition: transform 0.15s ease, box-shadow 0.15s ease !important;
 }
 
-.activity-image {
-  display: block !important;
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: cover !important;
-  object-position: center !important;
+.primary-button:hover,
+.start-button:hover,
+.complete-button:hover,
+.save-button:hover {
+  transform: translateY(-1px) !important;
+  box-shadow: 0 10px 24px rgba(180, 67, 18, 0.28) !important;
 }
 
-.activity-copy {
+.primary-button:active,
+.start-button:active {
+  transform: scale(0.98) !important;
+}
+
+/* Sleek Modern Bottom Navigation: Unified Home-Style Outline Icons + Black Labels */
+.bottom-nav {
+  position: sticky !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 100 !important;
+  background: rgba(255, 255, 255, 0.98) !important;
+  backdrop-filter: blur(12px) !important;
+  border-top: 1px solid #ebdcd0 !important;
+  box-shadow: 0 -4px 18px rgba(60, 40, 25, 0.07) !important;
+  padding: 6px 8px calc(8px + env(safe-area-inset-bottom, 0px)) !important;
+}
+
+.bottom-nav .nav-list {
+  display: grid !important;
+  grid-template-columns: repeat(5, 1fr) !important;
+  gap: 4px !important;
+  max-width: 600px !important;
+  margin: 0 auto !important;
+}
+
+.bottom-nav .nav-button {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 4px !important;
+  min-height: 54px !important;
+  padding: 4px 2px !important;
+  border-radius: 12px !important;
+  border: 0 !important;
+  background: transparent !important;
+  cursor: pointer !important;
+  color: #000000 !important;
+  text-decoration: none !important;
+  transition: transform 0.18s ease !important;
+}
+
+.bottom-nav .nav-pill,
+.bottom-nav .nav-icon-wrap {
+  width: 48px !important;
+  height: 32px !important;
+  min-height: 32px !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 16px !important;
+  background: transparent !important;
+  transition: all 0.2s ease !important;
+}
+
+.bottom-nav .nav-button svg {
+  width: 22px !important;
+  height: 22px !important;
+  stroke: #1a1512 !important;
+  fill: none !important;
+  stroke-width: 2.2 !important;
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
+  transition: all 0.2s ease !important;
+}
+
+.bottom-nav .nav-button span:last-child {
+  font-size: 0.78rem !important;
+  font-weight: 800 !important;
+  color: #000000 !important;
+  line-height: 1.15 !important;
+}
+
+/* Active Navigation State: Terracotta Capsule with Home-Style White Outline Icon & Black Name */
+.bottom-nav .nav-button.is-active,
+.bottom-nav .nav-button.active,
+.bottom-nav .nav-button[aria-current="page"] {
+  color: #000000 !important;
+}
+
+.bottom-nav .nav-button.is-active .nav-pill,
+.bottom-nav .nav-button.is-active .nav-icon-wrap,
+.bottom-nav .nav-button.active .nav-pill,
+.bottom-nav .nav-button.active .nav-icon-wrap,
+.bottom-nav .nav-button[aria-current="page"] .nav-pill,
+.bottom-nav .nav-button[aria-current="page"] .nav-icon-wrap {
+  background: var(--accent) !important;
+  box-shadow: 0 4px 10px rgba(180, 67, 18, 0.26) !important;
+}
+
+.bottom-nav .nav-button.is-active svg,
+.bottom-nav .nav-button.active svg,
+.bottom-nav .nav-button[aria-current="page"] svg {
+  stroke: #ffffff !important;
+  fill: none !important;
+  transform: scale(1.04) !important;
+}
+
+.bottom-nav .nav-button.is-active span:last-child,
+.bottom-nav .nav-button.active span:last-child,
+.bottom-nav .nav-button[aria-current="page"] span:last-child {
+  color: #000000 !important;
+  font-weight: 800 !important;
+}
+
+/* Topbar & Site Header Polish */
+.topbar,
+.site-header {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 8px !important;
+  max-width: 100% !important;
+  padding: 10px 0 12px !important;
+  background: transparent !important;
+}
+
+.topbar-actions {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  gap: 6px !important;
   min-width: 0 !important;
+  max-width: 100% !important;
+  flex-shrink: 1 !important;
+}
+
+.language-control {
+  display: grid !important;
+  gap: 2px !important;
+  min-width: 0 !important;
+  width: auto !important;
+  max-width: 108px !important;
+  flex: 0 1 108px !important;
+  position: relative !important;
+}
+
+.language-control label {
+  font-size: 0.6rem !important;
+  line-height: 1.1 !important;
+  letter-spacing: 0.05em !important;
+  padding-left: 2px !important;
+  white-space: nowrap !important;
   overflow: hidden !important;
+  text-overflow: ellipsis !important;
 }
 
-.activity-card svg {
-  width: 36px !important;
-  height: 36px !important;
+.language-control::after {
+  right: 9px !important;
+  bottom: 14px !important;
+  width: 6px !important;
+  height: 6px !important;
 }
 
-.activity-title {
+.language-control select {
+  width: 100% !important;
+  max-width: 108px !important;
+  min-width: 0 !important;
+  min-height: 36px !important;
+  border-radius: 11px !important;
+  padding: 5px 22px 5px 9px !important;
+  font-size: 0.8rem !important;
+  box-shadow: 0 2px 8px rgba(60, 40, 25, 0.06) !important;
+  text-overflow: ellipsis !important;
+  overflow: hidden !important;
+  white-space: nowrap !important;
+  box-sizing: border-box !important;
+}
+
+.brand {
+  display: flex !important;
+  align-items: center !important;
+  gap: 7px !important;
+  min-width: 0 !important;
+  color: var(--accent) !important;
+  font-size: 1.08rem !important;
+  font-weight: 800 !important;
+  text-decoration: none !important;
+  white-space: nowrap !important;
+}
+
+.brand-mark {
+  width: 30px !important;
+  height: 30px !important;
+  border-radius: 9px !important;
+  object-fit: contain !important;
+  flex-shrink: 0 !important;
+}
+
+/* Compact General Card Surfaces */
+.stat-card,
+.activity-card,
+.reminder-card,
+.summary-card,
+.metric-card,
+.profile-card,
+.exercise-card {
+  border-radius: 15px !important;
+  background: #ffffff !important;
+  border: 1px solid var(--border) !important;
+  box-shadow: var(--shadow-sm) !important;
+  padding: 12px 14px !important;
+}
+
+.stat-card h3,
+.activity-title,
+.exercise-content h3 {
   font-size: 0.98rem !important;
-  line-height: 1.2 !important;
-  overflow-wrap: anywhere !important;
-  word-break: normal !important;
+  font-weight: 800 !important;
+  color: var(--text) !important;
 }
 
 .activity-date,
-.activity-meta {
-  font-size: 0.82rem !important;
-  line-height: 1.25 !important;
-  overflow-wrap: anywhere !important;
-}
-
-/* Exercise detail and category pick compacting. */
-.hero-card {
-  gap: 10px !important;
-  padding: 14px !important;
-  border-radius: 18px !important;
-  min-height: 0 !important;
-}
-
-.hero-card .exercise-name {
-  font-size: clamp(1.2rem, 5vw, 1.85rem) !important;
-  line-height: 1.05 !important;
-  letter-spacing: 0 !important;
-  max-width: none !important;
-}
-
-.hero-card .meta-row {
-  gap: 8px !important;
-}
-
-.hero-card .meta-pill,
-.hero-card .difficulty-pill {
-  min-height: 36px !important;
-  padding: 7px 11px !important;
-  border-radius: 12px !important;
-  font-size: 0.82rem !important;
-  line-height: 1.15 !important;
-}
-
-.hero-card .meta-grid {
-  gap: 8px !important;
-}
-
-.hero-card .meta-item {
-  min-height: 42px !important;
-  gap: 8px !important;
-  padding: 8px 10px !important;
-  border-radius: 14px !important;
-}
-
-.hero-card .meta-item svg {
-  width: 28px !important;
-  height: 28px !important;
-}
-
-.hero-card .meta-label {
-  font-size: 0.78rem !important;
-  line-height: 1.15 !important;
-}
-
-.hero-card .meta-value {
-  font-size: 0.88rem !important;
-  line-height: 1.2 !important;
-}
-
-.hero:not(:has(#heroTitle)) h2,
-#heroHeading {
-  font-size: clamp(1.3rem, 6vw, 1.8rem) !important;
-  line-height: 1.05 !important;
-  letter-spacing: 0 !important;
-  max-width: none !important;
-}
-
-.hero:not(:has(#heroTitle)) p,
-#heroDescription {
-  margin-top: 8px !important;
-  font-size: 0.84rem !important;
-  line-height: 1.25 !important;
-}
-
-.featured-card {
-  margin-top: 20px !important;
-  padding: 8px !important;
-  border-radius: 18px !important;
-  min-height: 0 !important;
-}
-
-.featured-image {
-  min-height: 112px !important;
-  border-radius: 14px !important;
-}
-
-.featured-body {
-  gap: 8px !important;
-  padding: 10px !important;
-}
-
-.feature-head {
-  gap: 8px !important;
-}
-
-.featured-body .eyebrow,
-.featured-card .eyebrow {
-  min-height: 20px !important;
-  padding: 0 8px !important;
-  border-radius: 999px !important;
-  font-size: 0.68rem !important;
-  line-height: 1 !important;
-  letter-spacing: 0.06em !important;
-}
-
-.featured-body h2,
-.featured-content h3 {
-  font-size: 0.82rem !important;
-  line-height: 1.15 !important;
-  letter-spacing: 0 !important;
-}
-
-.featured-body p,
-.featured-content p {
-  font-size: 0.74rem !important;
-  line-height: 1.25 !important;
-}
-
-.featured-card .play-button {
-  width: 46px !important;
-  height: 46px !important;
-  min-height: 46px !important;
-}
-
-.featured-card .play-button svg {
-  width: 24px !important;
-  height: 24px !important;
-}
-
-.exercise-list {
-  gap: 14px !important;
-  margin-top: 20px !important;
-}
-
-.exercise-card {
-  grid-template-columns: 62px minmax(0, 1fr) auto !important;
-  gap: 10px !important;
-  padding: 10px !important;
-  border-radius: 18px !important;
-}
-
-.exercise-thumb {
-  width: 62px !important;
-  height: 62px !important;
-  border-radius: 14px !important;
-}
-
-.exercise-content h3 {
-  font-size: 0.78rem !important;
-  line-height: 1.15 !important;
-  letter-spacing: 0 !important;
-}
-
+.activity-meta,
 .exercise-content p {
-  font-size: 0.72rem !important;
-  line-height: 1.25 !important;
-}
-
-.exercise-meta {
-  gap: 6px !important;
-  margin-bottom: 5px !important;
-}
-
-.level,
-.meta {
-  min-height: 20px !important;
-  font-size: 0.66rem !important;
-  line-height: 1.1 !important;
+  font-size: 0.86rem !important;
+  color: var(--muted) !important;
 }

@@ -81,7 +81,9 @@
     .topbar-actions {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 6px;
+      min-width: 0;
+      max-width: 100%;
     }
 
     .topbar-button {
@@ -95,28 +97,29 @@
 
     .language-control {
       display: grid;
-      gap: 5px;
-      min-width: 138px;
+      gap: 2px;
+      min-width: 0;
+      max-width: 108px;
       position: relative;
     }
 
     .language-control label {
       color: var(--accent);
-      font-size: 0.7rem;
+      font-size: 0.62rem;
       font-weight: 800;
-      line-height: 1.2;
-      letter-spacing: 0.08em;
+      line-height: 1.1;
+      letter-spacing: 0.05em;
       text-transform: uppercase;
-      padding-left: 4px;
+      padding-left: 2px;
     }
 
     .language-control::after {
       content: "";
       position: absolute;
-      right: 14px;
-      bottom: 15px;
-      width: 8px;
-      height: 8px;
+      right: 9px;
+      bottom: 14px;
+      width: 6px;
+      height: 6px;
       border-right: 2px solid var(--accent);
       border-bottom: 2px solid var(--accent);
       transform: rotate(45deg);
@@ -124,18 +127,23 @@
     }
 
     .language-control select {
-      min-height: 46px;
-      border-radius: 999px;
+      width: 100%;
+      max-width: 108px;
+      min-height: 36px;
+      border-radius: 11px;
       border: 1px solid rgba(141, 72, 37, 0.18);
       background: linear-gradient(180deg, rgba(255, 252, 248, 0.98), rgba(247, 238, 229, 0.96));
       color: var(--text);
-      box-shadow: 0 8px 18px rgba(116, 89, 71, 0.08);
+      box-shadow: 0 2px 8px rgba(116, 89, 71, 0.06);
       font: inherit;
-      font-size: 0.9rem;
+      font-size: 0.8rem;
       font-weight: 800;
-      padding: 9px 36px 9px 16px;
+      padding: 5px 22px 5px 9px;
       appearance: none;
       cursor: pointer;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
     }
 
     .language-control select:hover,

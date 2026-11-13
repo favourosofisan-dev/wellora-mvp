@@ -98,6 +98,12 @@
         title: "Create a report",
         body: "Generate a simple summary that can be shared with a caregiver or healthcare supporter."
       }
+    ],
+    "ai-chat.html": [
+      {
+        title: "Ask Wellora AI",
+        body: "Type any question about gentle exercise, balance, mobility, sleep, or nutrition in the message box at the bottom and tap Send."
+      }
     ]
   };
 

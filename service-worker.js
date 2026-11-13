@@ -1,4 +1,4 @@
-const CACHE_NAME = "wellora-pwa-v6";
+const CACHE_NAME = "wellora-pwa-v10";
 const APP_SHELL_FILES = [
   "/",
   "/index.html",

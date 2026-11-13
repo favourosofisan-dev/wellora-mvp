@@ -62,9 +62,10 @@
 
     .screen {
       width: min(100%, 390px);
-      min-height: 100vh;
-      height: calc(100vh - env(safe-area-inset-top, 0px) - 18px);
-      max-height: calc(100vh - env(safe-area-inset-top, 0px) - 18px);
+      min-height: 0;
+      height: calc(100vh - env(safe-area-inset-top, 0px) - 24px);
+      height: calc(100dvh - env(safe-area-inset-top, 0px) - 24px);
+      max-height: calc(100dvh - env(safe-area-inset-top, 0px) - 24px);
       background: linear-gradient(180deg, #fdfaf6 0%, #fbf6f0 100%);
       border: 1px solid rgba(228, 215, 205, 0.95);
       border-radius: 24px;
@@ -75,13 +76,15 @@
       flex-direction: column;
     }
 
-    .app-shell {
-      flex: 1;
+    .app-shell,
+    .screen > .app-shell {
+      flex: 1 1 auto;
+      min-height: 0;
+      height: auto;
       display: flex;
       flex-direction: column;
-      height: calc(100% - 76px); /* reserve bottom nav space */
-      padding: 18px 18px 0;
-      overflow: hidden;
+      padding: 10px 16px 6px !important;
+      overflow: hidden !important;
     }
 
     .topbar {
@@ -115,33 +118,36 @@
     .topbar-actions {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
+      min-width: 0;
+      max-width: 100%;
     }
 
     .language-control {
       display: grid;
-      gap: 5px;
-      min-width: 120px;
+      gap: 2px;
+      min-width: 0;
+      max-width: 108px;
       position: relative;
     }
 
     .language-control label {
       color: #8d4825;
-      font-size: 0.7rem;
+      font-size: 0.62rem;
       font-weight: 800;
-      line-height: 1.2;
-      letter-spacing: 0.08em;
+      line-height: 1.1;
+      letter-spacing: 0.05em;
       text-transform: uppercase;
-      padding-left: 4px;
+      padding-left: 2px;
     }
 
     .language-control::after {
       content: "";
       position: absolute;
-      right: 14px;
-      bottom: 15px;
-      width: 8px;
-      height: 8px;
+      right: 9px;
+      bottom: 14px;
+      width: 6px;
+      height: 6px;
       border-right: 2px solid #8d4825;
       border-bottom: 2px solid #8d4825;
       transform: rotate(45deg);
@@ -149,17 +155,22 @@
     }
 
     .language-control select {
-      min-height: 40px;
-      border-radius: 999px;
+      width: 100%;
+      max-width: 108px;
+      min-height: 36px;
+      border-radius: 11px;
       border: 1px solid rgba(141, 72, 37, 0.18);
       background: linear-gradient(180deg, rgba(255, 252, 248, 0.98), rgba(247, 238, 229, 0.96));
       color: var(--text);
       font: inherit;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       font-weight: 800;
-      padding: 6px 30px 6px 12px;
+      padding: 5px 22px 5px 9px;
       appearance: none;
       cursor: pointer;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
     }
 
     .language-control select:focus-visible {
@@ -169,9 +180,10 @@
 
     /* Chat Area styling */
     .chat-container {
-      flex: 1;
+      flex: 1 1 auto;
+      min-height: 0;
       overflow-y: auto;
-      padding: 16px 4px;
+      padding: 14px 4px;
       display: flex;
       flex-direction: column;
       gap: 16px;
@@ -243,23 +255,27 @@
 
     /* Input area styling */
     .chat-input-bar {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 12px 16px;
-    border-top: 1px solid var(--border);
-    background: var(--surface-strong);
-    flex-shrink: 0;
-  }
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 4px 12px;
+      border-top: 1px solid var(--border);
+      background: #fdfaf6;
+      flex-shrink: 0;
+      margin-top: auto;
+      position: relative;
+      z-index: 2;
+    }
 
     .text-input {
       flex: 1;
-      min-height: 52px;
-      border-radius: 26px;
-      border: 1px solid var(--border);
-      background: #fbf9f6;
-      padding: 10px 18px;
-      font-size: 1.1rem;
+      min-width: 0;
+      min-height: 48px;
+      border-radius: 24px;
+      border: 1.5px solid #dfd0c3;
+      background: #ffffff;
+      padding: 10px 16px;
+      font-size: 1rem;
       font-weight: 700;
       color: var(--text);
       resize: none;
@@ -272,47 +288,47 @@
       background: #ffffff;
     }
 
-    .action-btn {
-      width: 52px;
-      height: 52px;
-      border-radius: 50%;
-      border: 0;
-      display: grid;
-      place-items: center;
-      cursor: pointer;
-      flex-shrink: 0;
-      transition: background-color 0.2s ease, transform 0.1s ease;
-    }
-
-    .mic-btn {
-      background-color: var(--accent-soft);
-      color: var(--accent);
-    }
-
-    .mic-btn.is-recording {
-      background-color: #f7d2be;
-      animation: pulseMic 1.5s infinite ease-in-out;
-    }
-
-    @keyframes pulseMic {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.08); background-color: #f5bfa2; }
-    }
-
     .send-btn {
-      background-color: var(--accent);
-      color: #ffffff;
-      box-shadow: 0 4px 10px rgba(141, 72, 37, 0.2);
+      width: 48px !important;
+      min-width: 48px !important;
+      height: 48px !important;
+      min-height: 48px !important;
+      padding: 0 !important;
+      border-radius: 50% !important;
+      border: 0 !important;
+      background: var(--accent) !important;
+      color: #ffffff !important;
+      display: grid !important;
+      place-items: center !important;
+      cursor: pointer !important;
+      flex-shrink: 0 !important;
+      box-shadow: 0 4px 12px rgba(141, 72, 37, 0.24) !important;
+      transition: background-color 0.2s ease, transform 0.12s ease !important;
     }
 
-    .action-btn:active {
-      transform: scale(0.95);
+    .send-btn:hover {
+      background: #783c1d !important;
     }
 
-    .action-btn svg {
-      width: 26px;
-      height: 26px;
-      fill: currentColor;
+    .send-btn:active {
+      transform: scale(0.94) !important;
+    }
+
+    .send-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .send-btn svg {
+      width: 21px;
+      height: 21px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      margin-right: 1px;
+      margin-top: 1px;
     }
 
     /* Loading dots indicator */
@@ -344,40 +360,6 @@
       40% { transform: scale(1); }
     }
 
-    /* Recording status banner */
-    .recording-status {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      background: rgba(211, 47, 47, 0.08);
-      border: 1px solid rgba(211, 47, 47, 0.15);
-      border-radius: 12px;
-      padding: 8px 16px;
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: #d32f2f;
-      margin: 8px 0;
-      width: 100%;
-      box-sizing: border-box;
-      animation: fadeIn 0.2s ease-out;
-    }
-    .recording-dot {
-      width: 10px;
-      height: 10px;
-      background-color: #d32f2f;
-      border-radius: 50%;
-      animation: recPulse 1s infinite alternate;
-    }
-    @keyframes recPulse {
-      from { opacity: 0.4; }
-      to { opacity: 1; }
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-4px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
     /* Bottom Nav grid adjusted to 6 columns */
     .bottom-nav {
       position: sticky;
@@ -405,19 +387,12 @@
       background: transparent;
       display: grid;
       justify-items: center;
-      gap: 6px;
+      gap: 4px;
       justify-content: center;
       min-height: 44px;
       cursor: pointer;
-      color: #9a887d;
+      color: #000000;
       width: 100%;
-      transition: transform 0.2s ease, color 0.2s ease;
-    }
-
-    .nav-button svg {
-      width: 48px;
-      height: 48px;
-      fill: currentColor;
       transition: transform 0.2s ease;
     }
 
@@ -448,36 +423,29 @@
       line-height: 1.2;
     }
 
-    @media (max-width: 390px) {
-      .chat-input-bar {
-        padding: 10px 8px 16px;
-        gap: 6px;
+    @media (max-width: 767px) {
+      .screen > .app-shell {
+        padding: 8px 12px 6px !important;
       }
-      .action-btn {
-        width: 44px;
-        height: 44px;
+      .screen > .bottom-nav,
+      .bottom-nav {
+        bottom: 0 !important;
+        padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 8px) !important;
+      }
+      .chat-input-bar {
+        padding: 10px 2px 12px;
+        gap: 8px;
+      }
+      .send-btn {
+        width: 46px !important;
+        min-width: 46px !important;
+        height: 46px !important;
+        min-height: 46px !important;
       }
       .text-input {
-        font-size: 1rem;
-        min-width: 0; /* allow shrink */
+        font-size: 0.98rem;
+        min-width: 0;
         flex: 1;
-      }
-      .nav-button svg {
-        width: 36px;
-        height: 36px;
-      }
-    }
-    @media (max-width: 340px) {
-      .chat-input-bar {
-        padding: 8px 6px 12px;
-      }
-      .action-btn {
-        width: 36px;
-        height: 36px;
-      }
-      .text-input {
-        font-size: 0.9rem;
-        padding: 8px 10px;
       }
     }
   </style>
@@ -520,26 +488,14 @@
           <div id="messagesList" style="display: contents;"></div>
         </div>
 
-        <!-- Recording status banner -->
-        <div class="recording-status" id="recordingStatus" style="display: none;">
-          <span class="recording-dot"></span>
-          <span id="recordingText">Listening... 0:00</span>
-        </div>
-
         <!-- Input Section -->
         <div class="chat-input-bar">
           <input type="text" class="text-input" id="chatInput" placeholder="Type your question here..." data-i18n-placeholder="aiInputPlaceholder" aria-label="Write a question for Wellora AI">
-          
-          <button class="action-btn mic-btn" id="micButton" type="button" aria-label="Start voice input">
-            <svg viewBox="0 0 24 24">
-              <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
-              <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
-            </svg>
-          </button>
 
-          <button class="action-btn send-btn" id="sendButton" type="button" aria-label="Send message">
-            <svg viewBox="0 0 24 24">
-              <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+          <button class="send-btn" id="sendButton" type="button" aria-label="Send message">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M22 2 11 13"></path>
+              <path d="m22 2-7 20-4-9-9-4 20-7z"></path>
             </svg>
           </button>
         </div>
@@ -550,43 +506,57 @@
         <div class="nav-list">
           <button class="nav-button" type="button" id="homeButton" aria-label="Home" data-i18n-aria-label="homeNav">
             <span class="nav-pill">
-              <img class="nav-icon-img" src="image/wellora home icon.jpeg" alt="" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+              </svg>
             </span>
             <span data-i18n="homeNav">Home</span>
           </button>
 
           <button class="nav-button" type="button" id="progressButton" aria-label="Progress" data-i18n-aria-label="progressNav">
             <span class="nav-pill">
-              <img class="nav-icon-img" src="image/wellora progress icon.jpeg" alt="" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="18" height="18" rx="4"></rect>
+                <path d="M8 15v-3"></path>
+                <path d="M12 15V8"></path>
+                <path d="M16 15v-5"></path>
+              </svg>
             </span>
             <span data-i18n="progressNav">Progress</span>
           </button>
 
+          <button class="nav-button" type="button" id="navProfileButton" aria-label="Profile" data-i18n-aria-label="profileNav">
+            <span class="nav-pill">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+            </span>
+            <span data-i18n="profileNav">Profile</span>
+          </button>
+
           <button class="nav-button" type="button" aria-label="Guide" id="navGuideButton">
             <span class="nav-pill">
-              <svg viewBox="0 0 24 24">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"></path>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="9"></circle>
+                <path d="M9.5 9.5a2.5 2.5 0 0 1 4.9.7c0 1.7-2.4 2.3-2.4 3.3"></path>
+                <line x1="12" y1="17" x2="12.01" y2="17"></line>
               </svg>
             </span>
             <span>Guide</span>
           </button>
 
-          <button class="nav-button" type="button" id="navProfileButton" aria-label="Profile" data-i18n-aria-label="profileNav">
-            <span class="nav-pill">
-              <img class="nav-icon-img" src="image/profile-icon.jpg" alt="" aria-hidden="true">
-            </span>
-            <span data-i18n="profileNav">Profile</span>
-          </button>
-
           <button class="nav-button is-active" type="button" id="navAiButton" aria-label="Ask Wellora AI" data-i18n-aria-label="aiNav">
             <span class="nav-pill">
-              <svg viewBox="0 0 24 24">
-                <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-9 12-1.5-3.5L6 9l3.5-1.5L11 4l1.5 3.5L16 9l-3.5 1.5L11 14zm6-2-.75-1.75L14.5 9.5l1.75-.75L17 7l.75 1.75 1.75.75-1.75.75L17 12z"></path>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                <path d="M8 9h8"></path>
+                <path d="M8 13h5"></path>
               </svg>
             </span>
-            <span data-i18n="aiNav">Ask Wellora AI</span>
+            <span data-i18n="aiNav">Wellora AI</span>
           </button>
-
         </div>
       </nav>
     </section>
@@ -605,12 +575,12 @@
     const messagesList = document.getElementById("messagesList");
     const chatInput = document.getElementById("chatInput");
     const sendButton = document.getElementById("sendButton");
-    const micButton = document.getElementById("micButton");
     const requestTimeoutMs = 25000;
 
     // Navigation buttons
     const homeButton = document.getElementById("homeButton");
     const progressButton = document.getElementById("progressButton");
+    const navProfileButton = document.getElementById("navProfileButton");
 
     const historyStorageKey = "wellora_ai_chat_history";
     let chatHistory = [];
@@ -740,7 +710,7 @@
         sessionStorage.setItem(historyStorageKey, JSON.stringify(chatHistory));
 
       } catch (error) {
-        console.error(error);
+        console.warn("Wellora AI chat notice:", error && error.message ? error.message : error);
         window.clearTimeout(timeoutId);
         removeLoadingIndicator();
         let displayError = t("aiError", "Sorry, I'm having trouble connecting right now. Please try again.");
@@ -759,87 +729,6 @@
       }
     }
 
-    // Speech recognition setup
-    function setupVoiceInput() {
-      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-      if (!SpeechRecognition) {
-        micButton.style.display = "none";
-        return;
-      }
-
-      const recognition = new SpeechRecognition();
-      recognition.continuous = false;
-      recognition.interimResults = false;
-      recognition.maxAlternatives = 1;
-
-      let recognitionTimerId = null;
-      let recognitionStartTime = 0;
-
-      function stopTimer() {
-        if (recognitionTimerId) {
-          clearInterval(recognitionTimerId);
-          recognitionTimerId = null;
-        }
-        const banner = document.getElementById("recordingStatus");
-        if (banner) {
-          banner.style.display = "none";
-        }
-      }
-
-      recognition.onstart = function () {
-        micButton.classList.add("is-recording");
-        micButton.setAttribute("aria-label", t("aiListening", "Listening..."));
-
-        const banner = document.getElementById("recordingStatus");
-        const text = document.getElementById("recordingText");
-        if (banner && text) {
-          text.textContent = "Listening... 0:00";
-          banner.style.display = "flex";
-        }
-
-        recognitionStartTime = Date.now();
-        if (recognitionTimerId) clearInterval(recognitionTimerId);
-        recognitionTimerId = setInterval(() => {
-          const elapsed = Math.floor((Date.now() - recognitionStartTime) / 1000);
-          const mins = Math.floor(elapsed / 60);
-          const secs = elapsed % 60;
-          if (text) {
-            text.textContent = `Listening... ${mins}:${secs < 10 ? "0" : ""}${secs}`;
-          }
-        }, 1000);
-      };
-
-      recognition.onerror = function (event) {
-        console.error("Speech recognition error:", event.error);
-        stopTimer();
-        micButton.classList.remove("is-recording");
-        micButton.setAttribute("aria-label", "Start voice input");
-      };
-
-      recognition.onend = function () {
-        stopTimer();
-        micButton.classList.remove("is-recording");
-        micButton.setAttribute("aria-label", "Start voice input");
-      };
-
-      recognition.onresult = function (event) {
-        const transcript = event.results[0][0].transcript;
-        if (transcript) {
-          chatInput.value = transcript;
-          chatInput.focus();
-        }
-      };
-
-      micButton.addEventListener("click", function () {
-        recognition.lang = window.WelloraI18n ? window.WelloraI18n.getLanguage() : "en";
-        try {
-          recognition.start();
-        } catch (e) {
-          recognition.stop();
-        }
-      });
-    }
-
     function attachNavigation() {
       homeButton.addEventListener("click", function () {
         window.location.href = "home.html";
@@ -848,6 +737,12 @@
       progressButton.addEventListener("click", function () {
         window.location.href = "progress.html";
       });
+
+      if (navProfileButton) {
+        navProfileButton.addEventListener("click", function () {
+          window.location.href = "profile.html";
+        });
+      }
 
       chatInput.addEventListener("keydown", function (event) {
         if (event.key === "Enter") {
@@ -866,7 +761,6 @@
 
     async function init() {
       attachNavigation();
-      setupVoiceInput();
 
       window.WelloraI18n.initLanguageSelector(languageSelect);
       window.WelloraI18n.applyTranslations(document);
@@ -892,6 +786,7 @@
 
     init();
   </script>
+  <script src="wellora-guide.js"></script>
   <script src="/pwa.js"></script>
 </body>
 </html>

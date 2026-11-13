@@ -52,7 +52,7 @@
     }
 
     .screen {
-      width: min(100%, 430px);
+      width: min(100%, 540px);
       min-height: calc(100vh - 22px);
       display: flex;
       flex-direction: column;
@@ -76,30 +76,39 @@
     }
 
     .icon-button {
-      width: 48px;
-      min-width: 48px;
-      height: 48px;
+      width: 50px;
+      min-width: 50px;
+      height: 50px;
       border: 1px solid var(--border);
-      border-radius: 14px;
+      border-radius: 16px;
       background: #ffffff;
       color: var(--accent);
       display: grid;
       place-items: center;
       cursor: pointer;
+      transition: transform 0.2s ease, background 0.2s ease;
+      box-shadow: 0 4px 10px rgba(34, 24, 18, 0.05);
+    }
+
+    .icon-button:hover,
+    .icon-button:focus-visible {
+      transform: translateY(-1px);
+      background: #fbf8f5;
     }
 
     .icon-button svg {
-      width: 26px;
-      height: 26px;
+      width: 24px;
+      height: 24px;
       stroke: currentColor;
       fill: none;
-      stroke-width: 2;
+      stroke-width: 2.2;
       stroke-linecap: round;
       stroke-linejoin: round;
     }
 
     .header-copy {
       min-width: 0;
+      flex: 1;
     }
 
     .eyebrow {
@@ -162,34 +171,37 @@
 
     .stats-grid {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: 1fr;
       gap: 8px;
     }
 
     .stat {
-      min-height: 78px;
-      display: grid;
-      align-content: center;
-      gap: 4px;
-      padding: 10px;
+      min-height: 50px;
+      display: flex;
+      flex-direction: row-reverse;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 14px;
       border: 1px solid var(--border);
       border-radius: 14px;
       background: #ffffff;
-      text-align: center;
+      text-align: left;
     }
 
     .stat-value {
       margin: 0;
       color: var(--accent);
-      font-size: 1.15rem;
+      font-size: 1.1rem;
       line-height: 1;
       font-weight: 800;
+      flex-shrink: 0;
     }
 
     .stat-label {
       margin: 0;
       color: #000000;
-      font-size: 0.76rem;
+      font-size: 0.86rem;
       line-height: 1.2;
       font-weight: 800;
     }
@@ -229,35 +241,43 @@
       bottom: 0;
       z-index: 20;
       display: grid;
-      gap: 8px;
-      padding: 12px 16px calc(12px + env(safe-area-inset-bottom, 0px));
+      gap: 10px;
+      padding: 14px 16px calc(14px + env(safe-area-inset-bottom, 0px));
       border-top: 1px solid var(--border);
       background: rgba(255, 255, 255, 0.96);
     }
 
     .whatsapp-button,
     .secondary-button {
-      min-height: 48px;
-      border-radius: 14px;
-      font-size: 0.96rem;
+      min-height: 54px;
+      border-radius: 16px;
+      font-size: 1rem;
       line-height: 1.2;
       font-weight: 800;
       cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .whatsapp-button:hover,
+    .secondary-button:hover {
+      transform: translateY(-1px);
     }
 
     .whatsapp-button {
       border: 0;
       background: var(--accent);
       color: #ffffff;
+      box-shadow: 0 8px 18px rgba(141, 72, 37, 0.2);
     }
 
     .whatsapp-button:disabled {
       opacity: 0.55;
       cursor: not-allowed;
+      box-shadow: none;
     }
 
     .secondary-button {
-      border: 1px solid var(--border);
+      border: 1.5px solid var(--border);
       background: #ffffff;
       color: var(--accent);
     }
@@ -297,10 +317,11 @@
 <body>
   <main class="page">
     <section class="screen">
-      <header class="header">
+      <header class="header site-header">
         <button class="icon-button" type="button" id="backButton" aria-label="Go back">
           <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M15 18 9 12l6-6"></path>
+            <path d="M19 12H5"></path>
+            <path d="m12 19-7-7 7-7"></path>
           </svg>
         </button>
         <div class="header-copy">
@@ -630,7 +651,13 @@
       const text = encodeURIComponent(currentShareText);
       const url = phone ? ("https://wa.me/" + phone + "?text=" + text) : ("https://wa.me/?text=" + text);
 
-      window.open(url, "_blank", "noopener");
+      const link = document.createElement("a");
+      link.href = url;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
     });
 
     refreshButton.addEventListener("click", generateReport);
@@ -641,6 +668,7 @@
 
     generateReport();
   </script>
+  <script src="wellora-flow.js"></script>
   <script src="/pwa.js"></script>
 </body>
 </html>

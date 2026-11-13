@@ -148,17 +148,17 @@
     }
 
     .icon-button {
-      width: 52px;
-      min-width: 52px;
-      height: 52px;
-      border-radius: 50%;
-      border: 1px solid rgba(159, 138, 123, 0.45);
-      background: #e0d6cc;
-      color: #6f5e54;
+      width: 46px;
+      min-width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      border: 1.5px solid #e6d7cb;
+      background: #ffffff;
+      color: var(--accent);
       display: grid;
       place-items: center;
       cursor: pointer;
-      box-shadow: 0 10px 22px rgba(143, 108, 84, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+      box-shadow: 0 3px 10px rgba(60, 40, 25, 0.07);
       transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
     }
 
@@ -183,13 +183,22 @@
     }
 
     .meta-item svg,
-    .video-placeholder svg,
     .complete-button svg {
-      width: 48px;
-      height: 48px;
+      width: 24px;
+      height: 24px;
       stroke: currentColor;
       fill: none;
-      stroke-width: 1.9;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .video-placeholder svg {
+      width: 34px;
+      height: 34px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
       stroke-linecap: round;
       stroke-linejoin: round;
     }
@@ -494,133 +503,136 @@
     }
 
     .timer-card {
-      gap: 18px;
+      gap: 10px;
+      padding: 14px;
     }
 
     .duration-picker-card {
-      gap: 18px;
+      gap: 14px;
     }
 
     .duration-picker-shell {
       display: grid;
-      gap: 16px;
-      padding: 22px 18px;
-      border-radius: 22px;
-      background: linear-gradient(180deg, #fff8f2 0%, #f5ebe2 100%);
+      gap: 12px;
+      padding: 16px 14px;
+      border-radius: 18px;
+      background: #ffffff;
       border: 1px solid var(--border);
       text-align: center;
     }
 
     .duration-picker-intro {
       margin: 0;
-      font-size: 1rem;
-      line-height: 1.6;
+      font-size: 0.96rem;
+      line-height: 1.5;
       color: #6c5b51;
     }
 
     .duration-picker-controls {
       display: grid;
-      grid-template-columns: minmax(72px, 96px) 1fr minmax(72px, 96px);
+      grid-template-columns: minmax(64px, 84px) 1fr minmax(64px, 84px);
       align-items: center;
-      gap: 14px;
+      gap: 12px;
     }
 
     .duration-adjust-button {
-      min-height: 76px;
-      border-radius: 24px;
+      min-height: 62px;
+      border-radius: 18px;
       border: 1px solid var(--border);
-      background: rgba(255, 255, 255, 0.92);
+      background: #faf6f2;
       color: var(--accent);
-      font-size: 2.4rem;
+      font-size: 2rem;
       line-height: 1;
       font-weight: 800;
       cursor: pointer;
-      box-shadow: 0 10px 22px rgba(143, 108, 84, 0.1);
+      box-shadow: 0 4px 12px rgba(143, 108, 84, 0.08);
       transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
     }
 
     .duration-adjust-button:hover,
     .duration-adjust-button:focus-visible {
       transform: translateY(-1px);
-      box-shadow: 0 14px 28px rgba(143, 108, 84, 0.14);
+      box-shadow: 0 8px 18px rgba(143, 108, 84, 0.12);
     }
 
     .duration-adjust-button:disabled {
       cursor: not-allowed;
       opacity: 0.55;
       transform: none;
-      box-shadow: 0 8px 18px rgba(143, 108, 84, 0.08);
+      box-shadow: none;
     }
 
     .duration-picker-value {
-      min-height: 108px;
-      padding: 18px 16px;
-      border-radius: 26px;
-      background: linear-gradient(180deg, #8f4e2b 0%, #793f21 100%);
-      color: #fffaf5;
+      min-height: 82px;
+      padding: 12px 14px;
+      border-radius: 18px;
+      background: #faf6f2;
+      color: var(--text);
+      border: 1.5px solid #dfd0c3;
       display: grid;
       align-content: center;
       justify-items: center;
-      box-shadow: 0 14px 28px rgba(138, 76, 43, 0.18);
+      box-shadow: none;
     }
 
     .duration-picker-label {
       margin: 0;
-      font-size: 0.9rem;
-      line-height: 1.3;
-      letter-spacing: 0.18em;
+      font-size: 0.8rem;
+      line-height: 1.25;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
       font-weight: 800;
-      opacity: 0.9;
+      color: var(--muted);
     }
 
     .duration-picker-minutes {
-      margin: 6px 0 0;
-      font-size: clamp(2.6rem, 10vw, 4rem);
+      margin: 4px 0 0;
+      font-size: clamp(2rem, 8vw, 3rem);
       line-height: 0.95;
-      letter-spacing: -0.08em;
+      letter-spacing: -0.06em;
       font-weight: 800;
+      color: var(--accent-strong);
     }
 
     .duration-picker-note {
       margin: 0;
-      font-size: 0.95rem;
-      line-height: 1.5;
+      font-size: 0.9rem;
+      line-height: 1.45;
       color: var(--muted);
       font-weight: 700;
     }
 
     .timer-display {
       display: grid;
-      gap: 14px;
+      gap: 8px;
       justify-items: center;
-      padding: 22px 18px;
-      border-radius: 22px;
-      background: linear-gradient(180deg, #fff8f2 0%, #f5ebe2 100%);
+      padding: 10px 12px;
+      border-radius: 16px;
+      background: #faf6f2;
       border: 1px solid var(--border);
       text-align: center;
     }
 
     .timer-readout {
       width: 100%;
-      min-height: 170px;
+      min-height: 70px;
       display: grid;
       align-content: center;
       justify-items: center;
-      gap: 10px;
-      padding: 26px 20px;
-      border-radius: 24px;
-      background: rgba(255, 255, 255, 0.72);
+      gap: 4px;
+      padding: 10px 14px;
+      border-radius: 14px;
+      background: #ffffff;
       border: 1px solid rgba(221, 200, 188, 0.7);
-      box-shadow: 0 10px 22px rgba(143, 108, 84, 0.08);
+      box-shadow: 0 4px 10px rgba(143, 108, 84, 0.05);
       text-align: center;
     }
 
     .timer-label {
       margin: 0;
-      font-size: 0.88rem;
-      line-height: 1.3;
-      letter-spacing: 0.18em;
+      font-size: 0.76rem;
+      line-height: 1.2;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
       color: var(--muted);
       font-weight: 800;
@@ -628,17 +640,17 @@
 
     .timer-value {
       margin: 0;
-      font-size: clamp(2.6rem, 10vw, 4.3rem);
-      line-height: 0.95;
-      letter-spacing: -0.07em;
+      font-size: clamp(1.75rem, 6vw, 2.35rem);
+      line-height: 1;
+      letter-spacing: -0.05em;
       color: var(--accent-strong);
       font-weight: 800;
     }
 
     .timer-help {
       margin: 0;
-      font-size: 0.96rem;
-      line-height: 1.5;
+      font-size: 0.86rem;
+      line-height: 1.35;
       color: #6c5b51;
     }
 
@@ -656,6 +668,282 @@
       border-radius: inherit;
       background: linear-gradient(90deg, #8f4e2b 0%, #bd7b57 100%);
       transition: width 0.35s ease;
+    }
+
+    .wizard-stepper {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      padding: 6px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid var(--border);
+      box-shadow: 0 6px 16px rgba(143, 108, 84, 0.06);
+    }
+
+    .wizard-step-tab {
+      min-height: 48px;
+      padding: 8px 10px;
+      border-radius: 14px;
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 0.9rem;
+      font-weight: 800;
+      line-height: 1.25;
+      text-align: left;
+      cursor: pointer;
+      transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+    }
+
+    .wizard-step-tab:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+
+    .wizard-step-badge {
+      width: 26px;
+      height: 26px;
+      border-radius: 9px;
+      background: rgba(138, 76, 43, 0.12);
+      color: var(--accent-strong);
+      display: grid;
+      place-items: center;
+      font-size: 0.85rem;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    .wizard-step-tab.is-active {
+      background: linear-gradient(180deg, #8f4e2b 0%, #793f21 100%);
+      color: #fffaf5;
+      box-shadow: 0 8px 18px rgba(138, 76, 43, 0.22);
+    }
+
+    .wizard-step-tab.is-active .wizard-step-badge {
+      background: rgba(255, 255, 255, 0.22);
+      color: #ffffff;
+    }
+
+    .wizard-step-tab.is-done {
+      background: #f4ebe3;
+      color: #26201c;
+    }
+
+    .wizard-step-tab.is-done .wizard-step-badge {
+      background: var(--accent);
+      color: #ffffff;
+    }
+
+    .video-permanent-card {
+      padding: 18px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .exercise-compact-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .exercise-compact-title {
+      margin: 0;
+      font-size: clamp(1.35rem, 4.5vw, 1.95rem);
+      line-height: 1.15;
+      font-weight: 800;
+      color: var(--text);
+    }
+
+    .wizard-panel {
+      display: grid;
+      gap: 18px;
+      animation: panelFadeIn 0.24s ease-out;
+    }
+
+    .wizard-panel.hidden {
+      display: none !important;
+    }
+
+    @keyframes panelFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(6px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .wizard-actions {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .wizard-actions.single {
+      grid-template-columns: 1fr;
+    }
+
+    .wizard-btn-next,
+    .wizard-btn-start,
+    .wizard-btn-back {
+      min-height: 58px;
+      padding: 14px 20px;
+      border-radius: 18px;
+      font-size: 1.05rem;
+      line-height: 1.3;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+
+    .wizard-btn-next {
+      border: 0;
+      background: linear-gradient(180deg, #8f4e2b 0%, #793f21 100%);
+      color: #fffaf5;
+      box-shadow: 0 12px 24px rgba(138, 76, 43, 0.24);
+    }
+
+    .wizard-btn-start {
+      border: 0;
+      background: linear-gradient(180deg, #8f4e2b 0%, #793f21 100%);
+      color: #fffaf5;
+      box-shadow: 0 12px 24px rgba(138, 76, 43, 0.24);
+    }
+
+    .wizard-btn-back {
+      border: 1.5px solid var(--border);
+      background: rgba(255, 255, 255, 0.92);
+      color: var(--accent-strong);
+      box-shadow: 0 6px 14px rgba(143, 108, 84, 0.08);
+    }
+
+    .wizard-btn-next:hover,
+    .wizard-btn-start:hover,
+    .wizard-btn-back:hover {
+      transform: translateY(-1px);
+    }
+
+    .wizard-btn-next svg,
+    .wizard-btn-start svg,
+    .wizard-btn-back svg {
+      width: 22px;
+      height: 22px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2.3;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex-shrink: 0;
+    }
+
+    .mode-choice-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    .mode-choice-card {
+      padding: 14px 16px;
+      border-radius: 16px;
+      border: 2px solid var(--border);
+      background: #ffffff;
+      color: var(--text);
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+      box-shadow: 0 4px 12px rgba(143, 108, 84, 0.06);
+    }
+
+    .mode-choice-card:hover,
+    .mode-choice-card:focus-visible {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 18px rgba(143, 108, 84, 0.12);
+    }
+
+    .mode-choice-card.is-active {
+      border-color: var(--accent);
+      background: #fdf6f0;
+      box-shadow: 0 8px 20px rgba(138, 76, 43, 0.12);
+    }
+
+    .mode-choice-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      background: rgba(138, 76, 43, 0.1);
+      color: var(--accent-strong);
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+    }
+
+    .mode-choice-card.is-active .mode-choice-icon {
+      background: var(--accent);
+      color: #ffffff;
+    }
+
+    .mode-choice-icon svg {
+      width: 22px;
+      height: 22px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .mode-choice-copy {
+      flex: 1;
+      min-width: 0;
+      display: grid;
+      gap: 2px;
+    }
+
+    .mode-choice-title {
+      margin: 0;
+      font-size: 1.04rem;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1.25;
+    }
+
+    .mode-choice-desc {
+      margin: 0;
+      font-size: 0.88rem;
+      line-height: 1.4;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .chosen-time-banner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 16px;
+      border-radius: 16px;
+      background: #f4ede6;
+      border: 1px solid var(--border);
+      font-size: 0.98rem;
+      font-weight: 800;
+      color: var(--accent-strong);
     }
 
     .timer-mode-switch {
@@ -691,19 +979,20 @@
     .timer-controls {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 10px;
+      gap: 8px;
     }
 
     .timer-button {
-      min-height: 52px;
-      border-radius: 18px;
+      min-height: 44px;
+      border-radius: 12px;
       border: 1px solid var(--border);
-      background: rgba(255, 255, 255, 0.9);
+      background: #ffffff;
       color: var(--accent);
+      font-size: 0.92rem;
       font-weight: 800;
       cursor: pointer;
       transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
-      box-shadow: 0 8px 18px rgba(143, 108, 84, 0.08);
+      box-shadow: 0 4px 10px rgba(143, 108, 84, 0.06);
     }
 
     .timer-button:hover,
@@ -1296,6 +1585,11 @@
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
+      .mode-choice-grid,
+      .wizard-actions {
+        grid-template-columns: 1fr;
+      }
+
       .step {
         grid-template-columns: 44px 1fr;
         gap: 12px;
@@ -1314,13 +1608,13 @@
 
     @media (max-width: 360px) {
       .header-title {
-        font-size: 1.2rem;
+        font-size: 1.15rem;
       }
 
-      .icon-button {
-        width: 96px;
-        min-width: 96px;
-        height: 96px;
+      .wizard-step-tab {
+        font-size: 0.8rem;
+        padding: 8px 6px;
+        gap: 5px;
       }
 
       .exercise-name {
@@ -1422,7 +1716,8 @@
           <div class="header-group">
             <button class="icon-button" type="button" id="backButton" aria-label="Go back">
               <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M15 18 9 12l6-6"></path>
+                <path d="M19 12H5"></path>
+                <path d="m12 19-7-7 7-7"></path>
               </svg>
             </button>
             <div class="header-copy">
@@ -1430,130 +1725,201 @@
               <h1 class="header-title" data-i18n="exerciseHeaderTitle">Wellora Movement Guide</h1>
             </div>
           </div>
-
         </header>
 
         <section class="main">
-          <article class="hero-card">
-            <h2 class="exercise-name" id="exerciseName">Loading exercise...</h2>
+          <!-- Guided 3-step indicator so elders never skip setup or instructions -->
+          <nav class="wizard-stepper" aria-label="Exercise steps">
+            <button type="button" class="wizard-step-tab is-active" id="stepTab1" data-step="1">
+              <span class="wizard-step-badge">1</span>
+              <span>Set Time</span>
+            </button>
+            <button type="button" class="wizard-step-tab" id="stepTab2" data-step="2">
+              <span class="wizard-step-badge">2</span>
+              <span>Timer Mode</span>
+            </button>
+            <button type="button" class="wizard-step-tab" id="stepTab3" data-step="3">
+              <span class="wizard-step-badge">3</span>
+              <span>Watch &amp; Move</span>
+            </button>
+          </nav>
 
-            <div class="meta-row">
-              <span class="meta-pill" id="categoryPill">Category</span>
-              <span class="difficulty-pill" id="difficultyPill">Difficulty</span>
-            </div>
-
-            <div class="meta-grid">
-              <div class="meta-item">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <circle cx="12" cy="12" r="8"></circle>
-                  <path d="M12 8v4l2.5 2.5"></path>
-                </svg>
-                <div class="meta-item-copy">
-                  <span class="meta-label" data-i18n="duration">Duration</span>
-                  <span class="meta-value" id="durationValue">0 seconds</span>
-                </div>
-              </div>
-
-              <div class="meta-item">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M4 12h16"></path>
-                  <path d="M12 4v16"></path>
-                </svg>
-                <div class="meta-item-copy">
-                  <span class="meta-label" data-i18n="exerciseId">Exercise ID</span>
-                  <span class="meta-value" id="exerciseIdValue">-</span>
-                </div>
+          <!-- Permanent Header & Video Section across all steps -->
+          <article class="section-card video-permanent-card">
+            <div class="exercise-compact-head">
+              <h2 class="exercise-compact-title" id="exerciseName">Loading exercise...</h2>
+              <div class="meta-row">
+                <span class="meta-pill" id="categoryPill">Category</span>
+                <span class="difficulty-pill" id="difficultyPill">Difficulty</span>
               </div>
             </div>
+
+            <div class="section-head">
+              <h3 class="section-title" id="mediaTitle" data-i18n="videoDemo">Video Demo</h3>
+              <span class="meta-label"><span data-i18n="duration">Suggested</span>: <strong id="durationValue">0 sec</strong></span>
+            </div>
+
+            <div class="video-frame" id="videoContainer"></div>
+            <span class="sr-only" id="exerciseIdValue">-</span>
           </article>
 
           <p class="translation-note" id="translationNote" aria-live="polite"></p>
 
-          <article class="section-card">
-            <div class="section-head">
-              <h3 class="section-title" id="mediaTitle" data-i18n="videoDemo">Video Demo</h3>
-            </div>
+          <!-- STEP 1: Set Timer -->
+          <div class="wizard-panel" id="step1DurationPanel">
+            <article class="section-card duration-picker-card" aria-labelledby="durationPickerHeading">
+              <div class="section-head">
+                <h3 class="section-title" id="durationPickerHeading" data-i18n="setYourTime">Step 1: Set Your Time</h3>
+              </div>
 
-            <div class="video-frame" id="videoContainer"></div>
-          </article>
+              <div class="duration-picker-shell">
+                <p class="duration-picker-intro" id="durationPickerIntro" data-i18n="durationPickerIntro">Pick how many minutes you would like to do this exercise.</p>
 
-          <article class="section-card duration-picker-card" aria-labelledby="durationPickerHeading">
-            <div class="section-head">
-              <h3 class="section-title" id="durationPickerHeading" data-i18n="setYourTime">Set Your Time</h3>
-            </div>
-
-            <div class="duration-picker-shell">
-              <p class="duration-picker-intro" id="durationPickerIntro" data-i18n="durationPickerIntro">Pick how many minutes you would like to do this exercise.</p>
-
-              <div class="duration-picker-controls">
-                <button class="duration-adjust-button" type="button" id="durationDecreaseButton" aria-label="Decrease minutes">-</button>
-                <div class="duration-picker-value" aria-live="polite" aria-atomic="true">
-                  <p class="duration-picker-label" data-i18n="chosenDuration">Chosen Duration</p>
-                  <p class="duration-picker-minutes" id="durationPickerValue">5 min</p>
+                <div class="duration-picker-controls">
+                  <button class="duration-adjust-button" type="button" id="durationDecreaseButton" aria-label="Decrease minutes">-</button>
+                  <div class="duration-picker-value" aria-live="polite" aria-atomic="true">
+                    <p class="duration-picker-label" data-i18n="chosenDuration">Chosen Duration</p>
+                    <p class="duration-picker-minutes" id="durationPickerValue">5 min</p>
+                  </div>
+                  <button class="duration-adjust-button" type="button" id="durationIncreaseButton" aria-label="Increase minutes">+</button>
                 </div>
-                <button class="duration-adjust-button" type="button" id="durationIncreaseButton" aria-label="Increase minutes">+</button>
+
+                <p class="duration-picker-note" id="durationPickerNote" data-i18n="durationPickerNote">You can choose from 1 to 15 minutes.</p>
               </div>
 
-              <p class="duration-picker-note" id="durationPickerNote" data-i18n="durationPickerNote">You can choose from 1 to 15 minutes.</p>
-            </div>
-          </article>
-
-          <article class="section-card timer-card" aria-labelledby="timerHeading">
-            <div class="section-head">
-              <h3 class="section-title" id="timerHeading" data-i18n="exerciseTimer">Exercise Timer</h3>
-            </div>
-
-            <div class="timer-display">
-              <div class="timer-readout">
-                <p class="timer-label" id="timerLabel" data-i18n="timeRemaining">Time Remaining</p>
-                <p class="timer-value" id="timerValue">00:00</p>
+              <div class="wizard-actions single">
+                <button class="wizard-btn-next" type="button" id="nextToModeButton">
+                  <span>Next: Choose Timer Type</span>
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M5 12h14"></path>
+                    <path d="m12 5 7 7-7 7"></path>
+                  </svg>
+                </button>
               </div>
-              <div class="timer-progress-bar" aria-hidden="true">
-                <div class="timer-progress-fill" id="timerProgressFill"></div>
+            </article>
+          </div>
+
+          <!-- STEP 2: Choose Countdown or Stopwatch & Start -->
+          <div class="wizard-panel hidden" id="step2ModePanel">
+            <article class="section-card timer-card" aria-labelledby="modeStepHeading">
+              <div class="section-head">
+                <h3 class="section-title" id="modeStepHeading">Step 2: Choose Countdown or Stopwatch</h3>
               </div>
-              <p class="timer-help" id="timerHelp" data-i18n="timerHelpLoading">Load an exercise to start the countdown.</p>
-            </div>
 
-            <div class="timer-mode-switch" aria-label="Timer mode">
-              <button class="timer-mode-button is-active" type="button" id="countdownModeButton" aria-pressed="true" data-i18n="countdown">Countdown</button>
-              <button class="timer-mode-button" type="button" id="stopwatchModeButton" aria-pressed="false" data-i18n="stopwatch">Stopwatch</button>
-            </div>
+              <div class="chosen-time-banner">
+                <span>Selected exercise time</span>
+                <span id="chosenTimeBannerValue">5 minutes</span>
+              </div>
 
-            <div class="timer-controls">
-              <button class="timer-button primary" type="button" id="timerStartButton" data-i18n="start">Start</button>
-              <button class="timer-button" type="button" id="timerPauseButton" disabled data-i18n="pause">Pause</button>
-              <button class="timer-button" type="button" id="timerResetButton" disabled data-i18n="reset">Reset</button>
-              <button class="timer-button alert" type="button" id="timerStopAlarmButton" disabled data-i18n="stop">Stop</button>
-            </div>
-          </article>
+              <div class="mode-choice-grid" role="group" aria-label="Timer mode">
+                <button class="mode-choice-card is-active" type="button" id="countdownModeButton" aria-pressed="true">
+                  <span class="mode-choice-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24">
+                      <circle cx="12" cy="13" r="8"></circle>
+                      <path d="M12 9v4l2.5 2.5"></path>
+                      <path d="M9 2h6"></path>
+                      <path d="M12 2v3"></path>
+                    </svg>
+                  </span>
+                  <div class="mode-choice-copy">
+                    <p class="mode-choice-title" data-i18n="countdown">Countdown</p>
+                    <p class="mode-choice-desc" id="countdownChoiceDesc">Counts down from 5 minutes and chimes gently when finished.</p>
+                  </div>
+                </button>
 
-          <article class="section-card">
-            <div class="section-head">
-              <h3 class="section-title" data-i18n="stepsHeading">Step-by-Step Instructions</h3>
-            </div>
+                <button class="mode-choice-card" type="button" id="stopwatchModeButton" aria-pressed="false">
+                  <span class="mode-choice-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24">
+                      <circle cx="12" cy="12" r="9"></circle>
+                      <polyline points="12 7 12 12 15 15"></polyline>
+                    </svg>
+                  </span>
+                  <div class="mode-choice-copy">
+                    <p class="mode-choice-title" data-i18n="stopwatch">Stopwatch</p>
+                    <p class="mode-choice-desc">Counts up from 00:00 so you can move comfortably at your own pace.</p>
+                  </div>
+                </button>
+              </div>
 
-            <div class="voice-coach-controls" aria-label="Voice coach controls">
-              <button class="voice-coach-button primary" type="button" id="voiceCoachButton">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M5 10v4"></path>
-                  <path d="M9 8v8"></path>
-                  <path d="M13 6v12"></path>
-                  <path d="M17 9a4 4 0 0 1 0 6"></path>
-                  <path d="M19 6a8 8 0 0 1 0 12"></path>
-                </svg>
-                <span data-i18n="readAloud">Read Aloud</span>
-              </button>
-              <button class="voice-coach-button stop" type="button" id="voiceCoachStopButton" disabled data-i18n="stop">Stop</button>
-            </div>
-            <p class="voice-coach-note" id="voiceCoachNote" data-i18n="voiceCoachNote">Tap Read Aloud if you would like the exercise steps spoken clearly.</p>
-            <p class="description" id="descriptionText"></p>
-            <ol class="steps" id="stepsList"></ol>
-          </article>
+              <div class="wizard-actions">
+                <button class="wizard-btn-back" type="button" id="backToDurationButton">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M19 12H5"></path>
+                    <path d="m12 19-7-7 7-7"></path>
+                  </svg>
+                  <span>Back</span>
+                </button>
+                <button class="wizard-btn-start" type="button" id="step2StartButton">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <polygon points="6 3 20 12 6 21 6 3"></polygon>
+                  </svg>
+                  <span data-i18n="start">Start Exercise</span>
+                </button>
+              </div>
+            </article>
+          </div>
+
+          <!-- STEP 3: Active Exercise Timer + Step-by-Step Instructions (under permanent video) -->
+          <div class="wizard-panel hidden" id="step3ActivePanel">
+            <article class="section-card timer-card" aria-labelledby="timerHeading">
+              <div class="section-head">
+                <h3 class="section-title" id="timerHeading" data-i18n="exerciseTimer">Exercise Timer</h3>
+                <button class="wizard-btn-back" type="button" id="backToModeButton" style="min-height: 42px; padding: 8px 14px; font-size: 0.9rem;">
+                  <svg viewBox="0 0 24 24" aria-hidden="true" style="width: 18px; height: 18px;">
+                    <path d="M19 12H5"></path>
+                    <path d="m12 19-7-7 7-7"></path>
+                  </svg>
+                  <span>Change Timer</span>
+                </button>
+              </div>
+
+              <div class="timer-display">
+                <div class="timer-readout">
+                  <p class="timer-label" id="timerLabel" data-i18n="timeRemaining">Time Remaining</p>
+                  <p class="timer-value" id="timerValue">00:00</p>
+                </div>
+                <div class="timer-progress-bar" aria-hidden="true">
+                  <div class="timer-progress-fill" id="timerProgressFill"></div>
+                </div>
+                <p class="timer-help" id="timerHelp" data-i18n="timerHelpLoading">Ready when you are.</p>
+              </div>
+
+              <div class="timer-controls">
+                <button class="timer-button primary" type="button" id="timerStartButton" data-i18n="start">Start</button>
+                <button class="timer-button" type="button" id="timerPauseButton" disabled data-i18n="pause">Pause</button>
+                <button class="timer-button" type="button" id="timerResetButton" disabled data-i18n="reset">Reset</button>
+                <button class="timer-button alert" type="button" id="timerStopAlarmButton" disabled data-i18n="stop">Stop</button>
+              </div>
+            </article>
+
+            <article class="section-card">
+              <div class="section-head">
+                <h3 class="section-title" data-i18n="stepsHeading">Step-by-Step Instructions</h3>
+              </div>
+
+              <div class="voice-coach-controls" aria-label="Voice coach controls">
+                <button class="voice-coach-button primary" type="button" id="voiceCoachButton">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M5 10v4"></path>
+                    <path d="M9 8v8"></path>
+                    <path d="M13 6v12"></path>
+                    <path d="M17 9a4 4 0 0 1 0 6"></path>
+                    <path d="M19 6a8 8 0 0 1 0 12"></path>
+                  </svg>
+                  <span data-i18n="readAloud">Read Aloud</span>
+                </button>
+                <button class="voice-coach-button stop" type="button" id="voiceCoachStopButton" disabled data-i18n="stop">Stop</button>
+              </div>
+              <p class="voice-coach-note" id="voiceCoachNote" data-i18n="voiceCoachNote">Tap Read Aloud if you would like the exercise steps spoken clearly.</p>
+              <p class="description" id="descriptionText"></p>
+              <ol class="steps" id="stepsList"></ol>
+            </article>
+          </div>
 
           <div class="status-card" id="statusMessage" aria-live="polite"></div>
         </section>
 
-        <footer class="footer">
+        <footer class="footer hidden" id="completeFooter">
           <button class="complete-button" type="button" id="completeButton">
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <circle cx="12" cy="12" r="9"></circle>
@@ -1740,6 +2106,19 @@
     const durationPickerNote = document.getElementById("durationPickerNote");
     const durationDecreaseButton = document.getElementById("durationDecreaseButton");
     const durationIncreaseButton = document.getElementById("durationIncreaseButton");
+    const stepTab1 = document.getElementById("stepTab1");
+    const stepTab2 = document.getElementById("stepTab2");
+    const stepTab3 = document.getElementById("stepTab3");
+    const step1DurationPanel = document.getElementById("step1DurationPanel");
+    const step2ModePanel = document.getElementById("step2ModePanel");
+    const step3ActivePanel = document.getElementById("step3ActivePanel");
+    const completeFooter = document.getElementById("completeFooter");
+    const nextToModeButton = document.getElementById("nextToModeButton");
+    const backToDurationButton = document.getElementById("backToDurationButton");
+    const step2StartButton = document.getElementById("step2StartButton");
+    const backToModeButton = document.getElementById("backToModeButton");
+    const chosenTimeBannerValue = document.getElementById("chosenTimeBannerValue");
+    const countdownChoiceDesc = document.getElementById("countdownChoiceDesc");
     const safetyOverlay = document.getElementById("safetyOverlay");
     const readyYesButton = document.getElementById("readyYesButton");
     const readyNoButton = document.getElementById("readyNoButton");
@@ -1767,6 +2146,8 @@
 
     let currentUser = null;
     let currentExercise = null;
+    let currentExerciseStep = 1;
+    let maxReachedStep = 1;
     let timerTotalSeconds = 0;
     let timerCurrentSeconds = 0;
     let timerIntervalId = null;
@@ -2446,8 +2827,52 @@
       return selectedDurationMinutes * 60;
     }
 
+    function goToExerciseStep(step) {
+      const targetStep = Math.max(1, Math.min(3, Number(step) || 1));
+      currentExerciseStep = targetStep;
+      if (targetStep > maxReachedStep) {
+        maxReachedStep = targetStep;
+      }
+
+      if (step1DurationPanel) {
+        step1DurationPanel.classList.toggle("hidden", targetStep !== 1);
+      }
+      if (step2ModePanel) {
+        step2ModePanel.classList.toggle("hidden", targetStep !== 2);
+      }
+      if (step3ActivePanel) {
+        step3ActivePanel.classList.toggle("hidden", targetStep !== 3);
+      }
+      if (completeFooter) {
+        completeFooter.classList.toggle("hidden", targetStep !== 3);
+      }
+
+      const tabs = [
+        { el: stepTab1, stepNum: 1 },
+        { el: stepTab2, stepNum: 2 },
+        { el: stepTab3, stepNum: 3 }
+      ];
+
+      tabs.forEach(function (tab) {
+        if (!tab.el) {
+          return;
+        }
+        tab.el.classList.toggle("is-active", tab.stepNum === targetStep);
+        tab.el.classList.toggle("is-done", tab.stepNum < targetStep);
+        tab.el.disabled = tab.stepNum > maxReachedStep;
+      });
+    }
+
     function renderDurationPicker() {
+      const unitLabel = selectedDurationMinutes === 1 ? "minute" : "minutes";
       durationPickerValue.textContent = selectedDurationMinutes + " min";
+
+      if (chosenTimeBannerValue) {
+        chosenTimeBannerValue.textContent = selectedDurationMinutes + " " + unitLabel;
+      }
+      if (countdownChoiceDesc) {
+        countdownChoiceDesc.textContent = "Counts down from " + selectedDurationMinutes + " " + unitLabel + " and chimes gently when finished.";
+      }
 
       const buttonsLocked = timerRunning || timerAlarmActive || isCompletingExercise;
       durationDecreaseButton.disabled = buttonsLocked || selectedDurationMinutes <= minDurationMinutes;
@@ -2980,6 +3405,8 @@
       setReadinessChoice("unknown");
       setVariationChoice("");
       setSelectedDurationMinutes(defaultMinutes);
+      maxReachedStep = 1;
+      goToExerciseStep(1);
     }
 
     async function loadExercise() {
@@ -3156,6 +3583,50 @@
       setSelectedDurationMinutes(selectedDurationMinutes + 1);
     });
 
+    if (nextToModeButton) {
+      nextToModeButton.addEventListener("click", function () {
+        goToExerciseStep(2);
+      });
+    }
+
+    if (backToDurationButton) {
+      backToDurationButton.addEventListener("click", function () {
+        goToExerciseStep(1);
+      });
+    }
+
+    if (backToModeButton) {
+      backToModeButton.addEventListener("click", function () {
+        pauseTimer();
+        goToExerciseStep(2);
+      });
+    }
+
+    if (step2StartButton) {
+      step2StartButton.addEventListener("click", function () {
+        if (!safetyCheckComplete()) {
+          openSafetyModal(true);
+          return;
+        }
+
+        goToExerciseStep(3);
+        startTimer();
+      });
+    }
+
+    [stepTab1, stepTab2, stepTab3].forEach(function (tabEl) {
+      if (!tabEl) {
+        return;
+      }
+
+      tabEl.addEventListener("click", function () {
+        const targetStep = Number(tabEl.dataset.step);
+        if (targetStep <= maxReachedStep) {
+          goToExerciseStep(targetStep);
+        }
+      });
+    });
+
     safetyCancelButton.addEventListener("click", function () {
       closeSafetyModal();
       renderTimerState();
@@ -3179,6 +3650,7 @@
       renderTimerState();
 
       if (shouldStartTimer) {
+        goToExerciseStep(3);
         startTimer();
       }
     });

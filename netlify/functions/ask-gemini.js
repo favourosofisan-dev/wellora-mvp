@@ -1,3 +1,5 @@
+const { GoogleGenAI } = require('@google/genai');
+
 const systemPrompt = `You are Wellora AI, a warm, friendly, and supportive conversational wellness assistant designed exclusively for senior wellness education and guidance. You are NOT a doctor and must NEVER diagnose diseases, prescribe medications, or replace professional medical advice.
 
 Your domain is STRICTLY limited to senior wellness and healthy aging, which includes:
@@ -28,7 +30,7 @@ OUT-OF-SCOPE REDIRECTION:
 
 CONVERSATIONAL TONE AND STYLE:
 - Use simple, clear language suitable for older adults. Avoid medical jargon or overly complex explanations.
-- Keep your responses short, friendly, and easy to understand. Use bullet points or short paragraphs where helpful.
+- Keep your responses short (under 150 words), friendly, and easy to understand. Use bullet points or short paragraphs where helpful.
 - Encourage healthy habits and recommend consulting healthcare professionals when appropriate.
 - Always be respectful, encouraging, and supportive.`;
 
@@ -38,6 +40,38 @@ const responseHeaders = {
   'Access-Control-Allow-Methods': 'POST, OPTIONS',
   'Content-Type': 'application/json'
 };
+
+function sanitizeContents(rawContents) {
+  if (!Array.isArray(rawContents)) {
+    return [];
+  }
+
+  const normalized = [];
+
+  for (const entry of rawContents) {
+    if (!entry || !Array.isArray(entry.parts)) {
+      continue;
+    }
+
+    const validParts = entry.parts
+      .map((part) => {
+        if (part && typeof part.text === 'string' && part.text.trim()) {
+          return { text: part.text.trim() };
+        }
+        return null;
+      })
+      .filter(Boolean);
+
+    if (!validParts.length) {
+      continue;
+    }
+
+    const role = entry.role === 'model' ? 'model' : 'user';
+    normalized.push({ role, parts: validParts });
+  }
+
+  return normalized;
+}
 
 exports.handler = async (event) => {
   if (event.httpMethod === 'OPTIONS') {
@@ -57,83 +91,63 @@ exports.handler = async (event) => {
   }
 
   try {
-    const apiKey = process.env.GEMINI_API_KEY;
+    let parsedBody = {};
+    try {
+      parsedBody = JSON.parse(event.body || '{}');
+    } catch {
+      return {
+        statusCode: 400,
+        headers: responseHeaders,
+        body: JSON.stringify({ error: 'Invalid JSON request body.' })
+      };
+    }
+
+    const sanitizedContents = sanitizeContents(parsedBody.contents);
+    if (!sanitizedContents.length) {
+      return {
+        statusCode: 400,
+        headers: responseHeaders,
+        body: JSON.stringify({ error: 'Invalid request body. Non-empty "contents" array is required.' })
+      };
+    }
+
+    const apiKey = (process.env.GEMINI_API_KEY || '').trim();
     if (!apiKey) {
-      console.warn('GEMINI_API_KEY environment variable is not set.');
       return {
         statusCode: 200,
         headers: responseHeaders,
         body: JSON.stringify({
-          reply: "Hello! I am Wellora AI, your senior wellness assistant. To enable personalized AI responses, configure your GEMINI_API_KEY in the environment. In the meantime, please remember to take gentle daily walks, stay hydrated with fresh water, and stretch lightly every morning!"
+          reply: "Hello! I am Wellora AI, your senior wellness assistant. To enable live AI responses, please configure your GEMINI_API_KEY in Settings > Secrets. In the meantime, remember to take gentle daily walks, stay hydrated with fresh water, and stretch lightly every morning!"
         })
       };
     }
 
-    const { contents } = JSON.parse(event.body || '{}');
-    if (!contents || !Array.isArray(contents)) {
-      return {
-        statusCode: 400,
-        headers: responseHeaders,
-        body: JSON.stringify({ error: 'Invalid request body. "contents" array is required.' })
-      };
-    }
-
-    const modelName = process.env.GEMINI_MODEL || 'gemini-2.5-flash';
-    const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(modelName)}:generateContent?key=${apiKey}`;
-
-    const payload = {
-      contents: contents,
-      systemInstruction: {
-        parts: [
-          {
-            text: systemPrompt
-          }
-        ]
-      },
-      generationConfig: {
-        maxOutputTokens: 1024
+    const modelName = (process.env.GEMINI_MODEL || 'gemini-4-hydrogen').trim();
+    const ai = new GoogleGenAI({
+      apiKey,
+      httpOptions: {
+        headers: {
+          'User-Agent': 'aistudio-build'
+        }
       }
-    };
-
-    const response = await fetch(geminiUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(payload)
     });
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error(`Gemini API error status: ${response.status}. Response: ${errorText}`);
-      if (errorText.includes('API_KEY_INVALID') || errorText.includes('API key not valid') || response.status === 400 || response.status === 403) {
-        return {
-          statusCode: 200,
-          headers: responseHeaders,
-          body: JSON.stringify({
-            reply: "Hello! I am Wellora AI, your senior wellness companion. A valid Gemini API key is required to enable live AI responses. In the meantime, remember to stay hydrated, take gentle daily walks, and consult your doctor before starting new exercises!"
-          })
-        };
+    const response = await ai.models.generateContent({
+      model: modelName,
+      contents: sanitizedContents,
+      config: {
+        systemInstruction: systemPrompt
       }
-      return {
-        statusCode: response.status || 502,
-        headers: responseHeaders,
-        body: JSON.stringify({ error: 'Failed to communicate with the Gemini API.', details: 'The AI service is temporarily unavailable. Please try again shortly.' })
-      };
-    }
+    });
 
-    const data = await response.json();
-    
-    // Safely extract candidate text response
-    let replyText = '';
-    if (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts[0]) {
-      replyText = data.candidates[0].content.parts[0].text;
-    } else {
-      console.error('Unexpected Gemini API response structure:', JSON.stringify(data));
+    const replyText = response && typeof response.text === 'string' ? response.text.trim() : '';
+    if (!replyText) {
       return {
-        statusCode: 500,
+        statusCode: 200,
         headers: responseHeaders,
-        body: JSON.stringify({ error: 'Received an empty or malformed reply from the AI model.' })
+        body: JSON.stringify({
+          reply: "I didn't catch that clearly—could you rephrase your senior wellness question? I'm here to help with gentle exercise, mobility, sleep, nutrition, or fall prevention."
+        })
       };
     }
 
@@ -142,13 +156,45 @@ exports.handler = async (event) => {
       headers: responseHeaders,
       body: JSON.stringify({ reply: replyText })
     };
-
   } catch (error) {
-    console.error('Error handling Gemini request:', error);
+    const status = Number(error && (error.status || error.statusCode)) || 500;
+    const message = String((error && error.message) || '');
+
+    if (
+      status === 400 ||
+      status === 403 ||
+      message.includes('API_KEY_INVALID') ||
+      message.includes('API key not valid') ||
+      message.includes('PERMISSION_DENIED')
+    ) {
+      console.warn('Wellora AI fallback active (check GEMINI_API_KEY configuration in Settings > Secrets).');
+      return {
+        statusCode: 200,
+        headers: responseHeaders,
+        body: JSON.stringify({
+          reply: "Hello! I am Wellora AI, your senior wellness companion. Please verify your Gemini API key in Settings > Secrets to enable live AI responses. In the meantime, remember to stay hydrated, move gently each day, and keep a sturdy chair nearby for balance exercises!"
+        })
+      };
+    }
+
+    if (status === 429 || message.includes('RESOURCE_EXHAUSTED')) {
+      return {
+        statusCode: 429,
+        headers: responseHeaders,
+        body: JSON.stringify({
+          error: 'Rate limit reached',
+          details: 'Wellora AI is receiving many requests right now. Please wait a moment and try again.'
+        })
+      };
+    }
+
     return {
-      statusCode: 500,
+      statusCode: 502,
       headers: responseHeaders,
-      body: JSON.stringify({ error: 'Internal Server Error', details: error.message })
+      body: JSON.stringify({
+        error: 'Failed to communicate with the Gemini API.',
+        details: 'The AI service is temporarily unavailable. Please try again shortly.'
+      })
     };
   }
 };
