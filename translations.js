@@ -973,11 +973,135 @@ translations.zh = Object.assign({}, translations.en, {
       return;
     }
 
-    selector.value = getLanguage();
-    selector.addEventListener("change", function () {
-      setLanguage(selector.value);
-      applyTranslations(document);
+    const currentLang = getLanguage();
+    selector.value = currentLang;
+
+    const control = selector.closest(".language-control");
+    if (!control) {
+      selector.addEventListener("change", function () {
+        setLanguage(selector.value);
+        applyTranslations(document);
+      });
+      return;
+    }
+
+    if (selector.dataset.customInit === "1") {
+      return;
+    }
+    selector.dataset.customInit = "1";
+
+    control.classList.add("is-custom");
+    selector.classList.add("language-native-select");
+    selector.setAttribute("tabindex", "-1");
+    selector.setAttribute("aria-hidden", "true");
+
+    const trigger = document.createElement("button");
+    trigger.type = "button";
+    trigger.className = "language-trigger";
+    trigger.setAttribute("aria-haspopup", "listbox");
+    trigger.setAttribute("aria-expanded", "false");
+    trigger.setAttribute("aria-label", selector.getAttribute("aria-label") || "Language");
+
+    const triggerLabel = document.createElement("span");
+    triggerLabel.className = "language-trigger-text";
+
+    const triggerChevron = document.createElement("span");
+    triggerChevron.className = "language-trigger-chevron";
+    triggerChevron.setAttribute("aria-hidden", "true");
+    triggerChevron.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg>';
+
+    trigger.appendChild(triggerLabel);
+    trigger.appendChild(triggerChevron);
+
+    const menu = document.createElement("ul");
+    menu.className = "language-menu";
+    menu.setAttribute("role", "listbox");
+    menu.hidden = true;
+
+    const optionButtons = [];
+
+    function syncVisualState() {
+      const activeValue = getLanguage();
+      selector.value = activeValue;
+      const selectedOption = Array.prototype.find.call(selector.options, function (opt) {
+        return opt.value === activeValue;
+      }) || selector.options[0];
+      triggerLabel.textContent = selectedOption ? selectedOption.textContent : activeValue;
+
+      optionButtons.forEach(function (btn) {
+        const isSelected = btn.dataset.value === activeValue;
+        btn.classList.toggle("is-selected", isSelected);
+        btn.setAttribute("aria-selected", isSelected ? "true" : "false");
+      });
+    }
+
+    function setOpen(open) {
+      menu.hidden = !open;
+      control.classList.toggle("is-open", open);
+      trigger.setAttribute("aria-expanded", open ? "true" : "false");
+    }
+
+    Array.prototype.forEach.call(selector.options, function (opt) {
+      const li = document.createElement("li");
+      li.setAttribute("role", "presentation");
+
+      const optBtn = document.createElement("button");
+      optBtn.type = "button";
+      optBtn.className = "language-option";
+      optBtn.setAttribute("role", "option");
+      optBtn.dataset.value = opt.value;
+      optBtn.textContent = opt.textContent;
+
+      optBtn.addEventListener("click", function (event) {
+        event.stopPropagation();
+        selector.value = opt.value;
+        setLanguage(opt.value);
+        applyTranslations(document);
+        syncVisualState();
+        setOpen(false);
+        trigger.focus();
+      });
+
+      optionButtons.push(optBtn);
+      li.appendChild(optBtn);
+      menu.appendChild(li);
     });
+
+    trigger.addEventListener("click", function (event) {
+      event.stopPropagation();
+      setOpen(menu.hidden);
+    });
+
+    trigger.addEventListener("keydown", function (event) {
+      if (event.key === "Escape") {
+        setOpen(false);
+      } else if (event.key === "ArrowDown" && menu.hidden) {
+        event.preventDefault();
+        setOpen(true);
+        if (optionButtons[0]) {
+          optionButtons[0].focus();
+        }
+      }
+    });
+
+    menu.addEventListener("keydown", function (event) {
+      if (event.key === "Escape") {
+        setOpen(false);
+        trigger.focus();
+      }
+    });
+
+    document.addEventListener("click", function (event) {
+      if (!control.contains(event.target)) {
+        setOpen(false);
+      }
+    });
+
+    window.addEventListener("wellora:languagechange", syncVisualState);
+
+    control.appendChild(trigger);
+    control.appendChild(menu);
+    syncVisualState();
   }
 
 

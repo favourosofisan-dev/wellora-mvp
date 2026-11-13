@@ -955,6 +955,7 @@ body {
   max-width: 100% !important;
   padding: 10px 0 12px !important;
   background: transparent !important;
+  z-index: 120 !important;
 }
 
 .topbar-actions {
@@ -971,10 +972,16 @@ body {
   display: grid !important;
   gap: 2px !important;
   min-width: 0 !important;
-  width: auto !important;
+  width: 108px !important;
   max-width: 108px !important;
-  flex: 0 1 108px !important;
+  flex: 0 0 108px !important;
   position: relative !important;
+  z-index: 150 !important;
+}
+
+.language-control.is-custom::after {
+  display: none !important;
+  content: none !important;
 }
 
 .language-control label {
@@ -994,19 +1001,130 @@ body {
   height: 6px !important;
 }
 
-.language-control select {
+.language-control select,
+.language-trigger {
   width: 100% !important;
   max-width: 108px !important;
   min-width: 0 !important;
   min-height: 36px !important;
   border-radius: 11px !important;
-  padding: 5px 22px 5px 9px !important;
+  border: 1px solid rgba(141, 72, 37, 0.2) !important;
+  background: linear-gradient(180deg, rgba(255, 252, 248, 0.98), rgba(247, 238, 229, 0.96)) !important;
+  color: var(--text) !important;
+  font: inherit !important;
   font-size: 0.8rem !important;
+  font-weight: 800 !important;
   box-shadow: 0 2px 8px rgba(60, 40, 25, 0.06) !important;
+  box-sizing: border-box !important;
+  cursor: pointer !important;
+}
+
+.language-control select {
+  padding: 5px 22px 5px 9px !important;
   text-overflow: ellipsis !important;
   overflow: hidden !important;
   white-space: nowrap !important;
-  box-sizing: border-box !important;
+}
+
+.language-native-select {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.language-trigger {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 4px !important;
+  padding: 5px 8px 5px 10px !important;
+  text-align: left !important;
+}
+
+.language-trigger-text {
+  min-width: 0 !important;
+  flex: 1 !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+
+.language-trigger-chevron {
+  width: 14px !important;
+  height: 14px !important;
+  flex-shrink: 0 !important;
+  color: #8d4825 !important;
+  display: grid !important;
+  place-items: center !important;
+  transition: transform 0.16s ease !important;
+}
+
+.language-trigger-chevron svg {
+  width: 14px !important;
+  height: 14px !important;
+}
+
+.language-control.is-open .language-trigger-chevron {
+  transform: rotate(180deg) !important;
+}
+
+.language-menu {
+  position: absolute !important;
+  top: calc(100% + 4px) !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  max-width: 108px !important;
+  max-height: 220px !important;
+  overflow-y: auto !important;
+  list-style: none !important;
+  margin: 0 !important;
+  padding: 4px !important;
+  background: #ffffff !important;
+  border: 1px solid #dfd0c3 !important;
+  border-radius: 12px !important;
+  box-shadow: 0 10px 24px rgba(60, 40, 25, 0.16) !important;
+  z-index: 300 !important;
+}
+
+.language-menu[hidden] {
+  display: none !important;
+}
+
+.language-option {
+  width: 100% !important;
+  min-height: 36px !important;
+  padding: 7px 8px !important;
+  border: 0 !important;
+  border-radius: 8px !important;
+  background: transparent !important;
+  color: var(--text) !important;
+  font: inherit !important;
+  font-size: 0.82rem !important;
+  font-weight: 700 !important;
+  text-align: left !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  cursor: pointer !important;
+  display: block !important;
+}
+
+.language-option:hover,
+.language-option:focus-visible {
+  background: #f5eee7 !important;
+  color: var(--accent) !important;
+  outline: 0 !important;
+}
+
+.language-option.is-selected {
+  background: #efe4db !important;
+  color: var(--accent) !important;
+  font-weight: 800 !important;
 }
 
 .brand {
