@@ -13,17 +13,6 @@
   <link rel="icon" type="image/png" href="image/wellora logo.png">
   <link rel="stylesheet" href="layout.css">
   <style>
-    :root {
-      --bg: #f8f4ee;
-      --panel: rgba(255, 255, 255, 0.45);
-      --text: #1d1d1d;
-      --muted: #8e8179;
-      --accent: #8a4c2b;
-      --accent-soft: #ddc8bc;
-      --accent-fade: #eadfd7;
-      --shadow: 0 18px 40px rgba(143, 108, 84, 0.12);
-    }
-
     * {
       box-sizing: border-box;
     }
@@ -34,125 +23,115 @@
       width: 100%;
       min-height: 100%;
       overflow-x: hidden;
-      font-family: Arial, Helvetica, sans-serif;
-      background:
-        radial-gradient(circle at top left, rgba(255, 255, 255, 0.95), transparent 42%),
-        radial-gradient(circle at bottom right, rgba(236, 220, 206, 0.35), transparent 34%),
-        linear-gradient(180deg, #fbf8f4 0%, var(--bg) 100%);
-      color: var(--text);
+      background: var(--bg, #fcfbf9);
+      color: var(--text, #1a1512);
     }
 
-    body {
+    .splash-page {
+      width: 100%;
       min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      justify-content: center;
+      padding: 12px;
+      background: radial-gradient(circle at 90% 8%, rgba(234, 88, 12, 0.08), transparent 40%), var(--bg, #fcfbf9);
     }
 
     .splash-screen {
-      min-height: 100vh;
+      width: min(100%, 820px);
+      min-height: calc(100dvh - 24px);
+      background: #ffffff;
+      border: 1px solid var(--border, #ebdcd0);
+      border-radius: 24px;
+      box-shadow: 0 16px 44px rgba(60, 40, 25, 0.08);
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      padding: 32px 24px 40px;
+      justify-content: space-between;
+      padding: calc(env(safe-area-inset-top, 0px) + 40px) 24px calc(env(safe-area-inset-bottom, 0px) + 36px);
       text-align: center;
-      position: relative;
-      overflow: hidden;
-      isolation: isolate;
     }
 
-    .splash-screen::before,
-    .splash-screen::after {
-      content: "";
-      position: absolute;
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: -1;
-      filter: blur(8px);
-    }
-
-    .splash-screen::before {
-      width: 240px;
-      height: 240px;
-      background: rgba(255, 255, 255, 0.55);
-      top: -72px;
-      left: -96px;
-    }
-
-    .splash-screen::after {
-      width: 260px;
-      height: 260px;
-      background: rgba(235, 223, 213, 0.4);
-      right: -90px;
-      bottom: -78px;
+    .splash-spacer {
+      height: 12px;
+      flex-shrink: 0;
     }
 
     .brand-block {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 22px;
+      gap: 18px;
+      max-width: 360px;
     }
 
     .logo-shell {
-      width: 224px;
-      height: 224px;
-      border-radius: 50%;
+      width: 96px;
+      height: 96px;
+      border-radius: 0;
       display: grid;
       place-items: center;
-      background: rgba(255, 255, 255, 0.35);
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(3px);
+      background: #fffaf6;
+      border: 1px solid var(--border, #ebdcd0);
+      box-shadow: 0 10px 26px rgba(60, 40, 25, 0.08);
     }
 
     .logo {
-      width: 108px;
-      height: 108px;
+      width: 58px;
+      height: 58px;
       object-fit: contain;
+    }
+
+    .brand-eyebrow {
+      margin: 0 0 4px;
+      color: var(--accent, #b44312);
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
     }
 
     .brand-text h1 {
       margin: 0;
-      font-size: 3.2rem;
-      line-height: 0.95;
+      color: var(--text, #1a1512);
+      font-size: clamp(2.15rem, 6vw, 2.85rem);
+      line-height: 1.05;
       font-weight: 800;
-      letter-spacing: -0.06em;
+      letter-spacing: -0.04em;
     }
 
     .brand-text p {
-      margin: 12px 0 0;
-      max-width: 240px;
-      font-size: 1.45rem;
-      line-height: 1.45;
-      color: var(--muted);
-      font-weight: 500;
+      margin: 10px 0 0;
+      color: var(--muted, #52443a);
+      font-size: 1rem;
+      line-height: 1.55;
+      font-weight: 600;
     }
 
     .loading-block {
-      position: absolute;
-      bottom: 70px;
-      left: 50%;
-      transform: translateX(-50%);
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 14px;
+      gap: 12px;
+      padding-top: 24px;
     }
 
     .dots {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 9px;
     }
 
     .dot {
-      width: 12px;
-      height: 12px;
+      width: 10px;
+      height: 10px;
       border-radius: 50%;
-      background: var(--accent-fade);
-      animation: pulse 1.4s infinite ease-in-out;
+      background: #e6d7cb;
+      animation: pulse 1.3s infinite ease-in-out;
     }
 
     .dot:nth-child(2) {
-      background: var(--accent);
+      background: var(--accent, #b44312);
       animation-delay: 0.2s;
     }
 
@@ -162,16 +141,17 @@
 
     .loading-label {
       margin: 0;
-      font-size: 0.78rem;
-      letter-spacing: 0.28em;
-      color: var(--muted);
-      font-weight: 700;
+      font-size: 0.76rem;
+      letter-spacing: 0.22em;
+      color: var(--muted, #52443a);
+      font-weight: 800;
+      text-transform: uppercase;
     }
 
     @keyframes pulse {
       0%,
       100% {
-        transform: scale(0.9);
+        transform: scale(0.88);
         opacity: 0.45;
       }
 
@@ -181,75 +161,46 @@
       }
     }
 
-    @media (min-width: 480px) {
-      .logo-shell {
-        width: 128px;
-        height: 128px;
+    @media (max-width: 767px) {
+      .splash-page {
+        padding: 0;
       }
 
-      .logo {
-        width: 62px;
-        height: 62px;
-      }
-
-      .brand-text h1 {
-        font-size: 4rem;
-      }
-
-      .brand-text p {
-        font-size: 1.55rem;
-      }
-    }
-
-    @media (min-width: 768px) {
       .splash-screen {
-        padding: 40px 32px 52px;
-      }
-
-      .brand-block {
-        gap: 26px;
-      }
-
-      .logo-shell {
-        width: 142px;
-        height: 142px;
-      }
-
-      .brand-text h1 {
-        font-size: 4.5rem;
-      }
-
-      .brand-text p {
-        max-width: 320px;
-        font-size: 1.7rem;
-      }
-
-      .loading-block {
-        bottom: 80px;
+        width: 100%;
+        min-height: 100dvh;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
       }
     }
   </style>
 </head>
 <body>
-  <main class="splash-screen">
-    <section class="brand-block" aria-label="Wellora splash screen">
-      <div class="logo-shell" aria-hidden="true">
-        <img class="logo" src="image/wellora logo.png" alt="Wellora logo">
+  <main class="splash-page">
+    <section class="splash-screen" aria-label="Wellora splash screen">
+      <div class="splash-spacer" aria-hidden="true"></div>
+
+      <div class="brand-block">
+        <div class="logo-shell" aria-hidden="true">
+          <img class="logo" src="image/wellora logo.png" alt="Wellora logo">
+        </div>
+
+        <div class="brand-text">
+          <p class="brand-eyebrow">Senior Wellness</p>
+          <h1>Wellora</h1>
+          <p>Simple, gentle guided exercises designed to support mobility, balance, and daily confidence.</p>
+        </div>
       </div>
 
-      <div class="brand-text">
-        <h1>Wellora</h1>
-        <p>Wellora helps seniors regain and maintain mobility with simple guided exercises designed for aging bodies.</p>
-      </div>
-    </section>
-
-    <section class="loading-block" aria-live="polite">
-      <div class="dots" aria-hidden="true">
-        <span class="dot"></span>
-        <span class="dot"></span>
-        <span class="dot"></span>
-      </div>
-      <p class="loading-label">LOADING...</p>
+      <section class="loading-block" aria-live="polite">
+        <div class="dots" aria-hidden="true">
+          <span class="dot"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+        </div>
+        <p class="loading-label">Loading...</p>
+      </section>
     </section>
   </main>
 

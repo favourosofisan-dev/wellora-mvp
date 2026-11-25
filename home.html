@@ -272,6 +272,213 @@
       max-width: 42ch;
     }
 
+    .search-bar {
+      margin-top: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-height: 48px;
+      padding: 4px 10px 4px 13px;
+      border-radius: 14px;
+      background: #ffffff;
+      border: 1.5px solid #e6d7cb;
+      box-shadow: 0 2px 8px rgba(60, 40, 25, 0.05);
+      transition: border-color 0.16s ease, box-shadow 0.16s ease;
+    }
+
+    .search-bar:focus-within {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(180, 67, 18, 0.12);
+    }
+
+    .search-icon {
+      width: 20px;
+      height: 20px;
+      color: var(--muted);
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex-shrink: 0;
+    }
+
+    .search-input {
+      flex: 1;
+      min-width: 0;
+      min-height: 38px;
+      border: 0;
+      background: transparent;
+      color: var(--text);
+      font: inherit;
+      font-size: 0.96rem;
+      font-weight: 700;
+      outline: none;
+    }
+
+    .search-input::placeholder {
+      color: #8b7a70;
+      font-weight: 600;
+    }
+
+    .search-clear {
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      border: 0;
+      background: #f5eee7;
+      color: var(--accent);
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .search-clear[hidden] {
+      display: none;
+    }
+
+    .search-clear svg {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2.4;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .search-results {
+      margin-top: 14px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .search-results[hidden],
+    .category-grid[hidden] {
+      display: none !important;
+    }
+
+    .search-meta {
+      margin: 0;
+      font-size: 0.84rem;
+      font-weight: 800;
+      color: var(--muted);
+      padding-left: 2px;
+    }
+
+    .search-result-card {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-height: 64px;
+      padding: 10px 14px;
+      border-radius: 15px;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      box-shadow: 0 2px 10px rgba(60, 40, 25, 0.04);
+      text-align: left;
+      cursor: pointer;
+      transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease;
+    }
+
+    .search-result-card:hover,
+    .search-result-card:focus-visible {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px rgba(60, 40, 25, 0.09);
+      border-color: rgba(180, 67, 18, 0.35);
+      outline: none;
+    }
+
+    .search-result-thumb {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #f5eee7;
+      border: 1px solid #e6d7cb;
+      display: grid;
+      place-items: center;
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .search-result-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .search-result-thumb svg {
+      width: 22px;
+      height: 22px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .search-result-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .search-result-title {
+      margin: 0;
+      font-size: 0.98rem;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1.25;
+      overflow-wrap: anywhere;
+    }
+
+    .search-result-sub {
+      margin: 3px 0 0;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--muted);
+      line-height: 1.3;
+    }
+
+    .search-empty-card {
+      padding: 16px 14px;
+      border-radius: 15px;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      display: grid;
+      gap: 10px;
+      justify-items: start;
+    }
+
+    .search-empty-card h2 {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--text);
+    }
+
+    .search-empty-card p {
+      margin: 0;
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+
+    .search-reset-btn {
+      min-height: 40px;
+      padding: 8px 14px;
+      border-radius: 11px;
+      border: 1px solid #d7c5b7;
+      background: #f7f1eb;
+      color: var(--text);
+      font: inherit;
+      font-size: 0.86rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
     .category-grid {
       margin-top: 16px;
       display: grid;
@@ -419,6 +626,30 @@
           <p class="translation-note" id="translationNote" aria-live="polite"></p>
         </section>
 
+        <div class="search-bar" role="search">
+          <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="11" cy="11" r="7"></circle>
+            <path d="m20 20-3.5-3.5"></path>
+          </svg>
+          <input
+            type="search"
+            id="exerciseSearchInput"
+            class="search-input"
+            placeholder="Search for an exercise..."
+            aria-label="Search for an exercise"
+            data-i18n-placeholder="searchPlaceholder"
+            autocomplete="off"
+          >
+          <button type="button" id="clearSearchButton" class="search-clear" aria-label="Clear search" hidden>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M18 6 6 18"></path>
+              <path d="m6 6 12 12"></path>
+            </svg>
+          </button>
+        </div>
+
+        <section class="search-results" id="searchResults" aria-label="Matching exercises" hidden></section>
+
         <section class="category-grid" id="categoryGrid" aria-label="Wellness categories"></section>
       </div>
 
@@ -488,6 +719,9 @@
     const supabaseClient = window.createWelloraSupabaseClient();
 
     const categoryGrid = document.getElementById("categoryGrid");
+    const searchResults = document.getElementById("searchResults");
+    const exerciseSearchInput = document.getElementById("exerciseSearchInput");
+    const clearSearchButton = document.getElementById("clearSearchButton");
     const heroTitle = document.getElementById("heroTitle");
     const heroText = document.getElementById("heroText");
     const progressButton = document.getElementById("progressButton");
@@ -541,6 +775,7 @@
       }
     };
     let cachedCategories = [];
+    let cachedExercises = [];
 
     function redirectToLogin() {
       window.location.href = "login.html";
@@ -550,10 +785,33 @@
       return window.WelloraI18n ? window.WelloraI18n.t(key, fallback) : (fallback || key);
     }
 
+    function escapeHtml(value) {
+      return String(value || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
     function localizeCategory(value) {
       return window.WelloraI18n && window.WelloraI18n.localizeCategory
         ? window.WelloraI18n.localizeCategory(value)
         : String(value || "");
+    }
+
+    function localizeDifficulty(value) {
+      return window.WelloraI18n && window.WelloraI18n.localizeDifficulty
+        ? window.WelloraI18n.localizeDifficulty(value)
+        : String(value || "");
+    }
+
+    function formatMinutes(seconds) {
+      const totalSeconds = Number(seconds);
+      if (!Number.isFinite(totalSeconds) || totalSeconds <= 0) {
+        return "3 min";
+      }
+      return Math.max(1, Math.round(totalSeconds / 60)) + " min";
     }
 
     function updateTranslationNotice() {
@@ -604,6 +862,72 @@
       );
     }
 
+    function renderSearchResults() {
+      const rawQuery = (exerciseSearchInput && exerciseSearchInput.value ? exerciseSearchInput.value : "").trim();
+      const query = rawQuery.toLowerCase();
+
+      if (clearSearchButton) {
+        clearSearchButton.hidden = !rawQuery;
+      }
+
+      if (!query) {
+        searchResults.hidden = true;
+        searchResults.innerHTML = "";
+        categoryGrid.hidden = false;
+        return;
+      }
+
+      categoryGrid.hidden = true;
+      searchResults.hidden = false;
+
+      const matches = cachedExercises.filter(function (ex) {
+        const name = String(ex.exercise_name || "").toLowerCase();
+        const cat = String(ex.category || "").toLowerCase();
+        const localizedCat = localizeCategory(ex.category || "").toLowerCase();
+        const diff = String(ex.difficulty || "").toLowerCase();
+        return name.includes(query) || cat.includes(query) || localizedCat.includes(query) || diff.includes(query);
+      });
+
+      if (!matches.length) {
+        searchResults.innerHTML =
+          '<article class="search-empty-card" aria-live="polite">' +
+            "<h2>No matching exercises found</h2>" +
+            "<p>Try another exercise name such as Walking, Yoga, Stretch, or Squats.</p>" +
+            '<button type="button" class="search-reset-btn" id="resetSearchEmptyBtn">Show all categories</button>' +
+          "</article>";
+        return;
+      }
+
+      const countLabel = matches.length + " exercise" + (matches.length === 1 ? "" : "s") + " found";
+      const cardsMarkup = matches.map(function (ex) {
+        const config = categoryConfigs[ex.category] || {
+          svg: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="m9 12 2 2 4-4"></path></svg>'
+        };
+        const thumbUrl = String(ex.image_url || "").trim();
+        const thumbMarkup = thumbUrl
+          ? '<span class="search-result-thumb" aria-hidden="true"><img src="' + escapeHtml(thumbUrl) + '" alt="" loading="lazy"></span>'
+          : '<span class="search-result-thumb" aria-hidden="true">' + config.svg + "</span>";
+        const metaParts = [
+          localizeCategory(ex.category || "Exercise"),
+          formatMinutes(ex.duration_seconds),
+          localizeDifficulty(ex.difficulty || "All levels")
+        ].filter(Boolean).join(" • ");
+
+        return (
+          '<button class="search-result-card" type="button" data-exercise-id="' + escapeHtml(ex.id) + '" data-category="' + escapeHtml(ex.category || "") + '">' +
+            thumbMarkup +
+            '<div class="search-result-info">' +
+              '<p class="search-result-title">' + escapeHtml(ex.exercise_name || "Exercise") + "</p>" +
+              '<p class="search-result-sub">' + escapeHtml(metaParts) + "</p>" +
+            "</div>" +
+            '<svg class="category-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg>' +
+          "</button>"
+        );
+      }).join("");
+
+      searchResults.innerHTML = '<p class="search-meta">' + escapeHtml(countLabel) + "</p>" + cardsMarkup;
+    }
+
     async function requireUser() {
       const { data, error } = await supabaseClient.auth.getUser();
 
@@ -615,10 +939,11 @@
       return data.user;
     }
 
-    async function loadCategories() {
+    async function loadCategoriesAndExercises() {
       const { data, error } = await supabaseClient
         .from("EXERCISES")
-        .select("category");
+        .select("id, exercise_name, category, difficulty, duration_seconds, image_url")
+        .order("exercise_name", { ascending: true });
 
       if (error) {
         throw error;
@@ -638,6 +963,38 @@
         window.WelloraFlow.rememberLastCategory(decodeURIComponent(button.dataset.category));
         window.location.href = "category.html?category=" + button.dataset.category;
       });
+
+      searchResults.addEventListener("click", function (event) {
+        const resetBtn = event.target.closest("#resetSearchEmptyBtn");
+        if (resetBtn) {
+          exerciseSearchInput.value = "";
+          renderSearchResults();
+          exerciseSearchInput.focus();
+          return;
+        }
+
+        const card = event.target.closest(".search-result-card");
+        if (!card || !card.dataset.exerciseId) {
+          return;
+        }
+
+        if (card.dataset.category) {
+          window.WelloraFlow.rememberLastCategory(card.dataset.category);
+        }
+        window.location.href = "exercise.html?v=20260430&id=" + encodeURIComponent(card.dataset.exerciseId);
+      });
+
+      if (exerciseSearchInput) {
+        exerciseSearchInput.addEventListener("input", renderSearchResults);
+      }
+
+      if (clearSearchButton) {
+        clearSearchButton.addEventListener("click", function () {
+          exerciseSearchInput.value = "";
+          renderSearchResults();
+          exerciseSearchInput.focus();
+        });
+      }
 
       progressButton.addEventListener("click", function () {
         window.location.href = "progress.html";
@@ -674,6 +1031,7 @@
         window.WelloraI18n.applyTranslations(document);
         renderHomeCopy();
         renderCategories(cachedCategories);
+        renderSearchResults();
       });
 
       const user = await requireUser();
@@ -683,10 +1041,12 @@
       }
 
       try {
-        const categories = await loadCategories();
-        cachedCategories = categories;
+        const rows = await loadCategoriesAndExercises();
+        cachedExercises = rows;
+        cachedCategories = rows;
         renderHomeCopy();
         renderCategories(cachedCategories);
+        renderSearchResults();
       } catch (error) {
         categoryGrid.innerHTML =
           '<article class="category-card" aria-live="polite">' +

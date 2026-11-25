@@ -1047,20 +1047,29 @@
     }
 
     .video-frame video,
-    .video-frame img {
+    .video-frame img,
+    .video-frame iframe {
       width: 100%;
-      height: 100%;
       min-height: 220px;
       border: 0;
+      display: block;
     }
 
     .video-frame img {
+      height: 100%;
       object-fit: cover;
     }
 
     .video-frame video {
+      height: auto;
+      max-height: 320px;
       background: #1d1d1d;
       object-fit: contain;
+    }
+
+    .video-frame iframe {
+      aspect-ratio: 16 / 9;
+      background: #1d1d1d;
     }
 
     .video-placeholder {
@@ -3230,13 +3239,58 @@
     }
 
     function normalizeStoragePath(path) {
-      const normalizedPath = String(path || "").trim().replace(/^\/+/, "");
+      const trimmed = String(path || "").trim();
 
-      if (!normalizedPath) {
+      if (!trimmed) {
         return "";
       }
 
-      return normalizedPath;
+      if (/^https?:\/\//i.test(trimmed)) {
+        return trimmed;
+      }
+
+      return trimmed.replace(/^\/+/, "");
+    }
+
+    function getYouTubeEmbedUrl(rawUrl) {
+      const value = String(rawUrl || "").trim();
+      if (!/^https?:\/\/(?:www\.|m\.)?(?:youtube\.com|youtu\.be)\//i.test(value)) {
+        return "";
+      }
+
+      try {
+        const parsed = new URL(value);
+        let videoId = parsed.searchParams.get("v") || "";
+
+        if (!videoId && parsed.hostname.toLowerCase().includes("youtu.be")) {
+          videoId = parsed.pathname.replace(/^\/+/, "").split("/")[0] || "";
+        }
+
+        if (!videoId) {
+          const pathMatch = parsed.pathname.match(/^\/(?:embed|shorts|live)\/([^/?#]+)/i);
+          if (pathMatch && pathMatch[1]) {
+            videoId = pathMatch[1];
+          }
+        }
+
+        if (!videoId) {
+          return "";
+        }
+
+        const embed = new URL("https://www.youtube.com/embed/" + encodeURIComponent(videoId));
+        embed.searchParams.set("rel", "0");
+        embed.searchParams.set("playsinline", "1");
+
+        const rawStart = parsed.searchParams.get("start") || parsed.searchParams.get("t") || "";
+        const startSeconds = parseInt(String(rawStart).replace(/s$/i, ""), 10);
+        if (Number.isFinite(startSeconds) && startSeconds > 0) {
+          embed.searchParams.set("start", String(startSeconds));
+        }
+
+        return embed.toString();
+      } catch (error) {
+        return "";
+      }
     }
 
     async function getExerciseVideoUrl(storagePath) {
@@ -3244,6 +3298,10 @@
 
       if (!normalizedPath) {
         return "";
+      }
+
+      if (/^https?:\/\//i.test(normalizedPath)) {
+        return normalizedPath;
       }
 
       const storageBucket = supabaseClient.storage.from(EXERCISE_VIDEO_BUCKET);
@@ -3281,6 +3339,19 @@
 
       if (normalizedVideoPath && !isImageUrl(normalizedVideoPath)) {
         mediaTitle.textContent = "Video Demo";
+
+        const youtubeEmbedUrl = getYouTubeEmbedUrl(normalizedVideoPath);
+        if (youtubeEmbedUrl) {
+          const iframeElement = document.createElement("iframe");
+          iframeElement.src = youtubeEmbedUrl;
+          iframeElement.title = (exerciseTitle || "exercise") + " video demonstration";
+          iframeElement.loading = "lazy";
+          iframeElement.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+          iframeElement.allowFullscreen = true;
+          videoContainer.replaceChildren(iframeElement);
+          return;
+        }
+
         renderVideoPlaceholder("Loading video demonstration", "Preparing this exercise video from Supabase Storage.", true);
 
         try {
@@ -3295,17 +3366,13 @@
           }
 
           const videoElement = document.createElement("video");
-          const sourceElement = document.createElement("source");
 
           videoElement.controls = true;
           videoElement.playsInline = true;
           videoElement.preload = "metadata";
           videoElement.setAttribute("width", "100%");
           videoElement.title = (exerciseTitle || "exercise") + " video demonstration";
-
-          sourceElement.src = playableVideoUrl;
-          sourceElement.type = "video/mp4";
-          videoElement.appendChild(sourceElement);
+          videoElement.src = playableVideoUrl;
           videoElement.appendChild(document.createTextNode("Your browser does not support the video tag."));
           videoElement.addEventListener("error", function handleVideoError() {
             if (requestId !== mediaRenderRequestId) {

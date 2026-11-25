@@ -1142,7 +1142,7 @@ body {
 .brand-mark {
   width: 30px !important;
   height: 30px !important;
-  border-radius: 9px !important;
+  border-radius: 0 !important;
   object-fit: contain !important;
   flex-shrink: 0 !important;
 }
